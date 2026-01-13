@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ViewState, Language } from './types';
-import { TEXTS } from './constants';
+import { TEXTS, IMAGES } from './constants';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Hero } from './components/Hero';
@@ -41,7 +41,7 @@ const App: React.FC = () => {
       case 'journal':
         return (
           <JournalCanvas 
-            image="https://images.unsplash.com/photo-1576086213369-97a306d6d97c?q=80&w=3400&auto=format&fit=crop" 
+            image={IMAGES.journal.background} 
             lens="400x"
             specimenName="Free Draw"
             t={t}

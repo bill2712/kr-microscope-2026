@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
-import { X, Pencil, Eraser, Download, Trash2, Save } from 'lucide-react';
+import { X, Pencil, Eraser, Download, Trash2, Save, Type } from 'lucide-react';
 
 interface JournalCanvasProps {
   image: string;
@@ -20,39 +20,31 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [tool, setTool] = useState<'pen' | 'eraser'>('pen');
+  const [tool, setTool] = useState<'pen' | 'eraser' | 'text'>('pen');
   const [color, setColor] = useState('#ef4444'); // Default red
   const [lineWidth, setLineWidth] = useState(2);
+  const [texts, setTexts] = useState<Array<{x: number, y: number, text: string, color: string}>>([]);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
 
   // Initialize Canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Load image onto canvas for background
-    // We actually want to keep the image separate so we can clear drawing without clearing image,
-    // BUT for saving, we need them together.
-    // Enhanced approach: Two layers? Or just draw image once.
-    // Let's use CSS for the visual background and only draw it to canvas when saving, OR just transparent canvas on top.
-    // To enable "Download with drawing", drawing image to canvas first is easier, or compositing at save time.
-    // Let's composite at save time to allow clearing drawing easily.
-    
-    // Set canvas size to match display size
-    // For simplicity in this constrained app, let's fix size or adapt
-    // Container is 800x800 max usually.
     canvas.width = 600;
     canvas.height = 600;
-
-    // We rely on CSS 'pointer-events-none' on a background image element, 
-    // BUT the user wants to "draw on the view". 
-    // Let's make the canvas transparent and user sees the image behind it.
   }, []);
 
   const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
+    if (tool === 'text') {
+        // Handle Text Input
+        const { offsetX, offsetY } = getCoordinates(e);
+        const text = prompt("Enter text / 輸入文字:");
+        if (text) {
+            setTexts(prev => [...prev, { x: offsetX, y: offsetY, text, color }]);
+        }
+        return;
+    }
+
     setIsDrawing(true);
     const { offsetX, offsetY } = getCoordinates(e);
     draw(offsetX, offsetY, false);
@@ -73,9 +65,6 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Coordinate adjustment if scaling happens
-    // Simple verification: assume exact match for now
-    
     ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
     ctx.strokeStyle = tool === 'eraser' ? 'rgba(0,0,0,1)' : color;
@@ -84,12 +73,11 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
     if (!isDragging) {
         ctx.beginPath();
         ctx.moveTo(x, y);
-    } // else continue path
+    }
 
     ctx.lineTo(x, y);
     ctx.stroke();
     
-    // For smoother lines, we'd use quadraticCurveTo, but simple lineTo is okay for MVP
     ctx.beginPath();
     ctx.moveTo(x, y);
   };
@@ -101,15 +89,12 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-      // Touch logic is trickier with offsets, skipping for MVP/Browser specific
-      // Assuming Mouse support primarily for this task, but adding basic touch
       if (!isDrawing) return;
       const { offsetX, offsetY } = getCoordinates(e);
       draw(offsetX, offsetY, true);
   };
 
   const getCoordinates = (e: React.MouseEvent | React.TouchEvent) => {
-      // Helper to get coords relative to canvas
        const canvas = canvasRef.current;
        if (!canvas) return { offsetX: 0, offsetY: 0 };
        
@@ -132,51 +117,81 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
       if (canvas && ctx) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
+      setTexts([]); // Clear texts too
   };
 
   const handleSave = () => {
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      // Create a temporary canvas to composite image + drawing
       const tempCanvas = document.createElement('canvas');
       tempCanvas.width = canvas.width;
       tempCanvas.height = canvas.height;
       const tCtx = tempCanvas.getContext('2d');
       if (!tCtx) return;
 
-      // 1. Draw Image
       const img = new Image();
-      img.crossOrigin = "anonymous";
+      img.crossOrigin = "anonymous"; 
       img.src = image;
-      img.onload = () => {
-          // Draw image to fit/cover
-          // Basic aspect ratio handling: Draw center crop or stretch
+      
+      const doSave = () => {
+           // 1. Draw Image
           tCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
 
-          // 2. Draw existing canvas (drawings) on top
+          // 2. Draw Drawings
           tCtx.drawImage(canvas, 0, 0);
-
-          // 3. Add Metadata text (optional but nice)
+          
+          // 3. Draw Texts
           tCtx.font = "bold 20px Arial";
+          tCtx.textBaseline = "middle";
+          texts.forEach(t => {
+              tCtx.fillStyle = t.color;
+              tCtx.shadowColor = "black";
+              tCtx.shadowBlur = 2;
+              tCtx.fillText(t.text, t.x, t.y);
+          });
+
+          // 4. Metadata
           tCtx.fillStyle = "white";
           tCtx.shadowColor = "black";
           tCtx.shadowBlur = 4;
           tCtx.fillText(`${specimenName} @ ${lens}`, 20, 40);
 
-          // 4. Download
-          const link = document.createElement('a');
-          link.download = `kidrise-journal-${Date.now()}.png`;
-          link.href = tempCanvas.toDataURL('image/png');
-          link.click();
-          
-          setShowSaveSuccess(true);
-          setTimeout(() => setShowSaveSuccess(false), 2000);
+          // 5. Download
+          try {
+              const link = document.createElement('a');
+              link.download = `kidrise-journal-${Date.now()}.png`;
+              link.href = tempCanvas.toDataURL('image/png');
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              setShowSaveSuccess(true);
+              setTimeout(() => setShowSaveSuccess(false), 2000);
+          } catch (err) {
+              console.error("Save failed", err);
+              alert("Save failed. Try taking a screenshot!");
+          }
       };
-      
-      // Handle cached images that load instantly
+
       if (img.complete) {
-          img.onload!(new Event('load'));
+          doSave();
+      } else {
+          img.onload = doSave;
+          img.onerror = () => {
+              // Fallback if image fails (CORS etc) -> Just save drawing
+              alert("Background image failed to load for save. Saving drawing only.");
+              tCtx.fillStyle = "black";
+              tCtx.fillRect(0,0, tempCanvas.width, tempCanvas.height);
+              tCtx.drawImage(canvas, 0, 0);
+               texts.forEach(t => {
+                  tCtx.fillStyle = t.color;
+                  tCtx.fillText(t.text, t.x, t.y);
+              });
+              const link = document.createElement('a');
+              link.download = `kidrise-journal-drawing-${Date.now()}.png`;
+              link.href = tempCanvas.toDataURL('image/png');
+              link.click();
+          };
       }
   };
 
@@ -184,7 +199,7 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
         <div className="relative w-full max-w-4xl bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl overflow-hidden flex flex-col md:flex-row">
             
-            {/* Header / Tools - Mobile: Top, Desktop: Side */}
+            {/* Header / Tools */}
             <div className="p-6 bg-slate-800 border-b md:border-b-0 md:border-r border-slate-700 flex flex-col gap-6 md:w-64 z-10">
                 <div>
                     <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-400">
@@ -202,7 +217,7 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                                     key={c}
                                     onClick={() => { setColor(c); setTool('pen'); }}
                                     className={`w-10 h-10 rounded-full border-2 transition-transform hover:scale-110 ${
-                                        tool === 'pen' && color === c ? 'border-white scale-110 ring-2 ring-white/20' : 'border-transparent'
+                                        tool !== 'eraser' && color === c ? 'border-white scale-110 ring-2 ring-white/20' : 'border-transparent'
                                     }`}
                                     style={{ backgroundColor: c }}
                                 />
@@ -211,15 +226,26 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t.journal.tools.eraser}</label>
-                         <Button 
-                            variant={tool === 'eraser' ? 'primary' : 'outline'}
-                            onClick={() => setTool('eraser')}
-                            fullWidth
-                            className="justify-start"
-                        >
-                            <Eraser size={18} className="mr-2"/> {t.journal.tools.eraser}
-                        </Button>
+                         <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t.journal.tools.pen} / Text</label>
+                         <div className="flex flex-col gap-2">
+                             <Button 
+                                variant={tool === 'eraser' ? 'primary' : 'outline'}
+                                onClick={() => setTool('eraser')}
+                                fullWidth
+                                className="justify-start"
+                            >
+                                <Eraser size={18} className="mr-2"/> {t.journal.tools.eraser}
+                            </Button>
+                            
+                            <Button 
+                                variant={tool === 'text' ? 'primary' : 'outline'}
+                                onClick={() => setTool('text')}
+                                fullWidth
+                                className="justify-start"
+                            >
+                                <Type size={18} className="mr-2"/> {t.journal.tools.text}
+                            </Button>
+                         </div>
                     </div>
 
                      <div className="space-y-2">
@@ -253,17 +279,28 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
             {/* Canvas Area */}
             <div className="flex-1 relative bg-black flex items-center justify-center p-4 md:p-8 overflow-hidden">
                 <div className="relative shadow-2xl rounded-lg overflow-hidden ring-1 ring-slate-800" style={{ width: 600, height: 600 }}>
-                    {/* Background Image - Not part of canvas interaction directly, just visual underlay */}
+                    {/* Background Image */}
                     <img 
                         src={image} 
                         alt="Specimen" 
                         className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
                     />
                     
+                    {/* Text Layer (Visual Only) */}
+                    {texts.map((t, i) => (
+                        <div 
+                            key={i} 
+                            className="absolute pointer-events-none font-bold text-xl drop-shadow-md select-none"
+                            style={{ left: t.x, top: t.y, color: t.color, transform: 'translate(0, -50%)' }}
+                        >
+                            {t.text}
+                        </div>
+                    ))}
+
                     {/* Drawing Canvas */}
                     <canvas
                         ref={canvasRef}
-                        className="absolute inset-0 w-full h-full cursor-crosshair touch-none"
+                        className={`absolute inset-0 w-full h-full touch-none ${tool === 'text' ? 'cursor-text' : 'cursor-crosshair'}`}
                         onMouseDown={startDrawing}
                         onMouseUp={stopDrawing}
                         onMouseLeave={stopDrawing}

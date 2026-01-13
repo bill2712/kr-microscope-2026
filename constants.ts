@@ -1,7 +1,7 @@
 import { Translation, Language } from './types';
 
 // Image sources (using valid Unsplash IDs)
-const IMAGES = {
+export const IMAGES = {
   usage: {
     setup: "/kr-microscope-2026/images/setup.png", // Locally generated
     slide: "/kr-microscope-2026/images/slide.png", // Locally generated
@@ -29,13 +29,16 @@ const IMAGES = {
     snow: "/kr-microscope-2026/images/snow.png",
     pollen: "/kr-microscope-2026/images/pollen.png", // Locally generated
     velcro: "/kr-microscope-2026/images/velcro.png", // Locally generated
-    peacock: "https://images.unsplash.com/photo-1542152396-857e5bb68c83?auto=format&fit=crop&w=600&q=80", // Placeholder
-    soap: "https://images.unsplash.com/photo-1698224520977-ef5724b10461?auto=format&fit=crop&w=600&q=80", // Placeholder
-    fabric: "https://images.unsplash.com/photo-1528459801411-197ee4a17926?auto=format&fit=crop&w=600&q=80", // Placeholder
+    peacock: "/kr-microscope-2026/images/peacock.png", // Locally generated
+    soap: "/kr-microscope-2026/images/soap.png", // Locally generated
+    fabric: "/kr-microscope-2026/images/fabric.png", // Locally generated
     sugar: "/kr-microscope-2026/images/salt.png", // Reuse Salt
     strawberry: "/kr-microscope-2026/images/sand.png", // Reuse Sand
-    chalk: "https://images.unsplash.com/photo-1456428746243-a4118f780875?auto=format&fit=crop&w=600&q=80", // Placeholder
+    chalk: "/kr-microscope-2026/images/chalk.png", // Locally generated
     hair: "/kr-microscope-2026/images/insect.png" // Reuse Insect
+  },
+  journal: {
+    background: "/kr-microscope-2026/images/journal_bg.png" // Locally generated
   }
 };
 
@@ -123,6 +126,7 @@ export const TEXTS: Record<Language, Translation> = {
       tools: {
         pen: "畫筆",
         eraser: "橡皮擦",
+        text: "文字",
         clear: "清除",
         save: "保存日記",
         close: "關閉",
@@ -288,6 +292,7 @@ export const TEXTS: Record<Language, Translation> = {
       tools: {
         pen: "Pen",
         eraser: "Eraser",
+        text: "Text",
         clear: "Clear",
         save: "Save Journal",
         close: "Close",

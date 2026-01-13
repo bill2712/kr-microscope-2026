@@ -53,6 +53,7 @@ export interface Translation {
     tools: {
       pen: string;
       eraser: string;
+      text: string;
       clear: string;
       save: string;
       close: string;
