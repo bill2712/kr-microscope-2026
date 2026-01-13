@@ -17,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
     { id: 'learn', label: t.nav.learn },
     { id: 'gallery', label: t.nav.gallery },
     { id: 'quiz', label: t.nav.quiz },
+    { id: 'ar', label: t.nav.ar },
   ];
 
   return (

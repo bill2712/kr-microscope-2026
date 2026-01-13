@@ -49,7 +49,8 @@ export const TEXTS: Record<Language, Translation> = {
       planner: "實驗室",
       learn: "構造百科",
       quiz: "小測驗",
-      gallery: "微觀畫廊"
+      gallery: "微觀畫廊",
+      ar: "AR 實驗室"
     },
     home: {
       welcome: "歡迎來到微觀世界",
@@ -114,6 +115,18 @@ export const TEXTS: Record<Language, Translation> = {
       coarseKnob: "粗調節輪 (Coarse)",
       fineKnob: "細調節輪 (Fine)",
       focusInstruction: "先轉動粗調節輪找到大概影像，再用細調節輪讓畫面變清楚！",
+    },
+    journal: {
+      title: "觀察日記 (Observation Journal)",
+      drawHint: "畫下你的發現！(Draw what you see!)",
+      tools: {
+        pen: "畫筆",
+        eraser: "橡皮擦",
+        clear: "清除",
+        save: "保存日記",
+        close: "關閉",
+      },
+      saveSuccess: "日記已保存！",
     },
     learn: {
       title: "顯微鏡構造大解密",
@@ -180,6 +193,15 @@ export const TEXTS: Record<Language, Translation> = {
       good: "很棒喔！你對顯微鏡很了解！",
       tryAgain: "加油！多看幾次教學再來挑戰！",
     },
+    ar: {
+      title: "AR 虛擬實驗室",
+      description: "將巨大的微生物或太空人帶入你的房間！",
+      instruction: "使用手機瀏覽時，點擊右下角的 AR 按鈕，就可以將模型放置在真實環境中喔！",
+      models: {
+        astro: "小小太空人 (Astronaut)",
+        microscope: "虛擬顯微鏡 (Microscope)"
+      }
+    },
   },
   en: {
     title: "KidRise Microscope Adventure",
@@ -190,7 +212,8 @@ export const TEXTS: Record<Language, Translation> = {
       planner: "Lab",
       learn: "Parts",
       quiz: "Quiz",
-      gallery: "Gallery"
+      gallery: "Gallery",
+      ar: "AR Lab"
     },
     home: {
       welcome: "Welcome to the Micro World",
@@ -254,7 +277,19 @@ export const TEXTS: Record<Language, Translation> = {
       focusTitle: "Adjust Focus",
       coarseKnob: "Coarse Knob",
       fineKnob: "Fine Knob",
-      focusInstruction: "Turn Coarse first to find the image, then Fine to make it sharp!",
+        focusInstruction: "Turn Coarse first to find the image, then Fine to make it sharp!",
+    },
+    journal: {
+      title: "Observation Journal",
+      drawHint: "Draw what you see!",
+      tools: {
+        pen: "Pen",
+        eraser: "Eraser",
+        clear: "Clear",
+        save: "Save Journal",
+        close: "Close",
+      },
+      saveSuccess: "Journal Saved!",
     },
     learn: {
       title: "Microscope Parts Decoded",
@@ -320,6 +355,15 @@ export const TEXTS: Record<Language, Translation> = {
       perfect: "Amazing! Future Nobel Prize winner!",
       good: "Great job! You know your stuff!",
       tryAgain: "Keep learning and try again!",
+    },
+    ar: {
+      title: "AR Virtual Lab",
+      description: "Bring giant microbes or astronauts into your room!",
+      instruction: "On mobile, tap the AR button in the corner to place the model in your real world!",
+      models: {
+        astro: "Astronaut",
+        microscope: "Virtual Microscope"
+      }
     },
   },
 };

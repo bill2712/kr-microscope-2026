@@ -9,6 +9,7 @@ import { Planner } from './components/Planner';
 import { LearningCenter } from './components/LearningCenter';
 import { QuizArena } from './components/QuizArena';
 import { Gallery } from './components/Gallery';
+import { ARLab } from './components/ARLab';
 
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>('zh'); // Default to Chinese
@@ -34,6 +35,8 @@ const App: React.FC = () => {
         return <Gallery t={t} />;
       case 'quiz':
         return <QuizArena t={t} lang={lang} />;
+      case 'ar':
+        return <ARLab t={t} />;
       default:
         return <Hero t={t} onStart={() => setView('usage')} />;
     }

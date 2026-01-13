@@ -1,6 +1,6 @@
 export type Language = 'zh' | 'en';
 
-export type ViewState = 'home' | 'usage' | 'planner' | 'learn' | 'quiz' | 'gallery';
+export type ViewState = 'home' | 'usage' | 'planner' | 'learn' | 'quiz' | 'gallery' | 'ar';
 
 export interface Translation {
   title: string;
@@ -12,6 +12,7 @@ export interface Translation {
     learn: string;
     quiz: string;
     gallery: string;
+    ar: string;
   };
   home: {
     welcome: string;
@@ -45,6 +46,18 @@ export interface Translation {
     fineKnob: string;
     focusInstruction: string;
   };
+  journal: {
+    title: string;
+    drawHint: string;
+    tools: {
+      pen: string;
+      eraser: string;
+      clear: string;
+      save: string;
+      close: string;
+    };
+    saveSuccess: string;
+  };
   learn: {
     title: string;
     didYouKnow: string;
@@ -65,6 +78,15 @@ export interface Translation {
     perfect: string;
     good: string;
     tryAgain: string;
+  };
+  ar: {
+    title: string;
+    description: string;
+    instruction: string;
+    models: {
+      astro: string;
+      microscope: string;
+    };
   };
 }
 

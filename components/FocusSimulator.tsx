@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "./Button";
-import { CheckCircle, RotateCw } from "lucide-react";
+import { CheckCircle, RotateCw, Pencil } from "lucide-react";
+import { JournalCanvas } from "./JournalCanvas";
 
 interface FocusSimulatorProps {
   image: string;
   lens: string; // "100x ...", "400x ...", "1200x ..."
   onSuccess: () => void;
+  specimenName?: string; // Add specimen name prop
   t: any;
 }
 
@@ -13,6 +15,7 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
   image,
   lens,
   onSuccess,
+  specimenName = "Unknown Specimen",
   t,
 }) => {
   // --- Difficulty Settings based on Lens ---
@@ -37,6 +40,7 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
   const [fineValue, setFineValue] = useState(0);
 
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showJournal, setShowJournal] = useState(false);
 
   // Audio Context
   const audioCtx = useRef<AudioContext | null>(null);
@@ -76,7 +80,7 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
     if (isFocused && !showSuccess) {
       playSuccessSound();
       setShowSuccess(true);
-      setTimeout(onSuccess, 1500);
+      // setTimeout(onSuccess, 1500); // Wait for user to choose next action
     }
   }, [isFocused, showSuccess, onSuccess]);
 
@@ -188,14 +192,41 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
           <div className="w-12 h-12 rounded-full border border-red-500/50"></div>
         </div>
 
-        {/* Success Overlay */}
-        {showSuccess && (
-          <div className="absolute inset-0 flex items-center justify-center bg-green-500/30 animate-in fade-in duration-300">
+        {/* Success Overlay with Options */}
+        {showSuccess && !showJournal && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 animate-in fade-in duration-300 z-20 space-y-6">
             <CheckCircle
-              size={80}
-              className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] animate-bounce"
+              size={60}
+              className="text-green-400 drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] animate-bounce"
             />
+            <div className="flex flex-col gap-3 w-48">
+                 <Button 
+                    onClick={() => setShowJournal(true)} 
+                    variant="accent"
+                    className="animate-in slide-in-from-bottom-4 fade-in duration-500 delay-100"
+                >
+                    <Pencil size={18} className="mr-2" /> {t.journal?.title || "Journal"}
+                 </Button>
+                 <Button 
+                    onClick={onSuccess} 
+                    variant="primary"
+                    className="animate-in slide-in-from-bottom-4 fade-in duration-500 delay-200"
+                >
+                    {t.planner.result}
+                 </Button>
+            </div>
           </div>
+        )}
+        
+        {/* Journal Overlay */}
+        {showJournal && (
+            <JournalCanvas 
+                image={image}
+                lens={lens}
+                specimenName={specimenName}
+                t={t}
+                onClose={() => setShowJournal(false)}
+            />
         )}
       </div>
 
