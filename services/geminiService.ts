@@ -9,7 +9,7 @@ const getApiKey = (): string | undefined => {
 export const generateQuiz = async (language: Language): Promise<QuizQuestion[]> => {
   const apiKey = getApiKey();
   if (!apiKey) {
-    console.error("API Key not found");
+
     // Fallback static data if API key is missing (for demo reliability)
     return [
       {
@@ -79,7 +79,7 @@ export const generateQuiz = async (language: Language): Promise<QuizQuestion[]> 
     return data.questions;
 
   } catch (error) {
-    console.error("Gemini API Error:", error);
+
     throw error;
   }
 };

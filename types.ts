@@ -40,6 +40,10 @@ export interface Translation {
     compare: string;
     specimens: Array<{ id: string; name: string; image: string }>;
     lenses: string[];
+    focusTitle: string;
+    coarseKnob: string;
+    fineKnob: string;
+    focusInstruction: string;
   };
   learn: {
     title: string;

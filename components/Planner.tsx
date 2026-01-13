@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
+import { FocusSimulator } from './FocusSimulator';
 import { Rocket, Target, ZoomIn, CheckCircle, RotateCcw } from 'lucide-react';
 
 interface PlannerProps {
@@ -16,10 +17,14 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
 
   const handleLaunch = () => {
     setStatus('scanning');
-    // Simulate loading
-    setTimeout(() => {
-        setStatus('ready');
-    }, 2500);
+    // REMOVED: Auto-timeout. Now relies on user completing the simulation.
+    // setTimeout(() => {
+    //     setStatus('ready');
+    // }, 2500);
+  };
+
+  const handleFocusComplete = () => {
+    setStatus('ready');
   };
 
   const reset = () => {
@@ -28,24 +33,20 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
     setLens(null);
   };
 
-  // Scanning Animation Screen
+  // Scanning / Focus Simulation Screen
   if (status === 'scanning') {
       return (
-          <div className="flex flex-col items-center justify-center min-h-[500px]">
-              <div className="relative w-64 h-64 rounded-full border-4 border-primary overflow-hidden bg-black mb-8 shadow-[0_0_50px_rgba(99,102,241,0.5)]">
-                 <div className="absolute inset-0 bg-green-500/20 animate-pulse z-10"></div>
-                 <div className="absolute top-0 w-full h-2 bg-green-400 shadow-[0_0_15px_#4ade80] animate-[float_2s_linear_infinite]" style={{ animation: 'scan 1.5s linear infinite' }}></div>
-                 {selectedSpecimen && (
-                     <img src={selectedSpecimen.image} className="w-full h-full object-cover opacity-50 blur-sm" alt="Scanning" />
-                 )}
-                 <style>{`
-                    @keyframes scan {
-                        0% { top: -10%; }
-                        100% { top: 110%; }
-                    }
-                 `}</style>
-              </div>
-              <h2 className="text-2xl font-bold text-primary animate-pulse">{t.planner.scanning}</h2>
+          <div className="flex flex-col items-center justify-center min-h-[500px] w-full animate-in fade-in duration-500">
+              {selectedSpecimen ? (
+                <FocusSimulator 
+                    image={selectedSpecimen.image} 
+                    lens={lens || '400x'} 
+                    onSuccess={handleFocusComplete} 
+                    t={t}
+                />
+              ) : (
+                <div className="text-red-500">Error: No specimen selected</div>
+              )}
           </div>
       );
   }
