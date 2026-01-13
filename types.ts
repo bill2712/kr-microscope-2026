@@ -1,6 +1,6 @@
 export type Language = 'zh' | 'en';
 
-export type ViewState = 'home' | 'usage' | 'planner' | 'learn' | 'quiz' | 'gallery' | 'ar';
+export type ViewState = 'home' | 'usage' | 'planner' | 'learn' | 'quiz' | 'gallery' | 'ar' | 'journal';
 
 export interface Translation {
   title: string;
@@ -13,6 +13,7 @@ export interface Translation {
     quiz: string;
     gallery: string;
     ar: string;
+    journal: string;
   };
   home: {
     welcome: string;
@@ -87,6 +88,7 @@ export interface Translation {
       astro: string;
       microscope: string;
     };
+    upload: string;
   };
 }
 

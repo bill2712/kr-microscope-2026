@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
-import { Badge, Box } from 'lucide-react';
+import { Badge, Box, Upload } from 'lucide-react';
 import '@google/model-viewer';
 
 // Declare model-viewer as an intrinsic element for TS
@@ -22,23 +22,34 @@ declare global {
   }
 }
 
+// ... imports
+import { Upload } from 'lucide-react'; // Import Upload icon
+
+// ... (keep declare global)
+
 interface ARLabProps {
   t: Translation;
 }
 
 export const ARLab: React.FC<ARLabProps> = ({ t }) => {
-  const [model, setModel] = useState<'astro' | 'microscope'>('astro');
+  const [model, setModel] = useState<'astro' | 'microscope' | 'custom'>('astro');
+  const [customModelSrc, setCustomModelSrc] = useState<string | null>(null);
 
   // Using public reliable Models from Google's model-viewer examples
   const MODELS = {
     astro: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-    microscope: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb" // Temporarily using Neil Armstrong as "Microscope" placeholder is hard to find reliably without CORS issues.
-    // Ideally we would host a microscope.glb in our public folder. 
-    // For "Big Microbes", maybe a weird alien blob? 
-    // Let's use "NeilArmstrong.glb" as placeholder for now or swap if we find better.
+    microscope: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb", // Placeholder
+    custom: customModelSrc || ""
   };
   
-  // Let's try to find a bug-like model if possible, or just stick to Astronaut for the "Wow" factor proof.
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+          const url = URL.createObjectURL(file);
+          setCustomModelSrc(url);
+          setModel('custom');
+      }
+  };
   
   return (
     <div className="w-full min-h-[calc(100vh-80px)] flex flex-col items-center bg-slate-950 text-white p-4 md:p-8">
@@ -86,6 +97,27 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
                          {/* Swapping label just for the demo if using Neil Armstrong, but let's keep it abstract */}
                         <div className="font-bold">Moon Walker</div> 
                     </button>
+                    
+                    {/* Upload Button */}
+                    <div className="relative">
+                        <input 
+                            type="file" 
+                            accept=".glb,.gltf" 
+                            onChange={handleFileUpload}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+                        />
+                        <button 
+                            className={`w-full p-4 rounded-xl text-left transition-all border relative flex items-center gap-3 ${
+                                model === 'custom' 
+                                ? 'bg-blue-600/20 border-blue-500 text-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.3)]' 
+                                : 'bg-slate-700/50 border-dashed border-slate-500 text-slate-400 hover:bg-slate-700 hover:text-white'
+                            }`}
+                        >
+                            <Upload size={20} />
+                            <div className="font-bold text-sm">{t.ar.upload || "Upload Model"}</div>
+                        </button>
+                    </div>
+
                 </div>
             </div>
 

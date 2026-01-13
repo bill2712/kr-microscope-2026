@@ -10,6 +10,7 @@ import { LearningCenter } from './components/LearningCenter';
 import { QuizArena } from './components/QuizArena';
 import { Gallery } from './components/Gallery';
 import { ARLab } from './components/ARLab';
+import { JournalCanvas } from './components/JournalCanvas';
 
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>('zh'); // Default to Chinese
@@ -37,6 +38,16 @@ const App: React.FC = () => {
         return <QuizArena t={t} lang={lang} />;
       case 'ar':
         return <ARLab t={t} />;
+      case 'journal':
+        return (
+          <JournalCanvas 
+            image="https://images.unsplash.com/photo-1576086213369-97a306d6d97c?q=80&w=3400&auto=format&fit=crop" 
+            lens="400x"
+            specimenName="Free Draw"
+            t={t}
+            onClose={() => setView('home')}
+          />
+        );
       default:
         return <Hero t={t} onStart={() => setView('usage')} />;
     }

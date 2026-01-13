@@ -50,7 +50,8 @@ export const TEXTS: Record<Language, Translation> = {
       learn: "構造百科",
       quiz: "小測驗",
       gallery: "微觀畫廊",
-      ar: "AR 實驗室"
+      ar: "AR 實驗室",
+      journal: "觀察日記"
     },
     home: {
       welcome: "歡迎來到微觀世界",
@@ -200,7 +201,8 @@ export const TEXTS: Record<Language, Translation> = {
       models: {
         astro: "小小太空人 (Astronaut)",
         microscope: "虛擬顯微鏡 (Microscope)"
-      }
+      },
+      upload: "上傳模型 (.glb)"
     },
   },
   en: {
@@ -213,7 +215,8 @@ export const TEXTS: Record<Language, Translation> = {
       learn: "Parts",
       quiz: "Quiz",
       gallery: "Gallery",
-      ar: "AR Lab"
+      ar: "AR Lab",
+      journal: "Journal"
     },
     home: {
       welcome: "Welcome to the Micro World",
@@ -363,7 +366,8 @@ export const TEXTS: Record<Language, Translation> = {
       models: {
         astro: "Astronaut",
         microscope: "Virtual Microscope"
-      }
+      },
+      upload: "Upload Model (.glb)"
     },
   },
 };
