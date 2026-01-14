@@ -27,23 +27,26 @@ interface ARLabProps {
 }
 
 export const ARLab: React.FC<ARLabProps> = ({ t }) => {
-  const [modelType, setModelType] = useState<'astro' | 'duck' | 'avocado' | 'cell' | 'detailedCell' | 'custom'>('astro');
+  const [modelType, setModelType] = useState<'neil' | 'astro' | 'duck' | 'avocado' | 'cell' | 'detailedCell' | 'custom'>('neil');
   const [customSrc, setCustomSrc] = useState<string | null>(null);
 
-  // Pre-defined trustworthy models
-  // Pre-defined trustworthy models
+  // Local trustworthy models
   const MODELS = {
+    neil: {
+      src: "/kr-microscope-2026/models/NeilArmstrong.glb",
+      iosSrc: "/kr-microscope-2026/models/Astronaut.usdz" // Fallback USDZ for Neil (similar enough) or none
+    },
     astro: {
-      src: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb",
-      iosSrc: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+      src: "/kr-microscope-2026/models/Astronaut.glb",
+      iosSrc: "/kr-microscope-2026/models/Astronaut.usdz"
     },
     duck: {
       src: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb",
-      iosSrc: "" // TODO: specific USDZ link needed for iOS
+      iosSrc: "" 
     },
     avocado: {
       src: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF-Binary/Avocado.glb",
-      iosSrc: "" // TODO: specific USDZ link needed for iOS
+      iosSrc: "" 
     },
     cell: {
       src: "/kr-microscope-2026/models/cell-model.glb",
@@ -58,7 +61,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
   const getCurrentModel = () => {
     if (modelType === 'custom') {
       return {
-        src: customSrc || MODELS.astro.src,
+        src: customSrc || MODELS.neil.src,
         iosSrc: ''
       };
     }
@@ -120,15 +123,27 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
            
            {/* Model Buttons */}
            <button 
-             onClick={() => setModelType('astro')}
+             onClick={() => setModelType('neil')}
              className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
-               modelType === 'astro' 
+               modelType === 'neil' 
                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
              }`}
            >
              <Box size={18} />
-             Astronaut
+             Neil
+           </button>
+
+           <button 
+             onClick={() => setModelType('astro')}
+             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+               modelType === 'astro' 
+               ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' 
+               : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+             }`}
+           >
+             <Box size={18} />
+             Suit
            </button>
 
            <button 
