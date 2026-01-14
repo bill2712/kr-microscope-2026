@@ -134,40 +134,200 @@ export const TEXTS: Record<Language, Translation> = {
       saveSuccess: "日記已保存！",
     },
     learn: {
-      title: "顯微鏡構造大解密",
+      title: "顯微鏡小百科",
       didYouKnow: "你知道嗎？",
-      parts: [
-        { 
-          name: "目鏡 (Eyepiece)", 
-          desc: "這是你的觀察窗口，通常標有 10x 或 20x。就像望遠鏡的窺視孔，負責把物鏡放大的影像再放大一次送到你眼睛裡。", 
-          image: IMAGES.parts.eyepiece,
-          funFact: "如果不乾淨，千萬不要用手擦，要用專用的拭鏡紙喔！"
-        },
-        { 
-          name: "物鏡 (Objective Lens)", 
-          desc: "最靠近標本的鏡頭組。通常有 10x, 40x, 60x 三種。鏡頭越長，倍率越大，但也離標本越近，使用要很小心。", 
-          image: IMAGES.parts.objective,
-          funFact: "科學家有時候會滴油在鏡頭上（油鏡）來看得更清楚！"
-        },
-        { 
-          name: "載物台 (Stage)", 
-          desc: "這是標本的表演舞台。平台要是黑色的，這樣透明的標本才比較明顯。上面的彈簧夾是用來抓住調皮的玻片的。", 
-          image: IMAGES.parts.stage,
-          funFact: "高級顯微鏡的載物台可以前後左右移動，像飛機駕駛艙一樣！"
-        },
-        { 
-          name: "反光鏡/光源 (Light Source)", 
-          desc: "光線是顯微鏡的靈魂！LED 燈從下方發出光，穿過通光孔，再穿過標本，最後進入你的眼睛。", 
-          image: IMAGES.parts.light,
-          funFact: "如果要觀察不透明的石頭，光就要從上面照下來（實體顯微鏡）。"
-        },
-        { 
-          name: "準焦螺旋 (Focus Knobs)", 
-          desc: "這是控制清晰度的方向盤。粗調節輪（大顆）用來快速找到影像，細調節輪（小顆）用來讓影像變得銳利清晰。", 
-          image: IMAGES.parts.knob,
-          funFact: "操作口訣：先粗後細，低倍找目標，高倍看細節。"
-        },
-      ],
+      menu: {
+        intro: "顯微鏡介紹",
+        types: "顯微鏡種類",
+        magnification: "放大倍數",
+        parts: "構造解密",
+        accessories: "配件",
+        preparation: "樣本製作",
+        guide: "如何觀察",
+        diy: "DIY 實驗",
+        applications: "應用領域",
+        maintenance: "保養維護"
+      },
+      intro: {
+        title: "顯微鏡介紹",
+        content: [
+           "最著名且最常見的顯微鏡是透射光顯微鏡，利用光線通過薄透的物體進行觀察。顯微鏡下部產生的光被向上引導到載物台，投射到待觀測物體上。這樣你就可以研究葉片的橫切面或微生物了。"
+        ]
+      },
+      types: {
+         title: "顯微鏡種類",
+         items: [
+            { name: "透射光顯微鏡 (Transmitted Light)", desc: "利用光線通過薄透的物體進行觀察，適合觀察葉片橫切面或微生物。" },
+            { name: "反射光顯微鏡 (Reflected Light)", desc: "可以觀察不透明的固體物質，例如硬幣或晶體。它的照明燈安裝在載物台的斜上方，光線從上方照射在物體上。" },
+            { name: "帶坐標台顯微鏡 (Mechanical Stage)", desc: "超高品質的顯微鏡一般帶有一個坐標台。這樣就可以將玻片標本夾在上面，通過調校滾花輪以毫米級的精度在兩個方向上移動。" }
+         ]
+      },
+      magnification: {
+         title: "放大倍數有多高？",
+         content: [
+             "物鏡和目鏡都有放大倍數。將這兩個數直接相乘就可以得到總放大倍數。例如，目鏡的放大倍數為 10倍，物鏡為 20 倍，則總放大倍數為 200 倍。",
+             "具有出色分辨率的超精密顯微鏡甚至可以達到 1500 倍甚至 2000 倍的放大倍數。但在一般觀察中，400 至 600 倍的顯微鏡就足以讓我們看到激動人心的微觀世界了。"
+         ]
+      },
+      parts: {
+        title: "顯微鏡構造",
+        items: [
+          { 
+            name: "目鏡 (Eyepiece)", 
+            desc: "接近眼睛的透鏡。許多顯微鏡只有一個目鏡，雙目顯微鏡則有兩個，可以雙眼同時觀察。", 
+            image: IMAGES.parts.eyepiece,
+            funFact: "如果不乾淨，千萬不要用手擦，要用專用的拭鏡紙喔！"
+          },
+          { 
+            name: "物鏡 (Objective Lens)", 
+            desc: "靠近待觀測物體的透鏡組，通常有多個不同倍率可以切換。", 
+            image: IMAGES.parts.objective,
+            funFact: "鏡頭越長倍率越大，但也離標本越近，要小心碰撞！"
+          },
+          { 
+            name: "載物台 (Stage)", 
+            desc: "用於放置物體或玻片標本。中央有個通光孔，讓光線通過。", 
+            image: IMAGES.parts.stage,
+            funFact: "有些高級載物台可以精確移動標本位置。"
+          },
+          { 
+            name: "光源 (Light Source)", 
+            desc: "產生光束，在透射模式下將光束透射到物體上。", 
+            image: IMAGES.parts.light,
+            funFact: "對於顏色太淺的標本，可以用濾光片增加對比度。"
+          },
+          { 
+            name: "準焦螺旋 (Focus Knobs)", 
+            desc: "調節載物台上下移動，從而調節清晰度。", 
+            image: IMAGES.parts.knob,
+            funFact: "先用粗螺旋找目標，再用細螺旋調清楚。"
+          },
+          { 
+            name: "鏡筒 (Body Tube)", 
+            desc: "安裝透鏡，防止橫向外部光干擾。", 
+            image: IMAGES.parts.eyepiece, 
+            funFact: "連接目鏡和物鏡的通道。"
+          },
+          { 
+             name: "物鏡轉換器 (Nosepiece)",
+             desc: "轉動它可以將不同放大倍數的物鏡調整到工作位置。",
+             image: IMAGES.parts.objective,
+             funFact: "轉動時會聽到『咔』一聲，表示定位完成了。"
+          }
+        ]
+      },
+      accessories: {
+        title: "常用配件",
+        items: [
+            { name: "載玻片與蓋玻片", desc: "載玻片是放置對象的玻璃片；蓋玻片極薄，覆蓋在對象上防止變乾。" },
+            { name: "鑷子", desc: "可以更好地抓取細小物體。" },
+            { name: "滴管", desc: "用來將液體或着色劑滴到載玻片上。" },
+            { name: "培養皿", desc: "有助於發現合適的樣本，也可以直接放在反射光顯微鏡下觀察。" },
+            { name: "解剖針", desc: "提取特別小的物體，或是利用它們調節載玻片上樣本的位置。" },
+            { name: "剪刀與刀片", desc: "用於精細切割樣本。手術刀或剃鬚刀片非常鋒利，使用時要小心！" }
+        ]
+      },
+      preparation: {
+        title: "樣本製作與處理",
+        intro: "在使用透射光顯微鏡時，正確的樣本處理非常重要。",
+        steps: [
+            { title: "1. 固體與液體", desc: "固體物質（如昆蟲腿）用鑷子放到載玻片上；液體物質（如池塘水）用滴管滴在載玻片上。" },
+            { title: "2. 樣本保存", desc: "液體樣本存放在密封玻璃瓶；乾燥樣本放在信封；昆蟲放入盒子保存。" },
+            { title: "3. 染色增強", desc: "使用染色溶液和液體著色劑，可以使樣本的部分結構更加清晰。" },
+            { title: "4. 清潔與吸乾", desc: "利用濾紙或廚房用紙吸乾載玻片上多餘的液體。" },
+            { title: "5. 切片技巧", desc: "使用小剪刀或手術刀對樣本進行剪切。注意安全！" }
+        ]
+      },
+      guide: {
+        title: "如何正確觀察",
+        intro: "顯微鏡的操作非常簡單，但是要確保物鏡不觸碰到載玻片。",
+        steps: [
+            { title: "1. 初次觀察", desc: "將一根頭髮或羽毛放在載玻片上的水滴中，蓋上蓋玻片。用濾紙吸乾多餘水分。" },
+            { title: "2. 設置物鏡", desc: "選擇倍數最小的物鏡，轉動對準通光孔（聽到『吧嗒』聲）。將鏡頭調節到距離載物台約 1cm 處。" },
+            { title: "3. 放置標本", desc: "將載玻片固定在載物台上，標本對準通光孔。從側面觀察，縮小物鏡與載物台的距離至 1-2mm。切記不要碰到蓋玻片！" },
+            { title: "4. 調節焦距", desc: "通過目鏡觀察，緩慢加大距離，直到聚焦。移動載玻片尋找感興趣的部分（注意影像是顛倒的）。" },
+            { title: "5. 提高倍率", desc: "如果發現有趣的部位，轉動物鏡轉換器切換更高倍數。記得從側面檢查以防碰撞。" }
+        ],
+        tips: [
+            "眼液中的黑點：有時眼前會掠過黑點，這是眼液陰影，不用擔心。",
+            "左右顛倒：顯微鏡下看到的圖像是上下左右顛倒的。",
+            "側面檢查：切換高倍鏡時，這一步非常重要，可以防止鏡頭壓碎玻片。"
+        ]
+      },
+      diy: {
+        title: "DIY 手工製作實驗",
+        intro: "「你只有畫下來，才證明你看到了！」準備一本觀察日記吧。",
+        projects: [
+            {
+                title: "池塘裏的草履蟲",
+                desc: "在池塘水或魚池中尋找這些單細胞生物。",
+                materials: ["池塘水", "棉花纖維 (可選)", "載玻片"],
+                steps: ["取一滴池塘水滴在載玻片上。", "放入幾絲棉花纖維可以限制它們亂動。", "蓋上蓋玻片進行觀察。"],
+                note: "可以看到內部的食物泡和推動它們前進的纖維（纖毛）。"
+            },
+            {
+                title: "綠色水藻 (水綿)",
+                desc: "春天常見的絲狀綠藻，含有美麗的螺旋狀葉綠體。",
+                materials: ["水藻", "鑷子/剪刀", "解剖針"],
+                steps: ["用鑷子取一小塊水藻。", "放入載玻片上的水滴中。", "用解剖針攤開，蓋上蓋玻片。"],
+                note: "葉綠素幫助植物進行光合作用。"
+            },
+            {
+                title: "洋蔥表皮細胞",
+                desc: "觀察植物細胞結構的經典實驗。",
+                materials: ["洋蔥", "手術刀/鑷子", "碘酒/藍墨水"],
+                steps: ["切開洋蔥，撕下一層極薄的透明表皮。", "放入水滴中展平。", "蓋上蓋玻片。", "滴一滴染色劑在邊緣，用濾紙吸引流過標本。"],
+                note: "染色後可以清晰看到細胞壁和細胞核。"
+            },
+            {
+                title: "澱粉顆粒偵探",
+                desc: "不同植物（馬鈴薯、香蕉、粟米）的澱粉粒形狀都不一樣喔！",
+                materials: ["馬鈴薯/香蕉", "手術刀", "碘酒"],
+                steps: ["刮取少量果肉汁液。", "塗在載玻片上。", "滴入碘酒染色（澱粉會變藍紫色）。"],
+                note: "比較看看小麥、豌豆和馬鈴薯的澱粉有什麼不同？"
+            },
+            {
+                title: "結晶體召喚術",
+                desc: "讓鹽、糖或維他命C在載玻片上重新結晶。",
+                materials: ["食鹽/糖", "温水", "載玻片"],
+                steps: ["將食鹽溶於温水。", "滴一滴在載玻片上（不用蓋玻片）。", "放置一夜讓水分蒸發。"],
+                note: "你會看到規則的立方體晶體。可以用濾光片觀察邊角。"
+            },
+            {
+                title: "蜂蜜花粉分析",
+                desc: "偵測蜂蜜是由哪些花朵釀成的。",
+                materials: ["蜂蜜", "温水", "小瓶子"],
+                steps: ["蜂蜜温水1:2混合溶解。", "靜置兩天讓花粉沉澱。", "吸取底部沉澱物觀察。"]
+            },
+            {
+                title: "頭髮與纖維",
+                desc: "像法醫一樣分析房間裏的灰塵和衣物纖維。",
+                materials: ["透明膠帶", "頭髮", "衣物纖維"],
+                steps: ["用膠帶黏起地上的灰塵。", "或取一根頭髮放在載玻片上。", "對比不同人的頭髮截面。"],
+                note: "亞洲人的頭髮截面較圓，歐洲人較橢圓。"
+            }
+        ]
+      },
+      applications: {
+        title: "顯微鏡的應用領域",
+        intro: "顯微鏡是科學和技術領域的多功能工具。",
+        fields: [
+            { title: "醫學 (Medicine)", desc: "檢測血液、尿液中的細菌或病毒，協助醫生診斷疾病（如昏睡病）。" },
+            { title: "食品檢驗 (Food Safety)", desc: "檢查食物是否含有害蟲（如豬肉中的旋毛蟲）或細菌。" },
+            { title: "環境保護 (Environment)", desc: "通過水中的微生物（如渦蟲）種類來判斷水質污染程度。" },
+            { title: "地質學 (Geology)", desc: "利用偏振光觀察岩石切片，研究地球的歷史與形成。" },
+            { title: "考古學 (Archaeology)", desc: "分析土壤中的花粉了解古代氣候；檢查木乃伊了解古人的飲食與健康。" },
+            { title: "古生物學 (Paleontology)", desc: "清理化石時避免損壞；甚至能在恐龍骨骼中發現細胞殘留！" },
+            { title: "高科技 (Technology)", desc: "開發新材料、檢查芯片電路，或分析金屬部件的微小裂紋（如飛機事故調查）。" }
+        ]
+      },
+      maintenance: {
+        title: "顯微鏡保養",
+        content: [
+            "顯微鏡是一種靈敏的光學儀器。在不使用時，最好將它放到包裝盒中，或者用塑料袋套上，防止灰塵及污垢侵襲。",
+            "即使目鏡和物鏡始終固定，仍難免會有灰塵。這時應使用柔軟、乾淨的超細纖維清潔布擦拭，恢復目鏡的潔淨。"
+        ]
+      }
     },
     gallery: {
       title: "微觀世界畫廊",
@@ -300,40 +460,200 @@ export const TEXTS: Record<Language, Translation> = {
       saveSuccess: "Journal Saved!",
     },
     learn: {
-      title: "Microscope Parts Decoded",
+      title: "Microscope Encyclopedia",
       didYouKnow: "Did You Know?",
-      parts: [
-        { 
-          name: "Eyepiece", 
-          desc: "This is your window to the micro world, usually magnifying 10x or 20x. It's like a telescope's peephole that magnifies the image from the objective lens.", 
-          image: IMAGES.parts.eyepiece,
-          funFact: "Never wipe it with your shirt; use special lens paper!"
-        },
-        { 
-          name: "Objective Lens", 
-          desc: "The lenses closest to the object. Usually come in 10x, 40x, and 60x. The longer the lens, the stronger the zoom, but it sits closer to the slide.", 
-          image: IMAGES.parts.objective,
-          funFact: "Scientists sometimes put oil between the lens and slide (oil immersion) for super clarity!"
-        },
-        { 
-          name: "Stage", 
-          desc: "The black platform where your slide performs. It needs to be dark so transparent specimens stand out. The clips hold the slide in place.", 
-          image: IMAGES.parts.stage,
-          funFact: "Advanced stages can move left, right, forward, and back precisely!"
-        },
-        { 
-          name: "Light Source", 
-          desc: "Light is the soul of the microscope! The LED shines up through the hole, through the specimen, and into your eye.", 
-          image: IMAGES.parts.light,
-          funFact: "To see opaque rocks, you need light shining from above (Stereo Microscope)."
-        },
-        { 
-          name: "Focus Knobs", 
-          desc: "The steering wheels. Large knob (Coarse) for finding the image fast, Small knob (Fine) for making it crystal clear.", 
-          image: IMAGES.parts.knob,
-          funFact: "Rule of thumb: Coarse then Fine, Low power then High power."
-        },
-      ],
+      menu: {
+        intro: "Introduction",
+        types: "Types",
+        magnification: "Magnification",
+        parts: "Parts",
+        accessories: "Accessories",
+        preparation: "Slide Prep",
+        guide: "How to Observe",
+        diy: "DIY Experiments",
+        applications: "Applications",
+        maintenance: "Maintenance"
+      },
+      intro: {
+        title: "Introduction",
+        content: [
+           "The most famous and common microscope is the Transmission Light Microscope, which uses light passing through a thin object for observation. Light generated at the bottom is guided upwards to the stage and projected onto the object. This allows you to study cross-sections of leaves or microorganisms."
+        ]
+      },
+      types: {
+         title: "Types of Microscopes",
+         items: [
+            { name: "Transmitted Light", desc: "Uses light passing through thin objects. Perfect for observing leaf cross-sections or microbes." },
+            { name: "Reflected Light", desc: "For observing opaque solids like coins or crystals. The light source is mounted obliquely above the stage, shining from above." },
+            { name: "Mechanical Stage", desc: "High-quality microscopes often have a mechanical stage. This allows you to clamp the slide and move it with millimeter precision in two directions using knurled knobs." }
+         ]
+      },
+      magnification: {
+         title: "How High is the Magnification?",
+         content: [
+             "Both the objective and eyepiece have magnification powers. Multiply them together to get the total magnification. For example, a 10x eyepiece and 20x objective give a total of 200x.",
+             "Super-precision microscopes can reach 1500x or even 2000x. However, for general observation, 400x to 600x is enough to reveal the exciting micro world."
+         ]
+      },
+      parts: {
+        title: "Microscope Structure",
+        items: [
+          { 
+            name: "Eyepiece", 
+            desc: "The lens closest to the eye. Many microscopes have one, but binocular ones have two for viewing with both eyes.", 
+            image: IMAGES.parts.eyepiece,
+            funFact: "If dirty, never wipe with hands; use special lens paper!"
+          },
+          { 
+            name: "Objective Lens", 
+            desc: "The lens group near the object. Usually has multiple magnifications to switch between.", 
+            image: IMAGES.parts.objective,
+            funFact: "Longer lenses have higher power but sit closer to the specimen!"
+          },
+          { 
+            name: "Stage", 
+            desc: "Used to place objects or slides. Has a hole in the center for light to pass through.", 
+            image: IMAGES.parts.stage,
+            funFact: "Some advanced stages can move the specimen precisely."
+          },
+          { 
+            name: "Light Source", 
+            desc: "Generates a beam of light that projects onto the object in transmission mode.", 
+            image: IMAGES.parts.light,
+            funFact: "For very pale specimens, color filters increase contrast."
+          },
+          { 
+            name: "Focus Knobs", 
+            desc: "Moves the stage up and down to adjust clarity.", 
+            image: IMAGES.parts.knob,
+            funFact: "Use the coarse knob to find the target, then fine knob to sharpen."
+          },
+          { 
+            name: "Body Tube", 
+            desc: "Holds the lenses and prevents external light interference.", 
+            image: IMAGES.parts.eyepiece,
+            funFact: "Connects the eyepiece to the objective lenses."
+          },
+          { 
+             name: "Nosepiece",
+             desc: "Rotate this to switch different objective lenses into the working position.",
+             image: IMAGES.parts.objective,
+             funFact: "You'll hear a 'click' when it's locked in place."
+          }
+        ]
+      },
+      accessories: {
+        title: "Common Accessories",
+        items: [
+            { name: "Slides & Cover Slips", desc: "Slides hold the object; Cover slips are very thin and cover the object to prevent drying." },
+            { name: "Tweezers", desc: "For grabbing tiny objects better." },
+            { name: "Dropper", desc: "For dripping liquids or stains onto the slide." },
+            { name: "Petri Dish", desc: "Helps find suitable specimens or for viewing directly under reflected light." },
+            { name: "Dissecting Needle", desc: "For extracting tiny objects or adjusting samples on the slide." },
+            { name: "Scissors & Blades", desc: "For fine cutting of samples. Scalpels and razor blades are very sharp, use with care!" }
+        ]
+      },
+      preparation: {
+        title: "Sample Preparation",
+        intro: "Correct sample preparation is crucial for transmitted light microscopy.",
+        steps: [
+            { title: "1. Solids & Liquids", desc: "Place solids (like insect legs) with tweezers; drip liquids (like pond water) with a dropper." },
+            { title: "2. Storage", desc: "Store liquids in sealed jars, dry samples in envelopes, and insects in boxes." },
+            { title: "3. Staining", desc: "Use staining solutions to make parts of the specimen clearer." },
+            { title: "4. Cleaning", desc: "Use filter paper to soak up excess liquid from the slide." },
+            { title: "5. Cutting", desc: "Use small scissors or a scalpel to cut samples. Be careful!" }
+        ]
+      },
+      guide: {
+        title: "How to Observe",
+        intro: "Microscope operation is simple, but ensure the objective lens never touches the slide.",
+        steps: [
+            { title: "1. First Look", desc: "Place a hair or feather in a water drop on a slide, cover with a slip. Dry excess water." },
+            { title: "2. Set Objective", desc: "Select the lowest power lens, align with the light hole (click sound). Adjust lens to ~1cm above stage." },
+            { title: "3. Place Specimen", desc: "Fix slide on stage, center specimen. Watch from SIDE, lower lens to 1-2mm above slide. Must not touch!" },
+            { title: "4. Focus", desc: "Look through eyepiece, slowly INCREASE distance until focused. Move slide to find interesting parts (image is inverted)." },
+            { title: "5. Zoom In", desc: "To see more detail, switch to a higher power lens. Always check from the side to avoid collision." }
+        ],
+        tips: [
+            "Floating Dots: Black dots in your vision are just shadows in your eye fluid, don't worry.",
+            "Inverted Image: The image you see is flipped left-right and up-down.",
+            "Side Check: Crucial when switching lenses to prevent breaking slides."
+        ]
+      },
+      diy: {
+        title: "DIY Experiments",
+        intro: "'You only saw it if you drew it!' Keep an observation journal.",
+        projects: [
+            {
+                title: "Pond Life (Paramecium)",
+                desc: "Find these single-celled creatures in pond water.",
+                materials: ["Pond water", "Cotton fibers", "Slide"],
+                steps: ["Put a drop of pond water on a slide.", "Add cotton fibers to trap them.", "Cover and observe."],
+                note: "Look for food vacuoles and cilia (moving hairs)."
+            },
+            {
+                title: "Green Algae (Spirogyra)",
+                desc: " filamentous green algae found in spring.",
+                materials: ["Algae", "Tweezers", "Needle"],
+                steps: ["Take a small piece of algae.", "Place in water drop on slide.", "Spread with needle and cover."],
+                note: "Chlorophyll spirals help photosynthesis."
+            },
+            {
+                title: "Onion Cells",
+                desc: "Classic experiment to see plant cells.",
+                materials: ["Onion", "Scalpel", "Iodine/Ink"],
+                steps: ["Peel a thin transparent layer from onion.", "Place flat in water.", "Cover.", "Add stain to edge and draw through with filter paper."],
+                note: "Staining reveals cell walls and nuclei clearly."
+            },
+            {
+                title: "Starch Detective",
+                desc: "Potato, banana, and corn starch look different!",
+                materials: ["Potato/Banana", "Scalpel", "Iodine"],
+                steps: ["Scrape some juice/pulp.", "Smear on slide.", "Add iodine (turns starch blue-black)."],
+                note: "Compare shapes of starch grains from different plants."
+            },
+            {
+                title: "Crystal Magic",
+                desc: "Regrow crystals of salt, sugar, or Vitamin C.",
+                materials: ["Salt/Sugar", "Warm water", "Slide"],
+                steps: ["Dissolve salt in warm water.", "Place a drop on slide (no cover).", "Let dry overnight."],
+                note: "You'll see perfect cubic crystals form."
+            },
+            {
+                title: "Honey Pollen Analysis",
+                desc: "Discover which flowers the bees visited.",
+                materials: ["Honey", "Warm water", "Jar"],
+                steps: ["Mix honey and water (1:2).", "Let sit for 2 days.", "Pipette sediment from bottom to observe."]
+            },
+            {
+                title: "Fibers & Forensics",
+                desc: "Analyze dust and clothes like a detective.",
+                materials: ["Tape", "Hair", "Fabric fibers"],
+                steps: ["Use tape to pick up dust.", "Or place hair on slide.", "Compare cross-sections."],
+                note: "Asian hair is rounder; European hair is more oval."
+            }
+        ]
+      },
+      applications: {
+        title: "Real World Applications",
+        intro: "Microscopes are essential tools in science and technology.",
+        fields: [
+            { title: "Medicine", desc: "Detecting bacteria/viruses in blood or urine to diagnose diseases." },
+            { title: "Food Safety", desc: "Checking for parasites (like Trichinella in pork) or bacteria in restaurants." },
+            { title: "Environment", desc: "Judging water pollution by the types of microorganisms present." },
+            { title: "Geology", desc: "Using polarized light to study rock sections and Earth's history." },
+            { title: "Archaeology", desc: "Analyzing pollen in soil or Mummy stomach contents to understand the past." },
+            { title: "Paleontology", desc: "Cleaning fossils carefully and finding ancient cells in dinosaur bones." },
+            { title: "Technology", desc: "Developing new materials, checking chips, or investigating metal fatigue." }
+        ]
+      },
+      maintenance: {
+        title: "Microscope Maintenance",
+        content: [
+            "A microscope is a sensitive optical instrument. When not in use, keep it in its box or covered with a plastic bag to prevent dust.",
+            "Even if lenses are fixed, dust happens. Use a soft, clean microfiber cloth to wipe the eyepiece clean."
+        ]
+      }
     },
     gallery: {
       title: "Micro World Gallery",

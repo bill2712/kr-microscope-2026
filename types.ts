@@ -63,7 +63,69 @@ export interface Translation {
   learn: {
     title: string;
     didYouKnow: string;
-    parts: Array<{ name: string; desc: string; image: string; funFact: string }>;
+    menu: {
+      intro: string;
+      types: string;
+      magnification: string;
+      parts: string;
+      accessories: string;
+      preparation: string;
+      guide: string;
+      diy: string;
+      applications: string;
+      maintenance: string;
+    };
+    intro: {
+      title: string;
+      content: string[];
+    };
+    types: {
+      title: string;
+      items: Array<{ name: string; desc: string }>;
+    };
+    magnification: {
+      title: string;
+      content: string[];
+    };
+    parts: {
+      title: string;
+      items: Array<{ name: string; desc: string; image: string; funFact: string }>;
+    };
+    accessories: {
+      title: string;
+      items: Array<{ name: string; desc: string }>;
+    };
+    preparation: {
+      title: string;
+      intro: string;
+      steps: Array<{ title: string; desc: string }>;
+    };
+    guide: {
+      title: string;
+      intro: string;
+      steps: Array<{ title: string; desc: string }>;
+      tips: string[];
+    };
+    diy: {
+      title: string;
+      intro: string;
+      projects: Array<{
+        title: string;
+        desc: string;
+        materials: string[];
+        steps: string[];
+        note?: string;
+      }>;
+    };
+    applications: {
+      title: string;
+      intro: string;
+      fields: Array<{ title: string; desc: string }>;
+    };
+    maintenance: {
+      title: string;
+      content: string[];
+    };
   };
   gallery: {
     title: string;
