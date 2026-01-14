@@ -114,14 +114,19 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
            <p className="text-slate-300 text-sm max-w-xs mt-1">
              {t.ar.description}
            </p>
+           {/* Instruction Note Moved Here */}
+           <div className="mt-3 inline-block">
+              <p className="text-xs text-slate-400 font-mono bg-white/5 inline-block px-2 py-1 rounded-lg border border-white/5">
+                ℹ️ {t.ar.instruction}
+              </p>
+           </div>
         </div>
       </div>
 
       {/* UI Overlay - Bottom Center Controls */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 w-full max-w-4xl px-4">
         <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl flex items-center gap-2 shadow-xl overflow-x-auto">
-           
-           {/* Model Buttons */}
+           {/* ... buttons ... */}
            <button 
              onClick={() => setModelType('neil')}
              className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
@@ -212,13 +217,6 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
              />
            </label>
 
-        </div>
-        
-        {/* Instruction Note */}
-        <div className="mt-4 text-center">
-            <p className="text-xs text-slate-500 font-mono bg-black/50 inline-block px-3 py-1 rounded-full border border-white/5">
-              ℹ️ {t.ar.instruction}
-            </p>
         </div>
       </div>
 
