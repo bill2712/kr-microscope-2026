@@ -31,17 +31,37 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
   const [customSrc, setCustomSrc] = useState<string | null>(null);
 
   // Pre-defined trustworthy models
+  // Pre-defined trustworthy models
   const MODELS = {
-    astro: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb",
-    duck: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb",
-    avocado: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF-Binary/Avocado.glb",
-    cell: "/kr-microscope-2026/models/cell-model.glb",
-    detailedCell: "/kr-microscope-2026/models/detailed-cell.glb"
+    astro: {
+      src: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb",
+      iosSrc: "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+    },
+    duck: {
+      src: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb",
+      iosSrc: "" // TODO: specific USDZ link needed for iOS
+    },
+    avocado: {
+      src: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF-Binary/Avocado.glb",
+      iosSrc: "" // TODO: specific USDZ link needed for iOS
+    },
+    cell: {
+      src: "/kr-microscope-2026/models/cell-model.glb",
+      iosSrc: ""
+    },
+    detailedCell: {
+      src: "/kr-microscope-2026/models/detailed-cell.glb",
+      iosSrc: ""
+    }
   };
 
-  const getModelSrc = () => {
-    if (modelType === 'custom' && customSrc) return customSrc;
-    if (modelType === 'custom') return MODELS.astro; // Fallback
+  const getCurrentModel = () => {
+    if (modelType === 'custom') {
+      return {
+        src: customSrc || MODELS.astro.src,
+        iosSrc: ''
+      };
+    }
     return MODELS[modelType];
   };
 
@@ -60,8 +80,8 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
       {/* 3D Viewport - Absolute Fill */}
       <div className="absolute inset-0 z-0">
          <model-viewer
-            src={getModelSrc()}
-            ios-src=""
+            src={getCurrentModel().src}
+            ios-src={getCurrentModel().iosSrc}
             poster="https://modelviewer.dev/assets/poster-astronaut.png"
             alt="A 3D model for AR"
             shadow-intensity="1"
