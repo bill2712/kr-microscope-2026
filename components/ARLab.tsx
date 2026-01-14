@@ -97,7 +97,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
             {/* Custom AR Button */}
             <button 
               slot="ar-button" 
-              className="absolute bottom-8 right-8 bg-white text-black px-6 py-3 rounded-full font-bold shadow-lg flex items-center gap-2 transform transition hover:scale-105 active:scale-95 z-20"
+              className="absolute top-6 right-6 bg-white text-black px-6 py-3 rounded-full font-bold shadow-lg flex items-center gap-2 transform transition hover:scale-105 active:scale-95 z-20"
             >
               <Camera size={20} />
               View in your space
@@ -106,12 +106,12 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
       </div>
 
       {/* UI Overlay - Top Left Info */}
-      <div className="absolute top-6 left-6 z-10 pointer-events-none">
-        <div className="bg-black/40 backdrop-blur-md border border-white/10 p-4 rounded-2xl">
+      <div className="absolute top-6 left-6 z-10 pointer-events-none max-w-[200px] md:max-w-xs">
+        <div className="bg-black/40 backdrop-blur-md border border-white/10 p-4 rounded-2xl pointer-events-auto">
            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
              {t.ar.title}
            </h2>
-           <p className="text-slate-300 text-sm max-w-xs mt-1">
+           <p className="text-slate-300 text-sm mt-1">
              {t.ar.description}
            </p>
            {/* Instruction Note Moved Here */}
@@ -124,8 +124,8 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
       </div>
 
       {/* UI Overlay - Bottom Center Controls */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 w-full max-w-4xl px-4">
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl flex items-center gap-2 shadow-xl overflow-x-auto">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 w-full max-w-4xl px-4 pointer-events-none">
+        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl flex items-center gap-2 shadow-xl overflow-x-auto pointer-events-auto">
            {/* ... buttons ... */}
            <button 
              onClick={() => setModelType('neil')}
