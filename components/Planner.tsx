@@ -121,19 +121,19 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                 <div className="bg-secondary/20 p-1.5 md:p-2 rounded-lg"><Target className="text-secondary" size={18} /></div>
                 <h3 className="text-base md:text-xl font-bold">{t.planner.selectSpecimen}</h3>
             </div>
-            {/* Grid layout for specimens: 2 cols on mobile, 3 on tablet/desktop */}
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3">
+            {/* Horizontal Scroll layout for specimens on mobile, grid on desktop */}
+            <div className="flex overflow-x-auto pb-4 gap-3 snap-x lg:grid lg:grid-cols-3 lg:gap-3 lg:pb-0 scrollbar-hide">
                 {t.planner.specimens.map((s) => (
                 <button
                     key={s.id}
                     onClick={() => setSpecimenId(s.id)}
-                    className={`w-full p-2 md:p-3 rounded-xl text-left transition-all flex flex-col md:flex-row items-start md:items-center justify-between group active:scale-[0.98] h-full ${
+                    className={`min-w-[140px] lg:w-full p-2 md:p-3 rounded-xl text-left transition-all flex flex-col md:flex-row items-start md:items-center justify-between group active:scale-[0.98] h-full snap-start border border-transparent ${
                     specimenId === s.id 
                     ? 'bg-gradient-to-r from-secondary to-cyan-600 text-white font-bold shadow-lg transform scale-[1.02]' 
-                    : 'bg-white/5 hover:bg-white/10 text-slate-300'
+                    : 'bg-white/5 hover:bg-white/10 text-slate-300 border-white/5'
                     }`}
                 >
-                    <span className="text-xs md:text-sm leading-tight">{s.name}</span>
+                    <span className="text-xs md:text-sm leading-tight whitespace-normal">{s.name}</span>
                     {specimenId === s.id && <CheckCircle size={14} className="mt-1 md:mt-0 opacity-80" />}
                 </button>
                 ))}
@@ -146,15 +146,16 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                 <div className="bg-primary/20 p-1.5 md:p-2 rounded-lg"><ZoomIn className="text-primary" size={18} /></div>
                 <h3 className="text-base md:text-xl font-bold">{t.planner.selectLens}</h3>
             </div>
-            <div className="flex flex-wrap gap-2 md:gap-3">
+            {/* Horizontal scroll for lens on mobile */}
+            <div className="flex overflow-x-auto pb-2 gap-2 md:gap-3 snap-x flex-nowrap lg:flex-wrap scrollbar-hide">
                 {t.planner.lenses.map((l) => (
                 <button
                     key={l}
                     onClick={() => setLens(l)}
-                    className={`flex-1 min-w-[80px] md:min-w-[100px] p-2 md:p-3 rounded-xl text-center transition-all text-xs md:text-base active:scale-[0.98] ${
+                    className={`min-w-[80px] md:min-w-[100px] flex-shrink-0 p-2 md:p-3 rounded-xl text-center transition-all text-xs md:text-base active:scale-[0.98] snap-start border border-transparent ${
                     lens === l 
                     ? 'bg-gradient-to-r from-primary to-indigo-600 text-white font-bold shadow-lg transform scale-105' 
-                    : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5'
+                    : 'bg-white/5 hover:bg-white/10 text-slate-300 border-white/5'
                     }`}
                 >
                     {l}
