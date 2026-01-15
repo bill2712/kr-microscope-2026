@@ -114,7 +114,7 @@ export const LearningCenter: React.FC<LearningCenterProps> = ({ t }) => {
                                 <div className={`overflow-hidden transition-all duration-500 ease-in-out ${activePart === index ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                                     <div className="p-4 pt-0">
                                         <div className="rounded-xl overflow-hidden mb-4 h-48 w-full bg-black/20">
-                                            <img src={part.image} alt={part.name} className="w-full object-cover" />
+                                            <img src={part.image} alt={part.name} className="w-full object-contain" />
                                         </div>
                                         <p className="text-lg text-slate-200 mb-4">{part.desc}</p>
                                         
@@ -138,10 +138,10 @@ export const LearningCenter: React.FC<LearningCenterProps> = ({ t }) => {
                             
                             {activePart !== null ? (
                                 <div className="animate-in fade-in zoom-in duration-500 space-y-6 relative z-10 w-full">
-                                     <div className="w-full h-96 rounded-2xl overflow-hidden shadow-2xl bg-black/40 backdrop-blur-sm border border-white/10">
+                                     <div className="w-full h-auto rounded-2xl overflow-hidden shadow-2xl bg-black/40 backdrop-blur-sm border border-white/10">
                                          <img 
                                             src={data.parts.items[activePart].image} 
-                                            className="w-full h-full object-cover" 
+                                            className="w-full h-full object-contain" 
                                             alt={data.parts.items[activePart].name} 
                                          />
                                      </div>

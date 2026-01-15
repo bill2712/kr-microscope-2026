@@ -9,11 +9,19 @@ export const IMAGES = {
     observe: "/kr-microscope-2026/images/observe.png" // Locally generated
   },
   parts: {
-    eyepiece: "/kr-microscope-2026/images/eyepiece.png", // Locally generated
-    objective: "/kr-microscope-2026/images/objective.png", // Locally generated
-    stage: "/kr-microscope-2026/images/stage.png", // Locally generated
-    light: "/kr-microscope-2026/images/light.png", // Locally generated
-    knob: "/kr-microscope-2026/images/knob.png" // Locally generated
+    eyepiece: "/kr-microscope-2026/images/eyepiece.png",
+    objective: "/kr-microscope-2026/images/objective.png",
+    stage: "/kr-microscope-2026/images/stage.png",
+    light: "/kr-microscope-2026/images/light.png",
+    knob: "/kr-microscope-2026/images/knob.png",
+    base: "/kr-microscope-2026/images/base.png",
+    illumination_switch: "/kr-microscope-2026/images/illumination_switch.png",
+    stage_clips: "/kr-microscope-2026/images/stage_clips.png",
+    filter: "/kr-microscope-2026/images/filter.png",
+    arm: "/kr-microscope-2026/images/arm.png",
+    microscope: "/kr-microscope-2026/images/microscope.png",
+    nosepiece: "/kr-microscope-2026/images/nosepiece.png",
+    tube: "/kr-microscope-2026/images/tube.png"
   },
   specimens: {
     onion: "/kr-microscope-2026/images/onion.png", // Locally generated
@@ -179,10 +187,28 @@ export const TEXTS: Record<Language, Translation> = {
             funFact: "如果不乾淨，千萬不要用手擦，要用專用的拭鏡紙喔！"
           },
           { 
+            name: "鏡筒 (Body Tube)", 
+            desc: "安裝透鏡，防止橫向外部光干擾，連接目鏡與物鏡。", 
+            image: IMAGES.parts.tube, 
+            funFact: "它是光線的隧道！"
+          },
+          { 
+            name: "鏡臂 (Arm)", 
+            desc: "連接鏡筒與底座，也是手拿顯微鏡時應該握住的地方。", 
+            image: IMAGES.parts.arm, 
+            funFact: "這是顯微鏡的『脊椎』。"
+          },
+          { 
             name: "物鏡 (Objective Lens)", 
             desc: "靠近待觀測物體的透鏡組，通常有多個不同倍率可以切換。", 
             image: IMAGES.parts.objective,
             funFact: "鏡頭越長倍率越大，但也離標本越近，要小心碰撞！"
+          },
+          { 
+             name: "物鏡轉換器 (Nosepiece)",
+             desc: "轉動它可以將不同放大倍數的物鏡調整到工作位置。",
+             image: IMAGES.parts.nosepiece,
+             funFact: "轉動時會聽到『咔』一聲，表示定位完成了。"
           },
           { 
             name: "載物台 (Stage)", 
@@ -191,10 +217,16 @@ export const TEXTS: Record<Language, Translation> = {
             funFact: "有些高級載物台可以精確移動標本位置。"
           },
           { 
-            name: "光源 (Light Source)", 
-            desc: "產生光束，在透射模式下將光束透射到物體上。", 
-            image: IMAGES.parts.light,
-            funFact: "對於顏色太淺的標本，可以用濾光片增加對比度。"
+            name: "壓片夾 (Stage Clips)", 
+            desc: "固定載玻片，防止標本移動。", 
+            image: IMAGES.parts.stage_clips,
+            funFact: "一定要夾緊，不然看著看著標本就跑了！"
+          },
+          { 
+             name: "濾光片 (Filter Disc)", 
+             desc: "位於載物台下方，透過旋轉不同大小的光圈或顏色濾片來調節光線強度與對比度。", 
+             image: IMAGES.parts.filter, 
+             funFact: "標本太亮或太暗時，轉動它可以獲得最佳畫面。"
           },
           { 
             name: "準焦螺旋 (Focus Knobs)", 
@@ -203,16 +235,28 @@ export const TEXTS: Record<Language, Translation> = {
             funFact: "先用粗螺旋找目標，再用細螺旋調清楚。"
           },
           { 
-            name: "鏡筒 (Body Tube)", 
-            desc: "安裝透鏡，防止橫向外部光干擾。", 
-            image: IMAGES.parts.eyepiece, 
-            funFact: "連接目鏡和物鏡的通道。"
+            name: "光源 (Light Source)", 
+            desc: "產生光束，在透射模式下將光束透射到物體上。", 
+            image: IMAGES.parts.light,
+            funFact: "對於顏色太淺的標本，可以用濾光片增加對比度。"
           },
           { 
-             name: "物鏡轉換器 (Nosepiece)",
-             desc: "轉動它可以將不同放大倍數的物鏡調整到工作位置。",
-             image: IMAGES.parts.objective,
-             funFact: "轉動時會聽到『咔』一聲，表示定位完成了。"
+             name: "照明開關 (Illumination Switch)", 
+             desc: "控制光源的開關。", 
+             image: IMAGES.parts.illumination_switch, 
+             funFact: "記得用完要關燈省電喔！"
+          },
+          { 
+             name: "底座 (Base)", 
+             desc: "支撐整台顯微鏡，內藏電池盒。", 
+             image: IMAGES.parts.base, 
+             funFact: "这是顯微鏡的『腳』，要放平穩。"
+          },
+          {
+             name: "顯微鏡全貌 (Microscope)",
+             desc: "這就是我們要學習的神奇工具！",
+             image: IMAGES.parts.microscope,
+             funFact: "它能帶你看見微觀世界！"
           }
         ]
       },
@@ -505,10 +549,28 @@ export const TEXTS: Record<Language, Translation> = {
             funFact: "If dirty, never wipe with hands; use special lens paper!"
           },
           { 
+            name: "Body Tube", 
+            desc: "Holds the lenses and prevents external light interference.", 
+            image: IMAGES.parts.tube,
+            funFact: "Connects the eyepiece to the objective lenses."
+          },
+          { 
+            name: "Arm", 
+            desc: "Connects the tube to the base. Hold this part when carrying the microscope.", 
+            image: IMAGES.parts.arm,
+            funFact: "This is the 'backbone' of the microscope."
+          },
+          { 
             name: "Objective Lens", 
             desc: "The lens group near the object. Usually has multiple magnifications to switch between.", 
             image: IMAGES.parts.objective,
             funFact: "Longer lenses have higher power but sit closer to the specimen!"
+          },
+          { 
+             name: "Nosepiece",
+             desc: "Rotate this to switch different objective lenses into the working position.",
+             image: IMAGES.parts.nosepiece,
+             funFact: "You'll hear a 'click' when it's locked in place."
           },
           { 
             name: "Stage", 
@@ -517,10 +579,16 @@ export const TEXTS: Record<Language, Translation> = {
             funFact: "Some advanced stages can move the specimen precisely."
           },
           { 
-            name: "Light Source", 
-            desc: "Generates a beam of light that projects onto the object in transmission mode.", 
-            image: IMAGES.parts.light,
-            funFact: "For very pale specimens, color filters increase contrast."
+             name: "Stage Clips", 
+             desc: "Holds the slide in place so it doesn't move.", 
+             image: IMAGES.parts.stage_clips,
+             funFact: "Make sure they are tight, or your specimen might run away!"
+          },
+          { 
+             name: "Filter Disc", 
+             desc: "Located under the stage. Rotate to change hole size or color filters to adjust contrast.", 
+             image: IMAGES.parts.filter, 
+             funFact: "Use this when the image is too bright or too dim."
           },
           { 
             name: "Focus Knobs", 
@@ -529,16 +597,28 @@ export const TEXTS: Record<Language, Translation> = {
             funFact: "Use the coarse knob to find the target, then fine knob to sharpen."
           },
           { 
-            name: "Body Tube", 
-            desc: "Holds the lenses and prevents external light interference.", 
-            image: IMAGES.parts.eyepiece,
-            funFact: "Connects the eyepiece to the objective lenses."
+            name: "Light Source", 
+            desc: "Generates a beam of light that projects onto the object in transmission mode.", 
+            image: IMAGES.parts.light,
+            funFact: "For very pale specimens, color filters increase contrast."
           },
           { 
-             name: "Nosepiece",
-             desc: "Rotate this to switch different objective lenses into the working position.",
-             image: IMAGES.parts.objective,
-             funFact: "You'll hear a 'click' when it's locked in place."
+             name: "Illumination Switch", 
+             desc: "Turns the light source on and off.", 
+             image: IMAGES.parts.illumination_switch, 
+             funFact: "Remember to turn it off to save batteries!"
+          },
+          { 
+             name: "Base", 
+             desc: "Supports the entire microscope and houses the battery compartment.", 
+             image: IMAGES.parts.base, 
+             funFact: "This is the 'foot' of the microscope. Keep it flat!"
+          },
+          {
+             name: "Microscope",
+             desc: "The amazing tool we are learning about!",
+             image: IMAGES.parts.microscope,
+             funFact: "It opens up the micro world for you to see!"
           }
         ]
       },
