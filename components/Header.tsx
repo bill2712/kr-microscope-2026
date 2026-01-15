@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { Translation, ViewState, Language } from '../types';
 import { Microscope, Globe, Menu, X } from 'lucide-react';
 
@@ -84,8 +85,8 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
       </div>
 
       {/* Mobile Nav Overlay */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 top-[56px] z-[99] bg-black opacity-100 border-t border-white/10 flex flex-col p-4 md:hidden" style={{ backgroundColor: '#020617' }}>
+      {isMenuOpen && createPortal(
+        <div className="fixed inset-0 top-[56px] z-[9999] bg-black opacity-100 border-t border-white/10 flex flex-col p-4 md:hidden" style={{ backgroundColor: '#020617' }}>
             <nav className="flex flex-col gap-2">
                 {navItems.map((item) => (
                     <button
@@ -106,7 +107,8 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
             <div className="mt-auto pt-6 pb-8 text-center text-slate-500 text-sm">
                 KidRise Microscope Explorer
             </div>
-        </div>
+        </div>,
+        document.body
       )}
     </header>
   );
