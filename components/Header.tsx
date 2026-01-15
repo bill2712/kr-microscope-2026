@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
 
       {/* Mobile Nav Overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 top-[56px] z-40 bg-slate-900/95 backdrop-blur-xl border-t border-white/10 animate-in slide-in-from-top-4 fade-in duration-200 flex flex-col p-4 md:hidden">
+        <div className="fixed inset-0 top-[56px] z-40 bg-slate-950 border-t border-white/10 animate-in slide-in-from-top-4 fade-in duration-200 flex flex-col p-4 md:hidden">
             <nav className="flex flex-col gap-2">
                 {navItems.map((item) => (
                     <button

@@ -201,88 +201,21 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-        <div className="relative w-full max-w-4xl bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-0 md:p-4 animate-in fade-in duration-200">
+        <div className="relative w-full h-full md:h-auto md:max-h-[90vh] max-w-4xl bg-slate-900 md:rounded-3xl border-none md:border border-slate-700 shadow-2xl overflow-hidden flex flex-col md:flex-row">
             
-            {/* Header / Tools */}
-            <div className="p-4 md:p-6 bg-slate-800 border-b md:border-b-0 md:border-r border-slate-700 flex flex-col gap-4 md:gap-6 md:w-64 z-10 overflow-y-auto">
-                <div>
-                    <h2 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-400">
-                        {t.journal.title}
-                    </h2>
-                    <p className="text-slate-400 text-xs md:text-sm mt-1 md:mt-2">{t.journal.drawHint}</p>
-                </div>
-
-                <div className="space-y-4 flex-1">
-                    <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t.journal.tools.pen}</label>
-                        <div className="flex gap-2">
-                            {['#ef4444', '#22d3ee', '#facc15', '#ffffff'].map(c => (
-                                <button
-                                    key={c}
-                                    onClick={() => { setColor(c); setTool('pen'); }}
-                                    className={`w-8 h-8 md:w-10 md:h-10 rounded-full border-2 transition-transform hover:scale-110 ${
-                                        tool !== 'eraser' && color === c ? 'border-white scale-110 ring-2 ring-white/20' : 'border-transparent'
-                                    }`}
-                                    style={{ backgroundColor: c }}
-                                />
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="space-y-2">
-                         <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t.journal.tools.pen} / Text</label>
-                         <div className="flex flex-col gap-2">
-                             <Button 
-                                variant={tool === 'eraser' ? 'primary' : 'outline'}
-                                onClick={() => setTool('eraser')}
-                                fullWidth
-                                className="justify-start text-sm md:text-base py-2 md:py-3"
-                            >
-                                <Eraser size={18} className="mr-2"/> {t.journal.tools.eraser}
-                            </Button>
-                            
-                            <Button 
-                                variant={tool === 'text' ? 'primary' : 'outline'}
-                                onClick={() => setTool('text')}
-                                fullWidth
-                                className="justify-start text-sm md:text-base py-2 md:py-3"
-                            >
-                                <Type size={18} className="mr-2"/> {t.journal.tools.text}
-                            </Button>
-                         </div>
-                    </div>
-
-                     <div className="space-y-2">
-                       <Button 
-                            variant="ghost"
-                            onClick={clearCanvas}
-                            fullWidth
-                            className="justify-start text-red-400 hover:text-red-300 hover:bg-red-900/20 text-sm md:text-base py-2 md:py-3"
-                        >
-                            <Trash2 size={18} className="mr-2"/> {t.journal.tools.clear}
-                        </Button>
-                    </div>
-                </div>
-
-                 <div className="mt-auto space-y-3 pt-4 md:pt-6 border-t border-slate-700">
-                    <Button 
-                        variant="accent" 
-                        size={window.innerWidth < 768 ? 'md' : 'lg'} 
-                        fullWidth 
-                        onClick={handleSave}
-                        className="shadow-lg shadow-green-900/20 text-sm md:text-base"
-                    >
-                        {showSaveSuccess ? <span className="flex items-center"><Save className="mr-2"/> {t.journal.saveSuccess}</span> : <span className="flex items-center"><Download className="mr-2"/> {t.journal.tools.save}</span>}
-                    </Button>
-                    <Button variant="ghost" fullWidth onClick={onClose} className="text-sm md:text-base py-2">
-                        {t.journal.tools.close}
-                    </Button>
-                </div>
+            {/* Mobile Header (Only visible on mobile) */}
+            <div className="md:hidden p-4 bg-slate-800 border-b border-slate-700 flex justify-between items-center shrink-0">
+                <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-400">
+                    {t.journal.title}
+                </h2>
+                <Button variant="ghost" size="sm" onClick={onClose}>
+                    <X size={24} />
+                </Button>
             </div>
 
-            {/* Canvas Area */}
-            <div className="flex-1 relative bg-black flex items-center justify-center p-4 md:p-8 overflow-hidden touch-none">
+            {/* Canvas Area - Takes available space */}
+            <div className="flex-1 relative bg-black flex items-center justify-center p-4 overflow-hidden touch-none">
                 <div className="relative shadow-2xl rounded-lg overflow-hidden ring-1 ring-slate-800 w-full max-w-[600px] aspect-square">
                     {/* Background Image */}
                     <img 
@@ -314,6 +247,69 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                         onTouchEnd={stopDrawing}
                         onTouchMove={handleTouchMove}
                     />
+                </div>
+            </div>
+
+            {/* Tools Panel - Bottom on Mobile, Left on Desktop */}
+            <div className="p-4 md:p-6 bg-slate-800 border-t md:border-t-0 md:border-r border-slate-700 flex flex-row md:flex-col gap-3 md:gap-6 md:w-64 z-10 shrink-0 overflow-x-auto md:overflow-x-visible md:overflow-y-auto order-last md:order-first">
+                <div className="hidden md:block">
+                    <h2 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-400">
+                        {t.journal.title}
+                    </h2>
+                    <p className="text-slate-400 text-xs md:text-sm mt-1 md:mt-2">{t.journal.drawHint}</p>
+                </div>
+
+                {/* Color Picker */}
+                <div className="flex items-center md:items-start flex-col gap-1 md:gap-2 shrink-0">
+                    <label className="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider hidden md:block">{t.journal.tools.pen}</label>
+                    <div className="flex gap-2">
+                        {['#ef4444', '#22d3ee', '#facc15', '#ffffff'].map(c => (
+                            <button
+                                key={c}
+                                onClick={() => { setColor(c); setTool('pen'); }}
+                                className={`w-8 h-8 rounded-full border-2 transition-transform ${
+                                    tool !== 'eraser' && color === c ? 'border-white scale-110 ring-2 ring-white/20' : 'border-transparent'
+                                }`}
+                                style={{ backgroundColor: c }}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Tool Buttons */}
+                <div className="flex md:flex-col gap-2 shrink-0">
+                     <button 
+                        onClick={() => setTool('eraser')}
+                        className={`p-2 rounded-lg border ${tool === 'eraser' ? 'bg-primary border-primary text-white' : 'bg-transparent border-slate-600 text-slate-400'}`}
+                    >
+                        <Eraser size={20} />
+                    </button>
+                    <button 
+                        onClick={() => setTool('text')}
+                        className={`p-2 rounded-lg border ${tool === 'text' ? 'bg-primary border-primary text-white' : 'bg-transparent border-slate-600 text-slate-400'}`}
+                    >
+                        <Type size={20} />
+                    </button>
+                     <button 
+                        onClick={clearCanvas}
+                        className="p-2 rounded-lg border border-red-900/50 text-red-400 hover:bg-red-900/20"
+                    >
+                        <Trash2 size={20} />
+                    </button>
+                </div>
+
+                 <div className="md:mt-auto md:space-y-3 md:pt-6 md:border-t md:border-slate-700 flex md:flex-col gap-2 ml-auto md:ml-0">
+                    <Button 
+                        variant="accent" 
+                        size={window.innerWidth < 768 ? 'md' : 'lg'} 
+                        onClick={handleSave}
+                        className="shadow-lg shadow-green-900/20 text-sm md:text-base whitespace-nowrap"
+                    >
+                        {showSaveSuccess ? <span className="flex items-center"><Save className="mr-2"/> <span className="hidden md:inline">{t.journal.saveSuccess}</span></span> : <span className="flex items-center"><Download className="mr-2"/> <span className="hidden md:inline">{t.journal.tools.save}</span><span className="md:hidden">Save</span></span>}
+                    </Button>
+                    <Button variant="ghost" onClick={onClose} className="hidden md:flex text-sm md:text-base py-2">
+                        {t.journal.tools.close}
+                    </Button>
                 </div>
             </div>
         </div>
