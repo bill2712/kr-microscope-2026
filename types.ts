@@ -40,7 +40,7 @@ export interface Translation {
     scanning: string;
     result: string;
     compare: string;
-    specimens: Array<{ id: string; name: string; image: string }>;
+    specimens: Array<{ id: string; name: string; images: { "100x": string; "400x": string; "1200x": string } }>;
     lenses: string[];
     focusTitle: string;
     coarseKnob: string;

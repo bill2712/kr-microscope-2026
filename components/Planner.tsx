@@ -38,8 +38,13 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
       return (
           <div className="flex flex-col items-center justify-center min-h-[500px] w-full animate-in fade-in duration-500">
               {selectedSpecimen ? (
-                <FocusSimulator 
-                    image={selectedSpecimen.image} 
+                  <FocusSimulator 
+                    image={
+                        lens?.includes('100x') ? selectedSpecimen.images["100x"] :
+                        lens?.includes('400x') ? selectedSpecimen.images["400x"] :
+                        lens?.includes('1200x') ? selectedSpecimen.images["1200x"] :
+                        selectedSpecimen.images["400x"]
+                    } 
                     lens={lens || '400x'} 
                     onSuccess={handleFocusComplete} 
                     t={t}
@@ -66,7 +71,12 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
              <div className="relative group">
                 <div className="w-56 h-56 md:w-64 md:h-64 mx-auto rounded-full border-[6px] md:border-[8px] border-slate-700 overflow-hidden shadow-inner bg-black relative">
                     <img 
-                        src={selectedSpecimen?.image} 
+                        src={
+                            lens?.includes('100x') ? selectedSpecimen?.images["100x"] :
+                            lens?.includes('400x') ? selectedSpecimen?.images["400x"] :
+                            lens?.includes('1200x') ? selectedSpecimen?.images["1200x"] :
+                            selectedSpecimen?.images["400x"]
+                        } 
                         alt="Simulated View" 
                         className="w-full h-full object-cover scale-150 group-hover:scale-[1.7] transition-transform duration-1000"
                     />
@@ -165,13 +175,14 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                     {selectedSpecimen ? (
                         <div className="w-full h-full bg-black relative">
                             <img 
-                                src={selectedSpecimen.image} 
+                                src={
+                                    lens?.includes('100x') ? selectedSpecimen.images["100x"] :
+                                    lens?.includes('400x') ? selectedSpecimen.images["400x"] :
+                                    lens?.includes('1200x') ? selectedSpecimen.images["1200x"] :
+                                    selectedSpecimen.images["400x"] // Default fallback
+                                }
                                 alt="Preview" 
-                                className="w-full h-full object-cover" 
-                                style={{ 
-                                    filter: lens?.includes('1200x') ? 'blur(1px) scale(3)' : lens?.includes('400x') ? 'scale(1.5)' : 'none',
-                                    transition: 'filter 0.5s, transform 0.5s'
-                                }}
+                                className="w-full h-full object-cover animate-in fade-in duration-500" 
                             />
                             {/* Microscope Overlay Effect */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/40 pointer-events-none"></div>

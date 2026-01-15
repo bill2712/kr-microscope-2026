@@ -24,12 +24,24 @@ export const IMAGES = {
     tube: "/kr-microscope-2026/images/tube.png"
   },
   specimens: {
-    onion: "/kr-microscope-2026/images/onion.png", // Locally generated
-    insect: "/kr-microscope-2026/images/insect.png", // Locally generated
-    leaf: "/kr-microscope-2026/images/leaf.png", // Locally generated
-    bacteria: "/kr-microscope-2026/images/bacteria.png", // Locally generated
-    mold: "/kr-microscope-2026/images/mold.png", // Locally generated
-    butterfly: "/kr-microscope-2026/images/butterfly.png" // Locally generated
+    onion_100x: "/kr-microscope-2026/images/onion_100x.png",
+    onion_400x: "/kr-microscope-2026/images/onion_400x.png",
+    onion_1200x: "/kr-microscope-2026/images/onion_1200x.png",
+    insect_100x: "/kr-microscope-2026/images/insect_100x.png",
+    insect_400x: "/kr-microscope-2026/images/insect_400x.png",
+    insect_1200x: "/kr-microscope-2026/images/insect_1200x.png",
+    leaf_100x: "/kr-microscope-2026/images/leaf_100x.png",
+    leaf_400x: "/kr-microscope-2026/images/leaf_400x.png",
+    leaf_1200x: "/kr-microscope-2026/images/leaf_1200x.png",
+    bacteria_100x: "/kr-microscope-2026/images/bacteria_100x.png",
+    bacteria_400x: "/kr-microscope-2026/images/bacteria_400x.png",
+    bacteria_1200x: "/kr-microscope-2026/images/bacteria_1200x.png",
+    mold_100x: "/kr-microscope-2026/images/mold_100x.png",
+    mold_400x: "/kr-microscope-2026/images/mold_400x.png",
+    mold_1200x: "/kr-microscope-2026/images/mold_1200x.png",
+    butterfly_100x: "/kr-microscope-2026/images/butterfly_100x.png",
+    butterfly_400x: "/kr-microscope-2026/images/butterfly_400x.png",
+    butterfly_1200x: "/kr-microscope-2026/images/butterfly_1200x.png"
   },
   gallery: {
     salt: "/kr-microscope-2026/images/salt.png",
@@ -115,12 +127,36 @@ export const TEXTS: Record<Language, Translation> = {
       result: "任務完成！",
       compare: "現在，請透過你的顯微鏡觀察，看看是否和圖片一樣？嘗試畫下你看到的樣子！",
       specimens: [
-        { id: "onion", name: "洋蔥表皮細胞 (Onion Cells)", image: IMAGES.specimens.onion },
-        { id: "insect", name: "蜻蜓複眼與翅膀 (Dragonfly)", image: IMAGES.specimens.insect },
-        { id: "leaf", name: "植物葉片氣孔 (Leaf Stomata)", image: IMAGES.specimens.leaf },
-        { id: "bacteria", name: "細菌世界 (Bacteria)", image: IMAGES.specimens.bacteria },
-        { id: "mold", name: "真菌孢子 (Mold Spores)", image: IMAGES.specimens.mold },
-        { id: "butterfly", name: "蝴蝶鱗片 (Butterfly Scale)", image: IMAGES.specimens.butterfly }
+        { 
+            id: "onion", 
+            name: "洋蔥表皮細胞 (Onion Cells)", 
+            images: { "100x": IMAGES.specimens.onion_100x, "400x": IMAGES.specimens.onion_400x, "1200x": IMAGES.specimens.onion_1200x } 
+        },
+        { 
+            id: "insect", 
+            name: "蜻蜓複眼與翅膀 (Dragonfly)", 
+            images: { "100x": IMAGES.specimens.insect_100x, "400x": IMAGES.specimens.insect_400x, "1200x": IMAGES.specimens.insect_1200x }
+        },
+        { 
+            id: "leaf", 
+            name: "植物葉片氣孔 (Leaf Stomata)", 
+            images: { "100x": IMAGES.specimens.leaf_100x, "400x": IMAGES.specimens.leaf_400x, "1200x": IMAGES.specimens.leaf_1200x }
+        },
+        { 
+            id: "bacteria", 
+            name: "細菌世界 (Bacteria)", 
+            images: { "100x": IMAGES.specimens.bacteria_100x, "400x": IMAGES.specimens.bacteria_400x, "1200x": IMAGES.specimens.bacteria_1200x }
+        },
+        { 
+            id: "mold", 
+            name: "真菌孢子 (Mold Spores)", 
+            images: { "100x": IMAGES.specimens.mold_100x, "400x": IMAGES.specimens.mold_400x, "1200x": IMAGES.specimens.mold_1200x }
+        },
+        { 
+            id: "butterfly", 
+            name: "蝴蝶鱗片 (Butterfly Scale)", 
+            images: { "100x": IMAGES.specimens.butterfly_100x, "400x": IMAGES.specimens.butterfly_400x, "1200x": IMAGES.specimens.butterfly_1200x }
+        }
       ],
       lenses: ["100x (偵察模式 - 找目標)", "400x (觀察模式 - 看結構)", "1200x (探索模式 - 看細節)"],
       focusTitle: "調整焦距 (Focusing)",
@@ -477,12 +513,36 @@ export const TEXTS: Record<Language, Translation> = {
       result: "Mission Accomplished!",
       compare: "Now, look through your real microscope. Does it look like this? Try drawing what you see!",
       specimens: [
-        { id: "onion", name: "Onion Cells", image: IMAGES.specimens.onion },
-        { id: "insect", name: "Dragonfly Wing", image: IMAGES.specimens.insect },
-        { id: "leaf", name: "Plant Stomata", image: IMAGES.specimens.leaf },
-        { id: "bacteria", name: "Bacteria World", image: IMAGES.specimens.bacteria },
-        { id: "mold", name: "Fungi Spores", image: IMAGES.specimens.mold },
-        { id: "butterfly", name: "Butterfly Scales", image: IMAGES.specimens.butterfly }
+        { 
+            id: "onion", 
+            name: "Onion Cells", 
+            images: { "100x": IMAGES.specimens.onion_100x, "400x": IMAGES.specimens.onion_400x, "1200x": IMAGES.specimens.onion_1200x }
+        },
+        { 
+            id: "insect", 
+            name: "Dragonfly Wing", 
+            images: { "100x": IMAGES.specimens.insect_100x, "400x": IMAGES.specimens.insect_400x, "1200x": IMAGES.specimens.insect_1200x }
+        },
+        { 
+            id: "leaf", 
+            name: "Plant Stomata", 
+            images: { "100x": IMAGES.specimens.leaf_100x, "400x": IMAGES.specimens.leaf_400x, "1200x": IMAGES.specimens.leaf_1200x }
+        },
+        { 
+            id: "bacteria", 
+            name: "Bacteria World", 
+            images: { "100x": IMAGES.specimens.bacteria_100x, "400x": IMAGES.specimens.bacteria_400x, "1200x": IMAGES.specimens.bacteria_1200x }
+        },
+        { 
+            id: "mold", 
+            name: "Fungi Spores", 
+            images: { "100x": IMAGES.specimens.mold_100x, "400x": IMAGES.specimens.mold_400x, "1200x": IMAGES.specimens.mold_1200x }
+        },
+        { 
+            id: "butterfly", 
+            name: "Butterfly Scales", 
+            images: { "100x": IMAGES.specimens.butterfly_100x, "400x": IMAGES.specimens.butterfly_400x, "1200x": IMAGES.specimens.butterfly_1200x }
+        }
       ],
       lenses: ["100x (Scout Mode)", "400x (Observe Mode)", "1200x (Detail Mode)"],
       focusTitle: "Adjust Focus",
