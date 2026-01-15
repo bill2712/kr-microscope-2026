@@ -54,17 +54,17 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
   // Result Screen
   if (status === 'ready') {
     return (
-      <div className="w-full max-w-4xl mx-auto p-6">
-        <div className="glass-panel rounded-3xl p-8 md:p-12 text-center space-y-8 animate-in fade-in zoom-in duration-500">
-          <div className="flex items-center justify-center gap-4 mb-6">
-             <CheckCircle size={40} className="text-green-400" />
-             <h2 className="text-3xl md:text-4xl font-bold text-green-400">{t.planner.result}</h2>
+      <div className="w-full max-w-4xl mx-auto p-4 md:p-6">
+        <div className="glass-panel rounded-3xl p-6 md:p-12 text-center space-y-6 md:space-y-8 animate-in fade-in zoom-in duration-500">
+          <div className="flex items-center justify-center gap-4 mb-4 md:mb-6">
+             <CheckCircle size={32} className="text-green-400 md:w-10 md:h-10" />
+             <h2 className="text-2xl md:text-4xl font-bold text-green-400">{t.planner.result}</h2>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
              {/* Simulated View */}
              <div className="relative group">
-                <div className="w-64 h-64 mx-auto rounded-full border-[8px] border-slate-700 overflow-hidden shadow-inner bg-black relative">
+                <div className="w-56 h-56 md:w-64 md:h-64 mx-auto rounded-full border-[6px] md:border-[8px] border-slate-700 overflow-hidden shadow-inner bg-black relative">
                     <img 
                         src={selectedSpecimen?.image} 
                         alt="Simulated View" 
@@ -72,13 +72,13 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                     />
                     <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]"></div>
                 </div>
-                <p className="mt-4 text-sm text-slate-400 font-mono">{t.planner.previewLabel}: {selectedSpecimen?.name} @ {lens?.split(' ')[0]}</p>
+                <p className="mt-4 text-xs md:text-sm text-slate-400 font-mono">{t.planner.previewLabel}: {selectedSpecimen?.name} @ {lens?.split(' ')[0]}</p>
              </div>
 
-             <div className="text-left space-y-6">
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h3 className="text-xl font-bold mb-2 text-secondary">{t.planner.compare}</h3>
-                    <p className="text-slate-300">
+             <div className="text-left space-y-4 md:space-y-6">
+                <div className="bg-white/5 p-4 md:p-6 rounded-2xl border border-white/10">
+                    <h3 className="text-lg md:text-xl font-bold mb-2 text-secondary">{t.planner.compare}</h3>
+                    <p className="text-sm md:text-base text-slate-300">
                         1. Put the <strong>{selectedSpecimen?.name}</strong> slide on. <br/>
                         2. Switch to <strong>{lens}</strong>. <br/>
                         3. Focus until it looks sharp like the picture!
@@ -96,33 +96,33 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
 
   // Selection Screen
   return (
-    <div className="w-full max-w-6xl mx-auto p-4 space-y-8">
-      <h2 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+    <div className="w-full max-w-6xl mx-auto p-4 space-y-6 md:space-y-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
         {t.planner.title}
       </h2>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
         
         {/* Left Col: Controls */}
         <div className="flex-1 space-y-6">
             {/* Specimen Selection */}
-            <div className="glass-panel rounded-2xl p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-                <div className="bg-secondary/20 p-2 rounded-lg"><Target className="text-secondary" /></div>
-                <h3 className="text-xl font-bold">{t.planner.selectSpecimen}</h3>
+            <div className="glass-panel rounded-2xl p-5 md:p-6 space-y-4">
+            <div className="flex items-center gap-2 mb-2 md:mb-4">
+                <div className="bg-secondary/20 p-2 rounded-lg"><Target className="text-secondary" size={20} /></div>
+                <h3 className="text-lg md:text-xl font-bold">{t.planner.selectSpecimen}</h3>
             </div>
             <div className="grid grid-cols-1 gap-2">
                 {t.planner.specimens.map((s) => (
                 <button
                     key={s.id}
                     onClick={() => setSpecimenId(s.id)}
-                    className={`w-full p-4 rounded-xl text-left transition-all flex items-center justify-between group ${
+                    className={`w-full p-3 md:p-4 rounded-xl text-left transition-all flex items-center justify-between group active:scale-[0.98] ${
                     specimenId === s.id 
                     ? 'bg-gradient-to-r from-secondary to-cyan-600 text-white font-bold shadow-lg transform scale-[1.02]' 
                     : 'bg-white/5 hover:bg-white/10 text-slate-300'
                     }`}
                 >
-                    <span>{s.name}</span>
+                    <span className="text-sm md:text-base">{s.name}</span>
                     {specimenId === s.id && <CheckCircle size={18} />}
                 </button>
                 ))}
@@ -130,17 +130,17 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
             </div>
 
             {/* Lens Selection */}
-            <div className="glass-panel rounded-2xl p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-                <div className="bg-primary/20 p-2 rounded-lg"><ZoomIn className="text-primary" /></div>
-                <h3 className="text-xl font-bold">{t.planner.selectLens}</h3>
+            <div className="glass-panel rounded-2xl p-5 md:p-6 space-y-4">
+            <div className="flex items-center gap-2 mb-2 md:mb-4">
+                <div className="bg-primary/20 p-2 rounded-lg"><ZoomIn className="text-primary" size={20} /></div>
+                <h3 className="text-lg md:text-xl font-bold">{t.planner.selectLens}</h3>
             </div>
             <div className="flex flex-wrap gap-3">
                 {t.planner.lenses.map((l) => (
                 <button
                     key={l}
                     onClick={() => setLens(l)}
-                    className={`flex-1 min-w-[120px] p-3 rounded-xl text-center transition-all ${
+                    className={`flex-1 min-w-[100px] md:min-w-[120px] p-3 rounded-xl text-center transition-all text-sm md:text-base active:scale-[0.98] ${
                     lens === l 
                     ? 'bg-gradient-to-r from-primary to-indigo-600 text-white font-bold shadow-lg transform scale-105' 
                     : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5'

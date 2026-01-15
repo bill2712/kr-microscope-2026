@@ -94,8 +94,8 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
 
   return (
     <div className="w-full max-w-3xl mx-auto p-4">
-      <div className="glass-panel rounded-3xl p-6 md:p-8 space-y-6">
-        <div className="flex justify-between items-center text-slate-400">
+      <div className="glass-panel rounded-3xl p-5 md:p-8 space-y-6">
+        <div className="flex justify-between items-center text-slate-400 text-sm md:text-base">
            <span>Question {currentQIndex + 1} / {questions.length}</span>
            <div className="flex items-center gap-1 text-yellow-400">
              <Star size={16} fill="currentColor" />
@@ -103,11 +103,11 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
            </div>
         </div>
 
-        <h3 className="text-2xl font-bold leading-snug">{currentQ.question}</h3>
+        <h3 className="text-xl md:text-2xl font-bold leading-snug">{currentQ.question}</h3>
 
         <div className="space-y-3">
           {currentQ.options.map((option, idx) => {
-             let btnClass = "w-full p-4 rounded-xl text-left font-semibold transition-all duration-200 border border-white/10 hover:bg-white/5 ";
+             let btnClass = "w-full p-3 md:p-4 rounded-xl text-left font-semibold transition-all duration-200 border border-white/10 hover:bg-white/5 text-sm md:text-base ";
              
              if (showResult) {
                 if (idx === currentQ.correctAnswerIndex) {

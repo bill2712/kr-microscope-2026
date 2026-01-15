@@ -98,16 +98,21 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
        const canvas = canvasRef.current;
        if (!canvas) return { offsetX: 0, offsetY: 0 };
        
+       const rect = canvas.getBoundingClientRect();
+       const scaleX = canvas.width / rect.width;
+       const scaleY = canvas.height / rect.height;
+
        if ('touches' in e) {
-           const rect = canvas.getBoundingClientRect();
            return {
-               offsetX: e.touches[0].clientX - rect.left,
-               offsetY: e.touches[0].clientY - rect.top
+               offsetX: (e.touches[0].clientX - rect.left) * scaleX,
+               offsetY: (e.touches[0].clientY - rect.top) * scaleY
            };
        }
+       
+       // For mouse, we can also use clientX/clientY to be consistent with scaling
        return {
-           offsetX: (e as React.MouseEvent).nativeEvent.offsetX,
-           offsetY: (e as React.MouseEvent).nativeEvent.offsetY
+           offsetX: ((e as React.MouseEvent).clientX - rect.left) * scaleX,
+           offsetY: ((e as React.MouseEvent).clientY - rect.top) * scaleY
        };
   };
   
@@ -197,15 +202,15 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-        <div className="relative w-full max-w-4xl bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl overflow-hidden flex flex-col md:flex-row">
+        <div className="relative w-full max-w-4xl bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
             
             {/* Header / Tools */}
-            <div className="p-6 bg-slate-800 border-b md:border-b-0 md:border-r border-slate-700 flex flex-col gap-6 md:w-64 z-10">
+            <div className="p-4 md:p-6 bg-slate-800 border-b md:border-b-0 md:border-r border-slate-700 flex flex-col gap-4 md:gap-6 md:w-64 z-10 overflow-y-auto">
                 <div>
-                    <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-400">
+                    <h2 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-400">
                         {t.journal.title}
                     </h2>
-                    <p className="text-slate-400 text-sm mt-2">{t.journal.drawHint}</p>
+                    <p className="text-slate-400 text-xs md:text-sm mt-1 md:mt-2">{t.journal.drawHint}</p>
                 </div>
 
                 <div className="space-y-4 flex-1">
@@ -216,7 +221,7 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                                 <button
                                     key={c}
                                     onClick={() => { setColor(c); setTool('pen'); }}
-                                    className={`w-10 h-10 rounded-full border-2 transition-transform hover:scale-110 ${
+                                    className={`w-8 h-8 md:w-10 md:h-10 rounded-full border-2 transition-transform hover:scale-110 ${
                                         tool !== 'eraser' && color === c ? 'border-white scale-110 ring-2 ring-white/20' : 'border-transparent'
                                     }`}
                                     style={{ backgroundColor: c }}
@@ -232,7 +237,7 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                                 variant={tool === 'eraser' ? 'primary' : 'outline'}
                                 onClick={() => setTool('eraser')}
                                 fullWidth
-                                className="justify-start"
+                                className="justify-start text-sm md:text-base py-2 md:py-3"
                             >
                                 <Eraser size={18} className="mr-2"/> {t.journal.tools.eraser}
                             </Button>
@@ -241,7 +246,7 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                                 variant={tool === 'text' ? 'primary' : 'outline'}
                                 onClick={() => setTool('text')}
                                 fullWidth
-                                className="justify-start"
+                                className="justify-start text-sm md:text-base py-2 md:py-3"
                             >
                                 <Type size={18} className="mr-2"/> {t.journal.tools.text}
                             </Button>
@@ -253,32 +258,32 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                             variant="ghost"
                             onClick={clearCanvas}
                             fullWidth
-                            className="justify-start text-red-400 hover:text-red-300 hover:bg-red-900/20"
+                            className="justify-start text-red-400 hover:text-red-300 hover:bg-red-900/20 text-sm md:text-base py-2 md:py-3"
                         >
                             <Trash2 size={18} className="mr-2"/> {t.journal.tools.clear}
                         </Button>
                     </div>
                 </div>
 
-                 <div className="mt-auto space-y-3 pt-6 border-t border-slate-700">
+                 <div className="mt-auto space-y-3 pt-4 md:pt-6 border-t border-slate-700">
                     <Button 
                         variant="accent" 
-                        size="lg" 
+                        size={window.innerWidth < 768 ? 'md' : 'lg'} 
                         fullWidth 
                         onClick={handleSave}
-                        className="shadow-lg shadow-green-900/20"
+                        className="shadow-lg shadow-green-900/20 text-sm md:text-base"
                     >
                         {showSaveSuccess ? <span className="flex items-center"><Save className="mr-2"/> {t.journal.saveSuccess}</span> : <span className="flex items-center"><Download className="mr-2"/> {t.journal.tools.save}</span>}
                     </Button>
-                    <Button variant="ghost" fullWidth onClick={onClose}>
+                    <Button variant="ghost" fullWidth onClick={onClose} className="text-sm md:text-base py-2">
                         {t.journal.tools.close}
                     </Button>
                 </div>
             </div>
 
             {/* Canvas Area */}
-            <div className="flex-1 relative bg-black flex items-center justify-center p-4 md:p-8 overflow-hidden">
-                <div className="relative shadow-2xl rounded-lg overflow-hidden ring-1 ring-slate-800" style={{ width: 600, height: 600 }}>
+            <div className="flex-1 relative bg-black flex items-center justify-center p-4 md:p-8 overflow-hidden touch-none">
+                <div className="relative shadow-2xl rounded-lg overflow-hidden ring-1 ring-slate-800 w-full max-w-[600px] aspect-square">
                     {/* Background Image */}
                     <img 
                         src={image} 

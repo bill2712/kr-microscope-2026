@@ -22,18 +22,18 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-lg bg-slate-900/80 border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-lg bg-slate-900/90 border-b border-white/10 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 md:h-16 flex items-center justify-between">
         
         {/* Logo */}
         <div 
           className="flex items-center gap-2 cursor-pointer group" 
           onClick={() => onNavigate('home')}
         >
-          <div className="bg-gradient-to-br from-primary to-purple-600 p-2 rounded-lg group-hover:rotate-12 transition-transform">
-             <Microscope size={24} className="text-white" />
+          <div className="bg-gradient-to-br from-primary to-purple-600 p-1.5 md:p-2 rounded-lg group-hover:rotate-12 transition-transform shadow-lg shadow-primary/20">
+             <Microscope size={20} className="text-white md:w-6 md:h-6" />
           </div>
-          <span className="font-bold text-xl tracking-tight hidden md:block bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:to-white transition-colors">
+          <span className="font-bold text-lg md:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:to-white transition-colors">
             KidRise
           </span>
         </div>
@@ -58,29 +58,34 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
         {/* Language Toggle */}
         <button 
           onClick={onToggleLang}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+          className="flex items-center gap-2 px-3 py-1.5 md:py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors active:scale-95"
         >
-          <Globe size={18} className="text-secondary" />
-          <span className="font-bold text-sm">{lang === 'zh' ? 'EN' : '中'}</span>
+          <Globe size={16} className="text-secondary md:w-[18px] md:h-[18px]" />
+          <span className="font-bold text-xs md:text-sm">{lang === 'zh' ? 'EN' : '中'}</span>
         </button>
       </div>
 
-      {/* Mobile Nav (Simple horizontal scroll) */}
-      <div className="md:hidden overflow-x-auto pb-2 px-4 no-scrollbar">
-        <div className="flex gap-2">
-            {navItems.map((item) => (
-                <button
-                key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-all border ${
-                    currentView === item.id 
-                    ? 'bg-secondary/20 border-secondary text-secondary' 
-                    : 'bg-white/5 border-transparent text-slate-400'
-                }`}
-                >
-                {item.label}
-                </button>
-            ))}
+      {/* Mobile Nav (Horizontal Scroll) */}
+      <div className="md:hidden relative border-t border-white/5 bg-slate-900/50 backdrop-blur-md">
+        {/* Fog fade on right to indicate scroll */}
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-900 to-transparent pointer-events-none z-10"></div>
+        
+        <div className="overflow-x-auto pb-0 pt-0 px-2 no-scrollbar flex items-center h-12">
+           <div className="flex gap-2 pr-8"> 
+               {navItems.map((item) => (
+                   <button
+                   key={item.id}
+                   onClick={() => onNavigate(item.id)}
+                   className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all border ${
+                       currentView === item.id 
+                       ? 'bg-secondary/20 border-secondary text-secondary shadow-sm' 
+                       : 'bg-transparent border-transparent text-slate-400 active:text-white'
+                   }`}
+                   >
+                   {item.label}
+                   </button>
+               ))}
+           </div>
         </div>
       </div>
     </header>

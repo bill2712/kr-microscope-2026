@@ -164,7 +164,7 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
   return (
     <div className="flex flex-col items-center justify-center p-4 space-y-6 w-full max-w-2xl mx-auto">
       {/* Viewfinder */}
-      <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-[16px] border-slate-800 bg-black overflow-hidden shadow-2xl ring-4 ring-slate-900/50">
+      <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-[10px] md:border-[16px] border-slate-800 bg-black overflow-hidden shadow-2xl ring-2 md:ring-4 ring-slate-900/50">
         {/* Specimen View */}
         <img
           src={image}
@@ -231,17 +231,17 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
       </div>
 
       {/* Controls Panel */}
-      <div className="w-full glass-panel p-6 rounded-3xl border border-white/10 shadow-xl space-y-6">
+      <div className="w-full glass-panel p-5 md:p-6 rounded-3xl border border-white/10 shadow-xl space-y-6">
         <div className="flex items-center justify-between border-b border-white/5 pb-2">
           <h3 className="text-lg font-bold text-secondary">
-            {t.planner.focusTitle}
+            {t.planner.focusInstruction}
           </h3>
           <span className="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-slate-400 border border-slate-700">
             LENS: {lens.split(" ")[0]}
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-8 relative">
+        <div className="grid grid-cols-2 gap-4 md:gap-8 relative">
           {/* Connecting lines graphic */}
           <div className="absolute left-1/2 top-10 bottom-10 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent -translate-x-1/2 hidden md:block"></div>
 

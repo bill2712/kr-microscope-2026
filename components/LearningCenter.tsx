@@ -343,20 +343,31 @@ export const LearningCenter: React.FC<LearningCenterProps> = ({ t }) => {
       <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar Navigation */}
           <div className="md:w-64 flex-shrink-0">
-             <div className="glass-panel rounded-2xl p-2 sticky top-24 overflow-x-auto md:overflow-visible flex md:block gap-2 no-scrollbar">
+             <div className="glass-panel md:glass-panel-none rounded-2xl md:rounded-2xl p-2 sticky top-[56px] md:top-24 z-40 bg-slate-900/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none border-b md:border-b-0 border-white/10 md:border-transparent overflow-x-auto md:overflow-visible flex md:block gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-2 shadow-lg md:shadow-none mb-6 md:mb-0">
                 {(Object.keys(t.learn.menu) as SectionKey[]).map((key) => (
                     <button
                         key={key}
-                        onClick={() => setActiveSection(key)}
+                        onClick={() => {
+                            setActiveSection(key);
+                            // Scroll to top of content on mobile
+                            if (window.innerWidth < 768) {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
+                        }}
                         className={`
-                            flex items-center gap-3 w-full p-3 rounded-xl text-left transition-all duration-300 whitespace-nowrap
+                            flex items-center gap-2 md:gap-3 w-auto md:w-full p-2 md:p-3 rounded-xl text-left transition-all duration-300 whitespace-nowrap flex-shrink-0
                             ${activeSection === key 
                                 ? 'bg-secondary text-white shadow-lg shadow-cyan-500/20' 
                                 : 'text-slate-400 hover:bg-white/5 hover:text-white'}
                         `}
                     >
-                        {menuIcons[key]}
-                        <span className="font-bold">{t.learn.menu[key]}</span>
+                        <span className="md:hidden">
+                            {React.cloneElement(menuIcons[key] as React.ReactElement, { size: 16 })}
+                        </span>
+                        <span className="hidden md:block">
+                            {menuIcons[key]}
+                        </span>
+                        <span className="font-bold text-sm md:text-base">{t.learn.menu[key]}</span>
                         {activeSection === key && <ChevronRight className="ml-auto hidden md:block" size={16} />}
                     </button>
                 ))}

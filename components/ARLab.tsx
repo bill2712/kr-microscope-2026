@@ -109,26 +109,26 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
             {/* Custom AR Button */}
             <button 
               slot="ar-button" 
-              className="absolute top-6 right-6 bg-white text-black px-6 py-3 rounded-full font-bold shadow-lg flex items-center gap-2 transform transition hover:scale-105 active:scale-95 z-20"
+              className="absolute top-4 right-4 md:top-6 md:right-6 bg-white text-black px-4 py-2 md:px-6 md:py-3 rounded-full font-bold shadow-lg flex items-center gap-2 transform transition hover:scale-105 active:scale-95 z-20 text-sm md:text-base"
             >
-              <Camera size={20} />
+              <Camera size={18} className="md:w-5 md:h-5" />
               View in your space
             </button>
          </model-viewer>
       </div>
 
       {/* UI Overlay - Top Left Info */}
-      <div className="absolute top-6 left-6 z-10 pointer-events-none max-w-[200px] md:max-w-xs">
-        <div className="bg-black/40 backdrop-blur-md border border-white/10 p-4 rounded-2xl pointer-events-auto">
-           <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+      <div className="absolute top-4 left-4 md:top-6 md:left-6 z-10 pointer-events-none max-w-[200px] md:max-w-xs">
+        <div className="bg-black/40 backdrop-blur-md border border-white/10 p-3 md:p-4 rounded-2xl pointer-events-auto">
+           <h2 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
              {t.ar.title}
            </h2>
-           <p className="text-slate-300 text-sm mt-1">
+           <p className="text-slate-300 text-xs md:text-sm mt-1">
              {t.ar.description}
            </p>
            {/* Instruction Note Moved Here */}
-           <div className="mt-3 inline-block">
-              <p className="text-xs text-slate-400 font-mono bg-white/5 inline-block px-2 py-1 rounded-lg border border-white/5">
+           <div className="mt-2 md:mt-3 inline-block">
+              <p className="text-[10px] md:text-xs text-slate-400 font-mono bg-white/5 inline-block px-2 py-1 rounded-lg border border-white/5">
                 ℹ️ {t.ar.instruction}
               </p>
            </div>
@@ -136,12 +136,12 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
       </div>
 
       {/* UI Overlay - Bottom Center Controls */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 w-full max-w-4xl px-4 pointer-events-none">
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl flex items-center gap-2 shadow-xl overflow-x-auto pointer-events-auto">
+      <div className="absolute bottom-8 md:bottom-6 left-1/2 -translate-x-1/2 z-10 w-full max-w-4xl px-4 pointer-events-none">
+        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl flex items-center gap-2 shadow-xl overflow-x-auto pointer-events-auto no-scrollbar touch-manipulation">
            {/* ... buttons ... */}
            <button 
              onClick={() => setModelType('neil')}
-             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
                modelType === 'neil' 
                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -153,7 +153,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
 
            <button 
              onClick={() => setModelType('astro')}
-             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
                modelType === 'astro' 
                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -165,7 +165,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
 
            <button 
              onClick={() => setModelType('duck')}
-             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
                modelType === 'duck' 
                ? 'bg-yellow-600 text-white shadow-lg shadow-yellow-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -177,7 +177,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
 
            <button 
              onClick={() => setModelType('avocado')}
-             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
                modelType === 'avocado' 
                ? 'bg-green-600 text-white shadow-lg shadow-green-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -189,7 +189,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
 
            <button 
              onClick={() => setModelType('cell')}
-             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
                modelType === 'cell' 
                ? 'bg-rose-600 text-white shadow-lg shadow-rose-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -201,7 +201,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
 
            <button 
              onClick={() => setModelType('detailedCell')}
-             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
                modelType === 'detailedCell' 
                ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -213,7 +213,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
 
            <button 
              onClick={() => setModelType('bacteria')}
-             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
                modelType === 'bacteria' 
                ? 'bg-lime-600 text-white shadow-lg shadow-lime-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -225,7 +225,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
 
            <button 
              onClick={() => setModelType('virus')}
-             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
                modelType === 'virus' 
                ? 'bg-red-600 text-white shadow-lg shadow-red-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -237,7 +237,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
 
            <button 
              onClick={() => setModelType('yeast')}
-             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
                modelType === 'yeast' 
                ? 'bg-amber-600 text-white shadow-lg shadow-amber-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -247,10 +247,10 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
              Yeast
            </button>
 
-           <div className="w-px h-8 bg-white/10 mx-1"></div>
+           <div className="w-px h-8 bg-white/10 mx-1 flex-none"></div>
 
            {/* Upload Button */}
-           <label className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap ${
+           <label className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap active:scale-95 ${
                modelType === 'custom' 
                ? 'bg-fuchsia-600 text-white shadow-lg shadow-fuchsia-500/30' 
                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
