@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-lg bg-slate-900/90 border-b border-white/10 shadow-sm">
+    <header className="sticky top-0 z-[100] w-full backdrop-blur-lg bg-slate-900/90 border-b border-white/10 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 md:h-16 flex items-center justify-between">
         
         {/* Logo */}
@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
 
       {/* Mobile Nav Overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 top-[56px] z-40 bg-black opacity-100 border-t border-white/10 flex flex-col p-4 md:hidden" style={{ backgroundColor: '#020617' }}>
+        <div className="fixed inset-0 top-[56px] z-[99] bg-black opacity-100 border-t border-white/10 flex flex-col p-4 md:hidden" style={{ backgroundColor: '#020617' }}>
             <nav className="flex flex-col gap-2">
                 {navItems.map((item) => (
                     <button
