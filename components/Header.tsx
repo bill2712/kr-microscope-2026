@@ -39,10 +39,10 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
           onClick={() => handleNavigate('home')}
         >
           <div className="bg-gradient-to-br from-primary to-purple-600 p-1.5 md:p-2 rounded-lg group-hover:rotate-12 transition-transform shadow-lg shadow-primary/20">
-             <Microscope size={20} className="text-white md:w-6 md:h-6" />
+             <img src="/kr-microscope-2026/images/kidrise-logo_new.png" alt="Logo" className="w-5 h-5 md:w-6 md:h-6 object-contain filter brightness-0 invert" />
           </div>
           <span className="font-bold text-lg md:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:to-white transition-colors">
-            KidRise
+            Kidrise
           </span>
         </div>
 

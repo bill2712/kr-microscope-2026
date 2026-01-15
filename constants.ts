@@ -118,7 +118,7 @@ export const IMAGES = {
 
 export const TEXTS: Record<Language, Translation> = {
   zh: {
-    title: "KidRise 顯微鏡探秘",
+    title: "Kidrise 顯微鏡探秘",
     subtitle: "開啟你的科學探索之旅！",
     nav: {
       home: "首頁",
@@ -522,7 +522,7 @@ export const TEXTS: Record<Language, Translation> = {
     },
   },
   en: {
-    title: "KidRise Microscope Adventure",
+    title: "Kidrise Microscope Adventure",
     subtitle: "Start Your Scientific Journey!",
     nav: {
       home: "Home",
