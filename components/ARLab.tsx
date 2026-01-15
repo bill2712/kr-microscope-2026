@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Translation } from '../types';
-import { Upload, Camera, Box, RotateXc } from 'lucide-react';
+import { Upload, Camera, Box } from 'lucide-react';
 import '@google/model-viewer';
 
 // Type definitions for model-viewer to avoid TS errors
@@ -27,7 +27,7 @@ interface ARLabProps {
 }
 
 export const ARLab: React.FC<ARLabProps> = ({ t }) => {
-  const [modelType, setModelType] = useState<'neil' | 'astro' | 'duck' | 'avocado' | 'cell' | 'detailedCell' | 'custom'>('neil');
+  const [modelType, setModelType] = useState<'neil' | 'astro' | 'duck' | 'avocado' | 'cell' | 'detailedCell' | 'bacteria' | 'virus' | 'yeast' | 'custom'>('neil');
   const [customSrc, setCustomSrc] = useState<string | null>(null);
 
   // Local trustworthy models
@@ -55,6 +55,18 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
     detailedCell: {
       src: "/kr-microscope-2026/models/detailed-cell.glb",
       iosSrc: "/kr-microscope-2026/models/detailed-cell.usdz"
+    },
+    bacteria: {
+      src: "/kr-microscope-2026/models/bacteria_model.glb",
+      iosSrc: "/kr-microscope-2026/models/bacteria_model.glb.usdz"
+    },
+    virus: {
+      src: "/kr-microscope-2026/models/covid_19_virus.glb",
+      iosSrc: "/kr-microscope-2026/models/covid_19_virus.usdz"
+    },
+    yeast: {
+      src: "/kr-microscope-2026/models/yeast_fungi.glb",
+      iosSrc: "/kr-microscope-2026/models/yeast_fungi.glb.usdz"
     }
   };
 
@@ -197,6 +209,42 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
            >
              <Box size={18} />
              Detailed
+           </button>
+
+           <button 
+             onClick={() => setModelType('bacteria')}
+             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+               modelType === 'bacteria' 
+               ? 'bg-lime-600 text-white shadow-lg shadow-lime-500/30' 
+               : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+             }`}
+           >
+             <Box size={18} />
+             Bacteria
+           </button>
+
+           <button 
+             onClick={() => setModelType('virus')}
+             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+               modelType === 'virus' 
+               ? 'bg-red-600 text-white shadow-lg shadow-red-500/30' 
+               : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+             }`}
+           >
+             <Box size={18} />
+             Virus
+           </button>
+
+           <button 
+             onClick={() => setModelType('yeast')}
+             className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+               modelType === 'yeast' 
+               ? 'bg-amber-600 text-white shadow-lg shadow-amber-500/30' 
+               : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+             }`}
+           >
+             <Box size={18} />
+             Yeast
            </button>
 
            <div className="w-px h-8 bg-white/10 mx-1"></div>
