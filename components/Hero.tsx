@@ -27,9 +27,9 @@ export const Hero: React.FC<HeroProps> = ({ t, onStart }) => {
         <div className="relative group perspective-1000">
           <div className="relative z-10 w-64 md:w-80 lg:w-96 animate-float transition-transform duration-500 ease-out group-hover:scale-105 group-hover:drop-shadow-[0_0_30px_rgba(6,182,212,0.6)]">
              <img 
-               src={IMAGES.parts.microscope} 
+               src="/kr-microscope-2026/images/transparent-mic.png" 
                alt="KidRise Microscope" 
-               className="w-full h-auto object-contain drop-shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+               className="w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(6,182,212,0.6)] animate-pulse-slow"
              />
              
              {/* Sparkles overlay */}
