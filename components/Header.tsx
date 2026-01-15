@@ -38,11 +38,9 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
           className="flex items-center gap-2 cursor-pointer group z-50 relative" 
           onClick={() => handleNavigate('home')}
         >
-          <div className="bg-gradient-to-br from-primary to-purple-600 p-1.5 md:p-2 rounded-lg group-hover:rotate-12 transition-transform shadow-lg shadow-primary/20">
-             <img src="/kr-microscope-2026/images/kidrise-logo_new.png" alt="Logo" className="w-5 h-5 md:w-6 md:h-6 object-contain filter brightness-0 invert" />
-          </div>
+          <img src={`${import.meta.env.BASE_URL}images/kidrise-logo_new.png`} alt="Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain group-hover:rotate-12 transition-transform" />
           <span className="font-bold text-lg md:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:to-white transition-colors">
-            Kidrise
+            Kidrise 顯微鏡探秘
           </span>
         </div>
 
