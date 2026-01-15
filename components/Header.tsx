@@ -1,6 +1,6 @@
 import React from 'react';
 import { Translation, ViewState, Language } from '../types';
-import { Microscope, Globe } from 'lucide-react';
+import { Microscope, Globe, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   t: Translation;
@@ -11,6 +11,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang, onToggleLang }) => {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   const navItems: { id: ViewState; label: string }[] = [
     { id: 'usage', label: t.nav.usage },
     { id: 'planner', label: t.nav.planner },
@@ -21,14 +23,19 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
     { id: 'journal', label: t.nav.journal },
   ];
 
+  const handleNavigate = (id: ViewState) => {
+    onNavigate(id);
+    setIsMenuOpen(false);
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full backdrop-blur-lg bg-slate-900/90 border-b border-white/10 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 md:h-16 flex items-center justify-between">
         
         {/* Logo */}
         <div 
-          className="flex items-center gap-2 cursor-pointer group" 
-          onClick={() => onNavigate('home')}
+          className="flex items-center gap-2 cursor-pointer group z-50 relative" 
+          onClick={() => handleNavigate('home')}
         >
           <div className="bg-gradient-to-br from-primary to-purple-600 p-1.5 md:p-2 rounded-lg group-hover:rotate-12 transition-transform shadow-lg shadow-primary/20">
              <Microscope size={20} className="text-white md:w-6 md:h-6" />
@@ -55,39 +62,52 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
           ))}
         </nav>
 
-        {/* Language Toggle */}
-        <button 
-          onClick={onToggleLang}
-          className="flex items-center gap-2 px-3 py-1.5 md:py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors active:scale-95"
-        >
-          <Globe size={16} className="text-secondary md:w-[18px] md:h-[18px]" />
-          <span className="font-bold text-xs md:text-sm">{lang === 'zh' ? 'EN' : '中'}</span>
-        </button>
-      </div>
+        {/* Right Actions */}
+        <div className="flex items-center gap-2 z-50 relative">
+            {/* Language Toggle */}
+            <button 
+            onClick={onToggleLang}
+            className="flex items-center gap-2 px-3 py-1.5 md:py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors active:scale-95"
+            >
+            <Globe size={16} className="text-secondary md:w-[18px] md:h-[18px]" />
+            <span className="font-bold text-xs md:text-sm">{lang === 'zh' ? 'EN' : '中'}</span>
+            </button>
 
-      {/* Mobile Nav (Horizontal Scroll) */}
-      <div className="md:hidden relative border-t border-white/5 bg-slate-900/50 backdrop-blur-md">
-        {/* Fog fade on right to indicate scroll */}
-        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-900 to-transparent pointer-events-none z-10"></div>
-        
-        <div className="overflow-x-auto pb-0 pt-0 px-2 no-scrollbar flex items-center h-12">
-           <div className="flex gap-2 pr-8"> 
-               {navItems.map((item) => (
-                   <button
-                   key={item.id}
-                   onClick={() => onNavigate(item.id)}
-                   className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all border ${
-                       currentView === item.id 
-                       ? 'bg-secondary/20 border-secondary text-secondary shadow-sm' 
-                       : 'bg-transparent border-transparent text-slate-400 active:text-white'
-                   }`}
-                   >
-                   {item.label}
-                   </button>
-               ))}
-           </div>
+            {/* Mobile Menu Button */}
+            <button 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="md:hidden p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 active:bg-white/10"
+            >
+                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
         </div>
       </div>
+
+      {/* Mobile Nav Overlay */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 top-[56px] z-40 bg-slate-900/95 backdrop-blur-xl border-t border-white/10 animate-in slide-in-from-top-4 fade-in duration-200 flex flex-col p-4 md:hidden">
+            <nav className="flex flex-col gap-2">
+                {navItems.map((item) => (
+                    <button
+                        key={item.id}
+                        onClick={() => handleNavigate(item.id)}
+                        className={`p-4 rounded-xl text-left font-bold text-lg transition-all flex items-center justify-between group ${
+                            currentView === item.id
+                            ? 'bg-secondary/20 text-secondary border border-secondary/50' 
+                            : 'bg-white/5 text-slate-300 border border-white/5 active:bg-white/10'
+                        }`}
+                    >
+                        <span>{item.label}</span>
+                        {currentView === item.id && <div className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_10px_#06b6d4]"></div>}
+                    </button>
+                ))}
+            </nav>
+            
+            <div className="mt-auto pt-6 pb-8 text-center text-slate-500 text-sm">
+                KidRise Microscope Explorer
+            </div>
+        </div>
+      )}
     </header>
   );
 };
