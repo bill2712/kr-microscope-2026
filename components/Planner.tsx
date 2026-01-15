@@ -111,46 +111,47 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
         {t.planner.title}
       </h2>
 
-      <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
+      <div className="flex flex-col-reverse lg:flex-row gap-6 md:gap-8">
         
-        {/* Left Col: Controls */}
+        {/* Left Col: Controls (Bottom on mobile, Left on desktop) */}
         <div className="flex-1 space-y-6">
             {/* Specimen Selection */}
-            <div className="glass-panel rounded-2xl p-5 md:p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-2 md:mb-4">
-                <div className="bg-secondary/20 p-2 rounded-lg"><Target className="text-secondary" size={20} /></div>
-                <h3 className="text-lg md:text-xl font-bold">{t.planner.selectSpecimen}</h3>
+            <div className="glass-panel rounded-2xl p-4 md:p-6 space-y-3 md:space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+                <div className="bg-secondary/20 p-1.5 md:p-2 rounded-lg"><Target className="text-secondary" size={18} /></div>
+                <h3 className="text-base md:text-xl font-bold">{t.planner.selectSpecimen}</h3>
             </div>
-            <div className="grid grid-cols-1 gap-2">
+            {/* Grid layout for specimens: 2 cols on mobile, 3 on tablet/desktop */}
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3">
                 {t.planner.specimens.map((s) => (
                 <button
                     key={s.id}
                     onClick={() => setSpecimenId(s.id)}
-                    className={`w-full p-3 md:p-4 rounded-xl text-left transition-all flex items-center justify-between group active:scale-[0.98] ${
+                    className={`w-full p-2 md:p-3 rounded-xl text-left transition-all flex flex-col md:flex-row items-start md:items-center justify-between group active:scale-[0.98] h-full ${
                     specimenId === s.id 
                     ? 'bg-gradient-to-r from-secondary to-cyan-600 text-white font-bold shadow-lg transform scale-[1.02]' 
                     : 'bg-white/5 hover:bg-white/10 text-slate-300'
                     }`}
                 >
-                    <span className="text-sm md:text-base">{s.name}</span>
-                    {specimenId === s.id && <CheckCircle size={18} />}
+                    <span className="text-xs md:text-sm leading-tight">{s.name}</span>
+                    {specimenId === s.id && <CheckCircle size={14} className="mt-1 md:mt-0 opacity-80" />}
                 </button>
                 ))}
             </div>
             </div>
 
             {/* Lens Selection */}
-            <div className="glass-panel rounded-2xl p-5 md:p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-2 md:mb-4">
-                <div className="bg-primary/20 p-2 rounded-lg"><ZoomIn className="text-primary" size={20} /></div>
-                <h3 className="text-lg md:text-xl font-bold">{t.planner.selectLens}</h3>
+            <div className="glass-panel rounded-2xl p-4 md:p-6 space-y-3 md:space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+                <div className="bg-primary/20 p-1.5 md:p-2 rounded-lg"><ZoomIn className="text-primary" size={18} /></div>
+                <h3 className="text-base md:text-xl font-bold">{t.planner.selectLens}</h3>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 md:gap-3">
                 {t.planner.lenses.map((l) => (
                 <button
                     key={l}
                     onClick={() => setLens(l)}
-                    className={`flex-1 min-w-[100px] md:min-w-[120px] p-3 rounded-xl text-center transition-all text-sm md:text-base active:scale-[0.98] ${
+                    className={`flex-1 min-w-[80px] md:min-w-[100px] p-2 md:p-3 rounded-xl text-center transition-all text-xs md:text-base active:scale-[0.98] ${
                     lens === l 
                     ? 'bg-gradient-to-r from-primary to-indigo-600 text-white font-bold shadow-lg transform scale-105' 
                     : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5'
@@ -163,13 +164,15 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
             </div>
         </div>
 
-        {/* Right Col: Preview */}
-        <div className="w-full lg:w-1/3">
-             <div className="glass-panel rounded-3xl p-6 h-full flex flex-col items-center justify-center relative min-h-[300px]">
-                 <h3 className="absolute top-6 left-6 text-sm font-bold text-slate-500 uppercase tracking-wider">{t.planner.previewLabel}</h3>
+        {/* Right Col: Preview (Top on mobile, Right on desktop) */}
+        <div className="w-full lg:w-96 shrink-0">
+             <div className="glass-panel rounded-3xl p-4 md:p-6 h-auto lg:h-full flex flex-row lg:flex-col items-center gap-4 lg:gap-6 relative sticky top-[80px] z-10 lg:static"> 
+                 {/* Mobile: Horizontal layout for preview card to save space? Actually let's keep it clean but smaller */}
+                 
+                 <div className="hidden lg:block absolute top-6 left-6 text-sm font-bold text-slate-500 uppercase tracking-wider">{t.planner.previewLabel}</div>
                  
                  <div className={`
-                    w-48 h-48 rounded-full border-4 overflow-hidden shadow-2xl transition-all duration-500
+                    w-48 h-48 md:w-64 md:h-64 lg:w-96 lg:h-96 rounded-full border-[3px] md:border-4 overflow-hidden shadow-2xl transition-all duration-500 shrink-0
                     ${(specimenId && lens) ? 'border-primary shadow-primary/30' : 'border-slate-700 opacity-50'}
                  `}>
                     {selectedSpecimen ? (
@@ -189,21 +192,30 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                         </div>
                     ) : (
                         <div className="w-full h-full bg-slate-900 flex items-center justify-center text-slate-600">
-                            <Target size={40} />
+                            <Target size={24} className="md:w-10 md:h-10" />
                         </div>
                     )}
                  </div>
 
-                 <div className="mt-8 w-full">
+                 <div className="flex-1 w-full flex flex-col gap-2">
+                    <h3 className="lg:hidden text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{t.planner.previewLabel}</h3>
+                    <div className="text-sm text-slate-300 mb-2 min-h-[1.5em]">
+                        {selectedSpecimen ? (
+                            <span>{selectedSpecimen.name} <span className="text-secondary">@ {lens || '?'}</span></span>
+                        ) : (
+                            <span className="text-slate-500 italic">Select a specimen...</span>
+                        )}
+                    </div>
+
                     <Button 
-                        size="lg" 
+                        size={window.innerWidth < 768 ? "sm" : "lg"}
                         variant="accent" 
                         fullWidth
                         disabled={!specimenId || !lens}
                         onClick={handleLaunch}
                         className={(!specimenId || !lens) ? 'opacity-50 grayscale' : 'animate-bounce shadow-[0_0_20px_rgba(244,63,94,0.4)]'}
                     >
-                        <Rocket className="mr-2" />
+                        <Rocket className="mr-2 w-4 h-4 md:w-5 md:h-5" />
                         {t.planner.start}
                     </Button>
                  </div>
