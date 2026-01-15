@@ -50,11 +50,11 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
     },
     cell: {
       src: "/kr-microscope-2026/models/cell-model.glb",
-      iosSrc: ""
+      iosSrc: "/kr-microscope-2026/models/cell-model.usdz"
     },
     detailedCell: {
       src: "/kr-microscope-2026/models/detailed-cell.glb",
-      iosSrc: ""
+      iosSrc: "/kr-microscope-2026/models/detailed-cell.usdz"
     }
   };
 
