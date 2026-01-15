@@ -34,7 +34,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
   const MODELS = {
     neil: {
       src: "/kr-microscope-2026/models/NeilArmstrong.glb",
-      iosSrc: "/kr-microscope-2026/models/Astronaut.usdz" // Fallback USDZ for Neil (similar enough) or none
+      iosSrc: "/kr-microscope-2026/models/NeilArmstrong.usdz"
     },
     astro: {
       src: "/kr-microscope-2026/models/Astronaut.glb",
