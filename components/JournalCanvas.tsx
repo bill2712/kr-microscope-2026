@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
+import { PageHeader } from './PageHeader';
 import { X, Pencil, Eraser, Download, Trash2, Save, Type, Stamp, Circle, RotateCcw, HelpCircle, Hexagon, Star, MousePointer, Image as ImageIcon } from 'lucide-react';
 
 interface JournalCanvasProps {
@@ -438,19 +439,11 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-0 md:p-4 animate-in fade-in duration-200">
-        <div className="relative w-full h-full md:h-auto md:max-h-[95vh] max-w-6xl bg-slate-900 md:rounded-3xl border-none md:border border-slate-700 shadow-2xl overflow-hidden flex flex-col md:flex-row">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
+        <PageHeader title={t.journal.title} subtitle={t.journal.drawHint} />
+        
+        <div className="relative w-full bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]">
             
-            {/* Mobile Header */}
-            <div className="md:hidden p-4 bg-slate-800 border-b border-slate-700 flex justify-between items-center shrink-0">
-                <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-400">
-                    {t.journal.title}
-                </h2>
-                <Button variant="ghost" size="sm" onClick={onClose}>
-                    <X size={24} />
-                </Button>
-            </div>
-
             {/* Canvas Area */}
             <div className="flex-1 relative bg-slate-950 flex items-center justify-center p-4 overflow-hidden touch-none">
                 <div className="relative shadow-2xl rounded-lg overflow-hidden ring-1 ring-slate-800 w-full max-w-[600px] aspect-square bg-white">
@@ -510,14 +503,7 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
 
             {/* Tools Panel (Right Side) */}
             <div className="w-full md:w-80 bg-slate-900 border-l border-slate-800 flex flex-col z-20 shadow-xl h-[40vh] md:h-auto shrink-0">
-                {/* Desktop Header */}
-                <div className="hidden md:block p-6 border-b border-slate-800">
-                     <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-400">
-                        {t.journal.title}
-                    </h2>
-                    <p className="text-slate-400 text-sm mt-2">{t.journal.drawHint}</p>
-                </div>
-
+                
                 <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
                     
                     {/* Tools Grid */}

@@ -3,6 +3,8 @@ import { Translation } from '../types';
 import { Button } from './Button';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
+import { PageHeader } from './PageHeader';
+
 interface UsageGuideProps {
   t: Translation;
 }
@@ -16,9 +18,7 @@ export const UsageGuide: React.FC<UsageGuideProps> = ({ t }) => {
 
   return (
     <div className="w-full max-w-5xl mx-auto p-4 space-y-8">
-      <h2 className="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-8 drop-shadow-sm">
-        {t.usage.title}
-      </h2>
+      <PageHeader title={t.usage.title} />
 
       <div className="flex flex-col md:flex-row gap-8 items-center">
         {/* Image Section */}

@@ -120,7 +120,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
       {/* UI Overlay - Top Left Info */}
       <div className="absolute top-4 left-4 md:top-6 md:left-6 z-10 pointer-events-none max-w-[200px] md:max-w-xs">
         <div className="bg-black/40 backdrop-blur-md border border-white/10 p-3 md:p-4 rounded-2xl pointer-events-auto">
-           <h2 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+           <h2 className="text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400">
              {t.ar.title}
            </h2>
            <p className="text-slate-300 text-xs md:text-sm mt-1">
