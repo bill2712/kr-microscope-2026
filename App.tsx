@@ -72,7 +72,7 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      <Footer />
+      <Footer t={t} lang={lang} />
     </div>
   );
 };

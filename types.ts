@@ -171,6 +171,11 @@ export interface QuizTranslation {
   certificate: string;
   certifiedBy: string;
   date: string;
+  rules: {
+    title: string;
+    text: string[];
+    startBtn: string;
+  };
 }
 
 export interface ARTranslation {
@@ -198,6 +203,10 @@ export interface Translation {
   planner: PlannerTranslation;
   learn: LearnTranslation;
   quiz: QuizTranslation;
+  footer: {
+    copyright: string;
+    techSupport: string;
+  };
   gallery: GalleryTranslation;
   ar: ARTranslation;
   journal: JournalTranslation;

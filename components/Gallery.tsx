@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Translation } from '../types';
 import { X, ZoomIn } from 'lucide-react';
+import { PageHeader } from './PageHeader';
 
 interface GalleryProps {
   t: Translation;
@@ -11,14 +12,7 @@ export const Gallery: React.FC<GalleryProps> = ({ t }) => {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-8">
-      <div className="text-center space-y-4 mb-10">
-        <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500">
-            {t.gallery.title}
-        </h2>
-        <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            {t.gallery.desc}
-        </p>
-      </div>
+      <PageHeader title={t.gallery.title} subtitle={t.gallery.desc} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {t.gallery.items.map((item, index) => (

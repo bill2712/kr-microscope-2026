@@ -146,7 +146,20 @@ export const TEXTS: Record<Language, Translation> = {
       download: "下載成績單",
       certificate: "顯微鏡大師證書",
       certifiedBy: "Kidrise頒發",
-      date: "日期"
+      date: "日期",
+      rules: {
+        title: "挑戰說明",
+        text: [
+          "在這個測驗中，你將回答 20 條關於顯微鏡和科學的問題。",
+          "如果你能獲得 60% 或以上的分數（答對 12 題），",
+          "你將獲得一張 Kidrise 頒發的「顯微鏡大師證書」！"
+        ],
+        startBtn: "開始挑戰"
+      }
+    },
+    footer: {
+      copyright: "© 2026 Kidrise STEM香港教育玩具",
+      techSupport: "由 Kidrise童樂高飛 提供技術支援"
     },
     home: {
       welcome: "歡迎來到微觀世界",
@@ -967,7 +980,20 @@ export const TEXTS: Record<Language, Translation> = {
       download: "Download Certificate",
       certificate: "Master Microscopist Certificate",
       certifiedBy: "Certified by Kidrise Science",
-      date: "Date"
+      date: "Date",
+      rules: {
+        title: "Challenge Rules",
+        text: [
+          "In this quiz, you will answer 20 questions about microscopes and science.",
+          "If you score 60% or higher (12+ correct),",
+          "you will earn a 'Master Microscopist Certificate' from Kidrise!"
+        ],
+        startBtn: "Start Challenge"
+      }
+    },
+    footer: {
+      copyright: "© 2026 Kidrise STEM Hong Kong Educational Toy",
+      techSupport: "Technical Support by Kidrise"
     },
     ar: {
       title: "AR Virtual Lab",

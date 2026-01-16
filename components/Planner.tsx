@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
 import { FocusSimulator } from './FocusSimulator';
+import { PageHeader } from './PageHeader';
 import { Rocket, Target, ZoomIn, CheckCircle, RotateCcw } from 'lucide-react';
 
 interface PlannerProps {

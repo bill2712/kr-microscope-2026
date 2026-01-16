@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Translation } from '../types';
 import { Lightbulb, Info, BookOpen, Microscope, ZoomIn, Layers, Wrench, ClipboardList, Settings, ChevronRight } from 'lucide-react';
+import { PageHeader } from './PageHeader';
 
 interface LearningCenterProps {
   t: Translation;
@@ -334,11 +335,7 @@ export const LearningCenter: React.FC<LearningCenterProps> = ({ t }) => {
 
   return (
     <div className="w-full max-w-7xl mx-auto p-4">
-      <div className="text-center mb-10">
-        <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400 inline-block">
-            {t.learn.title}
-        </h2>
-      </div>
+      <PageHeader title={t.learn.title} />
 
       <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar Navigation */}
