@@ -33,12 +33,12 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
   // Local trustworthy models
   const MODELS = {
     neil: {
-      src: "/kr-microscope-2026/models/NeilArmstrong.glb",
-      iosSrc: "/kr-microscope-2026/models/NeilArmstrong.usdz"
+      src: "/models/NeilArmstrong.glb",
+      iosSrc: "/models/NeilArmstrong.usdz"
     },
     astro: {
-      src: "/kr-microscope-2026/models/Astronaut.glb",
-      iosSrc: "/kr-microscope-2026/models/Astronaut.usdz"
+      src: "/models/Astronaut.glb",
+      iosSrc: "/models/Astronaut.usdz"
     },
     duck: {
       src: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb",
@@ -49,24 +49,24 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
       iosSrc: "" 
     },
     cell: {
-      src: "/kr-microscope-2026/models/cell-model.glb",
-      iosSrc: "/kr-microscope-2026/models/cell-model.usdz"
+      src: "/models/cell-model.glb",
+      iosSrc: "/models/cell-model.usdz"
     },
     detailedCell: {
-      src: "/kr-microscope-2026/models/detailed-cell.glb",
-      iosSrc: "/kr-microscope-2026/models/detailed-cell.usdz"
+      src: "/models/detailed-cell.glb",
+      iosSrc: "/models/detailed-cell.usdz"
     },
     bacteria: {
-      src: "/kr-microscope-2026/models/bacteria_model.glb",
-      iosSrc: "/kr-microscope-2026/models/bacteria_model.glb.usdz"
+      src: "/models/bacteria_model.glb",
+      iosSrc: "/models/bacteria_model.glb.usdz"
     },
     virus: {
-      src: "/kr-microscope-2026/models/covid_19_virus.glb",
-      iosSrc: "/kr-microscope-2026/models/covid_19_virus.usdz"
+      src: "/models/covid_19_virus.glb",
+      iosSrc: "/models/covid_19_virus.usdz"
     },
     yeast: {
-      src: "/kr-microscope-2026/models/yeast_fungi.glb",
-      iosSrc: "/kr-microscope-2026/models/yeast_fungi.glb.usdz"
+      src: "/models/yeast_fungi.glb",
+      iosSrc: "/models/yeast_fungi.glb.usdz"
     }
   };
 
