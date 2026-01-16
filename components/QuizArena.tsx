@@ -18,6 +18,9 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [score, setScore] = useState(0);
+
+
+
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [userName, setUserName] = useState("");
@@ -157,7 +160,7 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
         </div>
 
         {/* --- Hidden Certificate (Only visible in Print) --- */}
-        <div className="hidden print:flex print:visible fixed inset-0 z-[9999] bg-white text-black flex-col items-center justify-center p-0 m-0 w-[297mm] h-[210mm] overflow-hidden">
+        <div className="certificate-container hidden print:flex print:visible fixed inset-0 z-[9999] bg-white text-black flex-col items-center justify-center p-0 m-0 w-[297mm] h-[210mm] overflow-hidden">
              {/* Certificate Border */}
              <div className="w-[280mm] h-[190mm] border-[8px] border-double border-slate-800 relative p-12 flex flex-col items-center bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]">
                  
@@ -235,6 +238,36 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
   const currentQ = questions[currentQIndex];
 
   return (
+    <>
+      <style>
+        {`
+          @media print {
+            @page { margin: 0; size: landscape; }
+            body * {
+              visibility: hidden;
+            }
+            .certificate-container, .certificate-container * {
+              visibility: visible;
+            }
+            .certificate-container {
+              position: fixed;
+              left: 0;
+              top: 0;
+              width: 100vw;
+              height: 100vh;
+              z-index: 9999;
+              display: flex !important;
+              align-items: center;
+              justify-content: center;
+              background: white;
+            }
+            /* Explicitly hide header and footer */
+            header, footer, .site-header, .site-footer {
+              display: none !important;
+            }
+          }
+        `}
+      </style>
     <div className="w-full max-w-4xl mx-auto p-4 space-y-6 animate-in slide-in-from-right-8 duration-500">
       
       {/* Header */}
@@ -324,5 +357,6 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
       </div>
 
     </div>
+    </>
   );
 };
