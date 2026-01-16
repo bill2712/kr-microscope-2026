@@ -33,7 +33,7 @@ export const Hero: React.FC<HeroProps> = ({ t, onStart }) => {
              />
              
              {/* Sparkles overlay */}
-             <div className="absolute -top-4 -right-4 animate-pulse">
+             <div className="absolute top-10 -right-4 animate-pulse">
                 <Sparkles className="text-yellow-400 w-8 h-8 md:w-10 md:h-10 drop-shadow-lg" />
              </div>
              <div className="absolute top-1/3 -left-6 animate-pulse" style={{ animationDelay: '1.5s' }}>
