@@ -1,0 +1,15 @@
+{
+  "name": "Kidrise Microscope",
+  "short_name": "Kidrise Mic",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/images/transparent-mic.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
