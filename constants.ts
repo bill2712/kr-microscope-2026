@@ -145,7 +145,7 @@ export const TEXTS: Record<Language, Translation> = {
       enterName: "輸入你的名字：",
       download: "下載成績單",
       certificate: "顯微鏡大師證書",
-      certifiedBy: "Kidrise 科學部認證",
+      certifiedBy: "Kidrise頒發",
       date: "日期"
     },
     home: {
