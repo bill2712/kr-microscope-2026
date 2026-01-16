@@ -116,6 +116,7 @@ export const IMAGES = {
   }
 };
 
+// --- Text Content (Bilingual) ---
 export const TEXTS: Record<Language, Translation> = {
   zh: {
     title: "Kidrise 顯微鏡探秘",
@@ -129,6 +130,23 @@ export const TEXTS: Record<Language, Translation> = {
       gallery: "微觀畫廊",
       ar: "AR 實驗室",
       journal: "觀察日記"
+    },
+    quiz: {
+      title: "小小科學家挑戰賽",
+      start: "開始出題",
+      loading: "準備題目中...",
+      score: "目前積分",
+      next: "下一題",
+      retry: "再玩一次",
+      perfect: "太強了！你是未來的諾貝爾獎得主！",
+      good: "很棒喔！你對顯微鏡很了解！",
+      tryAgain: "加油！多看幾次教學再來挑戰！",
+      resultTitle: "成績單",
+      enterName: "輸入你的名字：",
+      download: "下載成績單",
+      certificate: "顯微鏡大師證書",
+      certifiedBy: "Kidrise 科學部認證",
+      date: "日期"
     },
     home: {
       welcome: "歡迎來到微觀世界",
@@ -246,6 +264,25 @@ export const TEXTS: Record<Language, Translation> = {
         clear: "清除",
         save: "保存日記",
         close: "關閉",
+        undo: "復原",
+      },
+      stamps: {
+        label: "貼紙工具",
+        items: {
+          nucleus: "細胞核",
+          cellWall: "細胞壁",
+          pointer: "箭頭",
+          question: "這是什麼？",
+          star: "重要發現",
+        }
+      },
+      viewToggle: "切換視野 (圓形/全屏)",
+      labReport: {
+        title: "Kidrise 科學實驗報告",
+        date: "觀察日期",
+        specimen: "觀察樣本",
+        magnification: "放大倍率",
+        scientist: "小小科學家",
       },
       saveSuccess: "日記已保存！",
     },
@@ -499,17 +536,6 @@ export const TEXTS: Record<Language, Translation> = {
         { title: "頭髮", desc: "表面這層鱗片，保護著你的頭髮。", image: IMAGES.gallery.hair },
       ]
     },
-    quiz: {
-      title: "小小科學家挑戰賽",
-      start: "開始出題",
-      loading: "AI 博士正在思考題目...",
-      score: "目前積分",
-      next: "下一題",
-      retry: "重新挑戰",
-      perfect: "太強了！你是未來的諾貝爾獎得主！",
-      good: "很棒喔！你對顯微鏡很了解！",
-      tryAgain: "加油！多看幾次教學再來挑戰！",
-    },
     ar: {
       title: "AR 虛擬實驗室",
       description: "將巨大的微生物或太空人帶入你的房間！",
@@ -520,6 +546,10 @@ export const TEXTS: Record<Language, Translation> = {
       },
       upload: "上傳模型 (.glb)"
     },
+    chat: {
+      placeholder: "Send a message...",
+      thinking: "Thinking...",
+    }
   },
   en: {
     title: "Kidrise Microscope Adventure",
@@ -650,6 +680,25 @@ export const TEXTS: Record<Language, Translation> = {
         clear: "Clear",
         save: "Save Journal",
         close: "Close",
+        undo: "Undo",
+      },
+      stamps: {
+        label: "Stamps",
+        items: {
+          nucleus: "Nucleus",
+          cellWall: "Cell Wall",
+          pointer: "Pointer",
+          question: "What is this?",
+          star: "Discovery",
+        }
+      },
+      viewToggle: "Toggle View (Circle/Full)",
+      labReport: {
+        title: "Kidrise Science Lab Report",
+        date: "Date",
+        specimen: "Specimen",
+        magnification: "Magnification",
+        scientist: "Scientist",
       },
       saveSuccess: "Journal Saved!",
     },
@@ -904,15 +953,21 @@ export const TEXTS: Record<Language, Translation> = {
       ]
     },
     quiz: {
-      title: "Young Scientist Quiz",
-      start: "New Challenge",
-      loading: "AI Professor is thinking...",
+      title: "Scientific Challenge",
+      start: "Start Quiz",
+      loading: "Preparing Questions...",
       score: "Score",
-      next: "Next",
+      next: "Next Question",
       retry: "Play Again",
-      perfect: "Amazing! Future Nobel Prize winner!",
-      good: "Great job! You know your stuff!",
-      tryAgain: "Keep learning and try again!",
+      perfect: "Amazing! Future Nobel Prize Winner!",
+      good: "Great job! You know your microscope!",
+      tryAgain: "Keep going! Review the guide and try again!",
+      resultTitle: "Scorecard",
+      enterName: "Enter Your Name:",
+      download: "Download Certificate",
+      certificate: "Master Microscopist Certificate",
+      certifiedBy: "Certified by Kidrise Science",
+      date: "Date"
     },
     ar: {
       title: "AR Virtual Lab",
@@ -924,5 +979,135 @@ export const TEXTS: Record<Language, Translation> = {
       },
       upload: "Upload Model (.glb)"
     },
+    chat: {
+        placeholder: "Send a message...",
+        thinking: "Thinking...",
+      }
   },
 };
+
+// --- Quiz Questions Data ---
+export const QUIZ_QUESTIONS = [
+  {
+    question: { zh: "顯微鏡的哪個部分是你眼睛看的地方？", en: "Which part of the microscope do you look through?" },
+    options: { zh: ["目鏡", "物鏡", "載物台", "反光鏡"], en: ["Eyepiece", "Objective Lens", "Stage", "Mirror"] },
+    correctAnswerIndex: 0,
+    explanation: { zh: "目鏡是位於顯微鏡頂端的鏡頭，你的眼睛通過它來觀察。", en: "The eyepiece is the lens at the top that you look through." }
+  },
+  {
+    question: { zh: "如果你想看更清楚，應該調節什麼？", en: "What should you adjust to make the image clearer?" },
+    options: { zh: ["反光鏡", "準焦螺旋", "底座", "鏡臂"], en: ["Mirror", "Focus Knob", "Base", "Arm"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "準焦螺旋用來調整焦距，讓影像從模糊變清晰。", en: "Focus knobs move the stage to bring the image into sharp focus." }
+  },
+  {
+    question: { zh: "我們把標本放在什麼上面？", en: "What do we place the specimen on?" },
+    options: { zh: ["載玻片", "蓋玻片", "培養皿", "試管"], en: ["Slide", "Cover slip", "Petri dish", "Test tube"] },
+    correctAnswerIndex: 0,
+    explanation: { zh: "標本通常放置在長方形的玻璃載玻片上。", en: "Specimens are placed on a glass slide to be viewed." }
+  },
+  {
+    question: { zh: "顯微鏡下的字母 'e' 會變成什麼樣子？", en: "What happens to the letter 'e' under a microscope?" },
+    options: { zh: ["變成 'a'", "上下顛倒，左右相反", "變小了", "沒有變化"], en: ["Becomes 'a'", "Upside down and reversed", "Smaller", "No change"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "顯微鏡的光學原理會讓影像上下顛倒、左右相反，看起來像 'ə'。", en: "The microscope lens inverts the image, making it appear upside down and backwards." }
+  },
+  {
+    question: { zh: "哪一種顯微鏡可以看到細胞內部的細節？", en: "Which microscope lets you see inside a cell?" },
+    options: { zh: ["放大鏡", "透射光顯微鏡", "望遠鏡", "潛望鏡"], en: ["Magnifying Glass", "Transmission Light Microscope", "Telescope", "Periscope"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "透射光顯微鏡讓光穿過薄薄的標本，所以能看到內部構造。", en: "Light passes through the thin specimen, revealing internal structures." }
+  },
+  {
+    question: { zh: "洋蔥表皮細胞看起來像什麼？", en: "What do onion skin cells look like?" },
+    options: { zh: ["圓形的小球", "整齊排列的磚塊", "長長的麵條", "不規則的碎屑"], en: ["Round balls", "Bricks in a wall", "Long noodles", "Random dust"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "植物細胞有細胞壁，所以會像磚牆一樣整齊排列。", en: "Plant cells have cell walls, making them look like organized bricks." }
+  },
+  {
+    question: { zh: "為什麼看標本時要先用『低倍鏡』？", en: "Why start with the 'Lowest Power' lens?" },
+    options: { zh: ["因為它最便宜", "比較容易找到目標", "看得最清楚", "不怕弄壞"], en: ["It's cheapest", "Easier to find the target", "Clearer image", "Won't break"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "低倍鏡視野比較廣，像是在地圖上先找到大城市，再慢慢放大看街道。", en: "Low power gives a wider view, making it easier to find your specimen first." }
+  },
+  {
+    question: { zh: "如果標本太厚，光線透不過去，會看到什麼？", en: "If the specimen is too thick, what will you see?" },
+    options: { zh: ["七彩的光芒", "漆黑一片", "非常清楚", "看到骨頭"], en: ["Rainbows", "Darkness", "Very clear", "Bones"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "透射顯微鏡需要光穿過標本，如果不透光，就只能看到黑影。", en: "Light needs to pass through! If it's too thick, it blocks the light." }
+  },
+  {
+    question: { zh: "『蓋玻片』的主要功能是什麼？", en: "What is the main job of a 'Cover Slip'?" },
+    options: { zh: ["壓平標本並保護鏡頭", "把標本染色", "放大影像", "讓標本變輕"], en: ["Flatten specimen & protect lens", "Color the specimen", "Magnify image", "Make it lighter"] },
+    correctAnswerIndex: 0,
+    explanation: { zh: "蓋玻片可以讓標本平整，也能防止物鏡碰到水或標本。", en: "It creates a flat surface for viewing and keeps the lens clean." }
+  },
+  {
+    question: { zh: "蜜蜂的腳上為什麼有很多毛？", en: "Why do honeybee legs have hairs?" },
+    options: { zh: ["保暖", "收集花粉", "好看", "嚇跑敵人"], en: ["Stay warm", "Collect pollen", "Look cool", "Scare enemies"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "那些毛像小籃子一樣，可以黏住並收集花粉帶回家。", en: "The hairs act like baskets to trap and carry pollen." }
+  },
+  {
+    question: { zh: "顯微鏡下的『鹽巴』是什麼形狀？", en: "What shape is salt under a microscope?" },
+    options: { zh: ["圓形", "正方形/立方體", "三角形", "星形"], en: ["Circle", "Square/Cube", "Triangle", "Star"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "食鹽的晶體結構是規則的立方體。", en: "Salt crystals form perfect little cubes." }
+  },
+  {
+    question: { zh: "蝴蝶翅膀上的顏色是怎麼來的？", en: "Where does butterfly wing color come from?" },
+    options: { zh: ["顏料", "無數的小鱗片", "血液", "陽光反射"], en: ["Paint", "Tiny scales", "Blood", "Sun reflection"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "蝴蝶翅膀覆蓋著成千上萬的小鱗片，它們反射光線產生顏色。", en: "Wings are covered in thousands of tiny scales that reflect light." }
+  },
+  {
+    question: { zh: "如果不小心把水滴到顯微鏡上，該怎麼辦？", en: "What if you spill water on the microscope?" },
+    options: { zh: ["假裝沒看到", "用火烤乾", "立即擦乾", "放到太陽下曬"], en: ["Ignore it", "Burn it dry", "Wipe immediately", "Sunbathe it"] },
+    correctAnswerIndex: 2,
+    explanation: { zh: "水會生鏽或讓鏡頭發霉，要馬上用乾布擦乾淨。", en: "Water causes rust or mold! Wipe it dry right away." }
+  },
+  {
+    question: { zh: "我們用什麼來調節光線的亮度？", en: "What do we use to adjust light brightness?" },
+    options: { zh: ["濾光片/光圈", "載物台", "目鏡", "底座"], en: ["Filter/Diaphragm", "Stage", "Eyepiece", "Base"] },
+    correctAnswerIndex: 0,
+    explanation: { zh: "載物台下的濾光片或光圈可以控制通光量。", en: "The filter disc or diaphragm under the stage controls light intensity." }
+  },
+  {
+    question: { zh: "植物葉片上的『氣孔』像什麼？", en: "What do plant 'Stomata' look like?" },
+    options: { zh: ["閉上的眼睛", "小嘴巴", "甜甜圈", "以上皆是"], en: ["Closed eyes", "Little mouths", "Donuts", "All of the above"] },
+    correctAnswerIndex: 3,
+    explanation: { zh: "氣孔是兩半月形細胞組成的，看起來像嘴巴或眼睛。", en: "They look like tiny mouths that open and close to breathe." }
+  },
+  {
+    question: { zh: "『染色』可以幫助我們看到什麼？", en: "What does 'Staining' help us see?" },
+    options: { zh: ["細胞核", "細菌", "澱粉顆粒", "以上皆是"], en: ["Nucleus", "Bacteria", "Starch", "All of the above"] },
+    correctAnswerIndex: 3,
+    explanation: { zh: "染色劑會附著在特定的構造上，讓透明的標本變得清楚。", en: "Dyes stick to specific parts, making transparent things visible." }
+  },
+  {
+    question: { zh: "世界上第一個看到細菌的人是誰？", en: "Who was the first person to see bacteria?" },
+    options: { zh: ["愛因斯坦", "雷文霍克", "達爾文", "牛頓"], en: ["Einstein", "Leeuwenhoek", "Darwin", "Newton"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "雷文霍克磨製了高品質的鏡片，第一次發現了微觀生物。", en: "Antonie van Leeuwenhoek made powerful lenses and discovered 'animalcules'!" }
+  },
+  {
+    question: { zh: "拿顯微鏡的正確姿勢是？", en: "What is the correct way to carry a microscope?" },
+    options: { zh: ["單手抓鏡筒", "雙手捧著底座", "一手握鏡臂，一手托底座", "拎著電線"], en: ["Grab the tube", "Hold the base", "One hand on Arm, one on Base", "Carry by cord"] },
+    correctAnswerIndex: 2,
+    explanation: { zh: "這樣最穩固，不會摔壞精密的儀器。", en: "This is the safest grip to prevent dropping it." }
+  },
+  {
+    question: { zh: "如果鏡頭髒了，要用什麼擦？", en: "What do you use to clean a dirty lens?" },
+    options: { zh: ["衛生紙", "衣角", "拭鏡紙", "手指"], en: ["Tissue", "Shirt", "Lens Paper", "Finger"] },
+    correctAnswerIndex: 2,
+    explanation: { zh: "一般的紙或布會刮傷鏡頭，只能用專用的拭鏡紙。", en: "Regular paper scratches glass! Always use special lens paper." }
+  },
+  {
+    question: { zh: "10倍目鏡 x 40倍物鏡 = 多少倍？", en: "10x Eyepiece * 40x Objective = ?" },
+    options: { zh: ["50倍", "400倍", "140倍", "4000倍"], en: ["50x", "400x", "140x", "4000x"] },
+    correctAnswerIndex: 1,
+    explanation: { zh: "放大倍率是相乘的：10 x 40 = 400。", en: "Magnification multiplies: 10 times 40 equals 400." }
+  }
+];
+
+
