@@ -195,10 +195,26 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
                      </div>
                      
                      <div className="flex flex-col items-center">
-                         {/* Simple Seal CSS */}
-                         <div className="w-24 h-24 rounded-full border-4 border-amber-600 text-amber-700 flex items-center justify-center font-bold text-xs uppercase text-center p-2 mb-2 rotate-12 shadow-inner bg-amber-50">
-                             Official<br/>Kidrise<br/>Seal
-                         </div>
+                          {/* Professional Seal */}
+                          <div className="relative w-32 h-32 rotate-12 drop-shadow-xl">
+                              <svg viewBox="0 0 200 200" className="w-full h-full">
+                                  {/* Outer Jagged Edge */}
+                                  <path d="M100 0 L108 8 L120 2 L125 12 L138 10 L140 22 L152 24 L150 36 L162 42 L158 52 L168 60 L160 70 L170 80 L160 90 L168 100 L160 110 L170 120 L160 130 L168 140 L158 148 L162 158 L150 164 L152 176 L140 178 L138 190 L125 188 L120 198 L108 192 L100 200 L92 192 L80 198 L75 188 L62 190 L60 178 L48 176 L50 164 L38 158 L42 148 L32 140 L40 130 L30 120 L40 110 L32 100 L40 90 L30 80 L40 70 L32 60 L42 52 L38 42 L50 36 L48 24 L60 22 L62 10 L75 12 L80 2 L92 8 Z" fill="#b45309" stroke="#78350f" strokeWidth="2" />
+                                  <circle cx="100" cy="100" r="75" fill="#d97706" stroke="#92400e" strokeWidth="2" />
+                                  <circle cx="100" cy="100" r="65" fill="none" stroke="#fcd34d" strokeWidth="1" strokeDasharray="4 4" />
+                                  
+                                  {/* Text Path */}
+                                  <path id="curve" d="M 50 100 A 50 50 0 1 1 150 100" fill="none" />
+                                  <text fontSize="18" fontFamily="serif" fontWeight="bold" fill="#78350f">
+                                      <textPath href="#curve" startOffset="50%" textAnchor="middle">KIDRISE SCIENCE</textPath>
+                                  </text>
+                                  
+                                  <text x="100" y="145" fontSize="14" fontFamily="serif" fontWeight="bold" fill="#78350f" textAnchor="middle">OFFICIAL</text>
+                                  
+                                  {/* Star Icon */}
+                                  <path d="M100 65 L108 85 L130 85 L112 100 L118 120 L100 108 L82 120 L88 100 L70 85 L92 85 Z" fill="#fcd34d" stroke="#b45309" strokeWidth="1" />
+                              </svg>
+                          </div>
                      </div>
 
                      <div className="text-center">

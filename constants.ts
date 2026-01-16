@@ -278,6 +278,7 @@ export const TEXTS: Record<Language, Translation> = {
         save: "保存日記",
         close: "關閉",
         undo: "復原",
+        colorSize: "顏色與大小",
       },
       stamps: {
         label: "貼紙工具",
@@ -694,6 +695,7 @@ export const TEXTS: Record<Language, Translation> = {
         save: "Save Journal",
         close: "Close",
         undo: "Undo",
+        colorSize: "Color & Size",
       },
       stamps: {
         label: "Stamps",

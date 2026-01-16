@@ -192,7 +192,7 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
     if (tool === 'text') {
         const text = prompt("Enter text / 輸入文字:");
         if (text) {
-            setHistory(prev => [...prev, { type: 'text', x: offsetX, y: offsetY, text, color }]);
+            setHistory(prev => [...prev, { type: 'text', x: offsetX, y: offsetY, content: text, color }]);
         }
         return;
     }
@@ -532,17 +532,17 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                          </div>
                     </div>
 
-                    {/* Conditional: Stamps or Colors */}
-                    {tool === 'stamp' ? (
+                    {/* Stamp Tools */}
+                    {tool === 'stamp' && (
                         <div className="space-y-3 animate-in slide-in-from-right-4">
                              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">{t.journal.stamps.label}</label>
                              <div className="grid grid-cols-5 gap-2">
                                  {[
-                                     { id: 'nucleus', icon: Circle, color: '#f87171' },
-                                     { id: 'cellWall', icon: Hexagon, color: '#4ade80' },
-                                     { id: 'pointer', icon: MousePointer, color: '#facc15' },
-                                     { id: 'question', icon: HelpCircle, color: '#60a5fa' },
-                                     { id: 'star', icon: Star, color: '#fbbf24' },
+                                     { id: 'nucleus', icon: Circle },
+                                     { id: 'cellWall', icon: Hexagon },
+                                     { id: 'pointer', icon: MousePointer },
+                                     { id: 'question', icon: HelpCircle },
+                                     { id: 'star', icon: Star },
                                  ].map(s => (
                                      <button
                                          key={s.id}
@@ -552,7 +552,7 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                                              ? 'bg-white/10 border-white ring-1 ring-white' 
                                              : 'bg-slate-800 border-slate-700'
                                          }`}
-                                         style={{ color: s.color }}
+                                         style={{ color: color }} // Show current color preview on icon
                                      >
                                          <s.icon size={24} />
                                      </button>
@@ -560,16 +560,19 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                              </div>
                              <p className="text-xs text-slate-500 text-center mt-2">Tap canvas to place stamp!</p>
                         </div>
-                    ) : (
+                    )}
+
+                    {/* Color & Size (Always show for Pen, Text, and Stamp, but hide for Eraser maybe? Or keep for consistency) */}
+                    {tool !== 'eraser' && (
                         <div className="space-y-3 animate-in slide-in-from-right-4">
-                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Color & Size</label>
+                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">{t.journal.tools.colorSize}</label>
                             <div className="flex flex-wrap gap-3">
                                 {['#ef4444', '#f97316', '#facc15', '#4ade80', '#22d3ee', '#818cf8', '#ffffff', '#000000'].map(c => (
                                     <button
                                         key={c}
-                                        onClick={() => { setColor(c); if(tool==='eraser') setTool('pen'); }}
+                                        onClick={() => { setColor(c); }}
                                         className={`w-8 h-8 rounded-full border-2 transition-transform ${
-                                            color === c && tool !== 'eraser' ? 'border-white scale-110 ring-2 ring-white/20' : 'border-transparent'
+                                            color === c ? 'border-white scale-110 ring-2 ring-white/20' : 'border-transparent'
                                         }`}
                                         style={{ backgroundColor: c }}
                                     />

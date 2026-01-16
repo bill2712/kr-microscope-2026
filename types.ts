@@ -59,6 +59,7 @@ export interface JournalTranslation {
     save: string;
     close: string;
     undo: string;
+    colorSize: string; // New key
   };
   stamps: {
     label: string;
