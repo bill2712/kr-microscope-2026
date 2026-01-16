@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
   };
 
   return (
-    <header className="sticky top-0 z-[100] w-full backdrop-blur-lg bg-slate-900/90 border-b border-white/10 shadow-sm">
+    <header className="sticky top-0 z-[100] w-full backdrop-blur-xl bg-slate-900/75 border-b border-white/5 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 md:h-16 flex items-center justify-between">
         
         {/* Logo */}
@@ -44,8 +44,7 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
           </span>
         </div>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-1 bg-white/5 p-1 rounded-full border border-white/10">
+        <nav className="hidden md:flex gap-1 bg-black/20 backdrop-blur-sm p-1 rounded-full border border-white/5">
           {navItems.map((item) => (
             <button
               key={item.id}
