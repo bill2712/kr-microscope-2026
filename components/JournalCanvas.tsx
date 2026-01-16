@@ -186,20 +186,34 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
       ctx.restore();
   };
 
+  // Text Input State
+  const [textInput, setTextInput] = useState<{ x: number, y: number, text: string } | null>(null);
+
   const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
+    // If text input is open, clicking elsewhere should confirm or close? 
+    // Let's close it if empty, or just let user click outside to cancel? 
+    // For now, let's allow multiple texts easily.
+    
+    // BUT if we are 'pen'ing, we don't want to trigger text input logic if we accidentally click.
+    // The Tool check handles this.
+
     const { offsetX, offsetY } = getCoordinates(e);
 
     if (tool === 'text') {
-        const text = prompt("Enter text / 輸入文字:");
-        if (text) {
-            setHistory(prev => [...prev, { type: 'text', x: offsetX, y: offsetY, content: text, color }]);
-        }
+        // Instead of prompt, show input at this location
+        setTextInput({ x: offsetX, y: offsetY, text: "" });
         return;
     }
     
     if (tool === 'stamp') {
         setHistory(prev => [...prev, { type: 'stamp', x: offsetX, y: offsetY, content: activeStamp, color }]);
         return;
+    }
+
+    if (textInput) {
+        // If we were inputting text and clicked to draw with pen, we should probably commit or cancel the text first?
+        // Let's rely on the input's own OK/Cancel buttons for now to keep it simple.
+        return; 
     }
 
     setIsDrawing(true);
@@ -216,6 +230,23 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
              ctx.moveTo(offsetX, offsetY);
         }
     }
+  };
+
+  const handleTextSubmit = () => {
+    if (textInput && textInput.text.trim()) {
+        setHistory(prev => [...prev, { 
+            type: 'text', 
+            x: textInput.x, 
+            y: textInput.y, 
+            content: textInput.text, 
+            color 
+        }]);
+    }
+    setTextInput(null);
+  };
+
+  const handleTextCancel = () => {
+    setTextInput(null);
   };
 
   const stopDrawing = () => {
@@ -468,6 +499,39 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                         onTouchEnd={stopDrawing}
                         onTouchMove={handlDrawMove}
                     />
+
+                    {/* Text Input Overlay */}
+                    {textInput && (
+                        <div 
+                            className="absolute z-50 bg-white p-2 rounded shadow-xl flex gap-2 items-center border border-slate-200"
+                            style={{ 
+                                left: `${(textInput.x / 600) * 100}%`, 
+                                top: `${(textInput.y / 600) * 100}%`,
+                                transform: 'translate(-50%, -100%)' // Position above the click
+                            }}
+                        >
+                            <input 
+                                autoFocus
+                                type="text" 
+                                value={textInput.text}
+                                onChange={(e) => setTextInput({...textInput, text: e.target.value})}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') handleTextSubmit();
+                                    if (e.key === 'Escape') handleTextCancel();
+                                }}
+                                className="border border-slate-300 rounded px-2 py-1 text-sm outline-none focus:border-indigo-500 w-40 text-black"
+                                placeholder="Enter text..."
+                            />
+                            <button onClick={handleTextSubmit} className="p-1 bg-green-500 text-white rounded hover:bg-green-600">
+                                <span className="sr-only">OK</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </button>
+                            <button onClick={handleTextCancel} className="p-1 bg-slate-200 text-slate-500 rounded hover:bg-slate-300">
+                                <span className="sr-only">Cancel</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    )}
                 </div>
                 
                 {/* View Controls (Overlay) */}
