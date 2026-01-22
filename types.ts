@@ -211,6 +211,13 @@ export interface Translation {
   gallery: GalleryTranslation;
   ar: ARTranslation;
   journal: JournalTranslation;
+  login: {
+    title: string;
+    desc: string;
+    placeholder: string;
+    submit: string;
+    error: string;
+  };
   chat: ChatTranslation;
 }
 

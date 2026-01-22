@@ -300,6 +300,13 @@ export const TEXTS: Record<Language, Translation> = {
       },
       saveSuccess: "日記已保存！",
     },
+    login: {
+      title: "產品啟用",
+      desc: "請輸入包裝盒或說明書上的產品啟用碼以開始使用。",
+      placeholder: "輸入啟用碼",
+      submit: "開始探索",
+      error: "啟用碼無效，請檢查包裝盒上的代碼。"
+    },
     learn: {
       title: "顯微鏡小百科",
       didYouKnow: "你知道嗎？",
@@ -716,6 +723,13 @@ export const TEXTS: Record<Language, Translation> = {
         scientist: "Scientist",
       },
       saveSuccess: "Journal Saved!",
+    },
+    login: {
+      title: "Product Activation",
+      desc: "Please enter the activation code found on the package or manual.",
+      placeholder: "Enter Code",
+      submit: "Start Exploring",
+      error: "Invalid code, please check the code on the box."
     },
     learn: {
       title: "Microscope Encyclopedia",

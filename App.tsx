@@ -12,11 +12,22 @@ import { Gallery } from './components/Gallery';
 import { ARLab } from './components/ARLab';
 import { JournalCanvas } from './components/JournalCanvas';
 
+import { LoginGate } from './components/LoginGate';
+
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>('zh'); // Default to Chinese
   const [view, setView] = useState<ViewState>('home');
+  // Check auth state from localStorage
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('kr_microscope_auth') === 'true';
+  });
 
   const t = TEXTS[lang];
+
+  if (!isAuthenticated) {
+    return <LoginGate t={t} onLogin={() => setIsAuthenticated(true)} />;
+  }
+
 
   const toggleLang = () => {
     setLang(prev => prev === 'zh' ? 'en' : 'zh');
