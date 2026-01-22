@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { Translation } from '../types';
-import { Microscope, Lock, ArrowRight, AlertCircle } from 'lucide-react';
+import { Translation, Language } from '../types';
+import { Microscope, Lock, ArrowRight, AlertCircle, Globe } from 'lucide-react';
 
 interface LoginGateProps {
   t: Translation;
+  lang: Language;
+  onToggleLang: () => void;
   onLogin: () => void;
 }
 
-export const LoginGate: React.FC<LoginGateProps> = ({ t, onLogin }) => {
+export const LoginGate: React.FC<LoginGateProps> = ({ t, lang, onToggleLang, onLogin }) => {
   const [code, setCode] = useState('');
   const [error, setError] = useState(false);
   const [isShake, setIsShake] = useState(false);
+
 
   // Hardcoded valid codes - can be updated or expanded
   const VALID_CODES = ['STEM2026', 'KIDRISE', 'MICRO', 'SCIENCE'];
@@ -38,7 +41,20 @@ export const LoginGate: React.FC<LoginGateProps> = ({ t, onLogin }) => {
       <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-accent/20 rounded-full blur-[120px] animate-pulse delay-700"></div>
 
       <div className="relative z-10 w-full max-w-md px-6">
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl relative">
+          
+          {/* Language Toggle */}
+          <button
+            onClick={onToggleLang}
+            className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10"
+            title="Switch Language"
+          >
+            <div className="flex items-center space-x-1 text-xs font-bold px-1">
+              <Globe size={14} />
+              <span>{lang === 'zh' ? 'EN' : '中'}</span>
+            </div>
+          </button>
+
           <div className="flex flex-col items-center text-center space-y-6">
             
             {/* Logo/Icon */}

@@ -25,7 +25,14 @@ const App: React.FC = () => {
   const t = TEXTS[lang];
 
   if (!isAuthenticated) {
-    return <LoginGate t={t} onLogin={() => setIsAuthenticated(true)} />;
+    return (
+      <LoginGate 
+        t={t} 
+        lang={lang} 
+        onToggleLang={toggleLang} 
+        onLogin={() => setIsAuthenticated(true)} 
+      />
+    );
   }
 
 
