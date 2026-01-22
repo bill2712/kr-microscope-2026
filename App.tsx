@@ -24,6 +24,10 @@ const App: React.FC = () => {
 
   const t = TEXTS[lang];
 
+  const toggleLang = () => {
+    setLang(prev => prev === 'zh' ? 'en' : 'zh');
+  };
+
   if (!isAuthenticated) {
     return (
       <LoginGate 
@@ -34,11 +38,6 @@ const App: React.FC = () => {
       />
     );
   }
-
-
-  const toggleLang = () => {
-    setLang(prev => prev === 'zh' ? 'en' : 'zh');
-  };
 
   const renderContent = () => {
     switch (view) {
