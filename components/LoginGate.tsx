@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Translation, Language } from '../types';
-import { Microscope, Lock, ArrowRight, AlertCircle, Globe } from 'lucide-react';
+import { ArrowRight, AlertCircle, Globe, Sparkles } from 'lucide-react';
 
 interface LoginGateProps {
   t: Translation;
@@ -13,7 +13,6 @@ export const LoginGate: React.FC<LoginGateProps> = ({ t, lang, onToggleLang, onL
   const [code, setCode] = useState('');
   const [error, setError] = useState(false);
   const [isShake, setIsShake] = useState(false);
-
 
   // Hardcoded valid codes - can be updated or expanded
   const VALID_CODES = ['STEM2026', 'KIDRISE', 'MICRO', 'SCIENCE'];
@@ -34,39 +33,61 @@ export const LoginGate: React.FC<LoginGateProps> = ({ t, lang, onToggleLang, onL
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
-      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-secondary/20 rounded-full blur-[120px] animate-pulse"></div>
-      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-accent/20 rounded-full blur-[120px] animate-pulse delay-700"></div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#0F172A] relative overflow-hidden px-4">
+      
+      {/* Background Decorative Elements (from Hero) */}
+      <div className="absolute top-10 left-10 w-24 h-24 bg-primary/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '0s' }} />
+      <div className="absolute bottom-20 right-10 w-32 h-32 bg-secondary/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-accent/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
+      
+      {/* Ambient Glow behind the microscope */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-secondary/20 rounded-full blur-3xl animate-pulse-slow pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-md px-6">
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl relative">
+      {/* Language Toggle */}
+      <button
+        onClick={onToggleLang}
+        className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10 z-50"
+        title="Switch Language"
+      >
+        <div className="flex items-center space-x-1 text-xs font-bold px-1">
+          <Globe size={14} />
+          <span>{lang === 'zh' ? 'EN' : '中'}</span>
+        </div>
+      </button>
+
+      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center space-y-8">
+        
+        {/* Main Hero Image */}
+        <div className="relative group perspective-1000">
+          <div className="relative z-10 w-56 md:w-72 animate-float transition-transform duration-500 ease-out">
+              <img 
+                src="/images/transparent-mic.png" 
+                alt="KidRise Microscope" 
+                className="w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(6,182,212,0.6)] animate-pulse-slow"
+              />
+              
+              {/* Sparkles overlay */}
+              <div className="absolute top-10 -right-4 animate-pulse">
+                <Sparkles className="text-yellow-400 w-8 h-8 drop-shadow-lg" />
+              </div>
+              <div className="absolute top-1/3 -left-6 animate-pulse" style={{ animationDelay: '1.5s' }}>
+                <Sparkles className="text-cyan-300 w-4 h-4 drop-shadow-lg" />
+              </div>
+          </div>
           
-          {/* Language Toggle */}
-          <button
-            onClick={onToggleLang}
-            className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/20 text-white/70 hover:text-white transition-all border border-white/10"
-            title="Switch Language"
-          >
-            <div className="flex items-center space-x-1 text-xs font-bold px-1">
-              <Globe size={14} />
-              <span>{lang === 'zh' ? 'EN' : '中'}</span>
-            </div>
-          </button>
+          {/* Reflection/Ground effect */}
+          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-32 h-8 bg-black/20 blur-xl rounded-[100%]"></div>
+        </div>
 
+        {/* Login Form Container */}
+        <div className="w-full max-w-md bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 shadow-2xl">
           <div className="flex flex-col items-center text-center space-y-6">
             
-            {/* Logo/Icon */}
-            <div className="w-20 h-20 bg-gradient-to-br from-secondary to-accent rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 group hover:rotate-6 transition-transform">
-              <Lock className="w-10 h-10 text-white" />
-            </div>
-
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold text-white tracking-tight">
+              <h1 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-white to-purple-300">
                 {t.login.title}
               </h1>
-              <p className="text-white/70 text-sm leading-relaxed">
+              <p className="text-slate-300 text-sm leading-relaxed">
                 {t.login.desc}
               </p>
             </div>
@@ -81,13 +102,13 @@ export const LoginGate: React.FC<LoginGateProps> = ({ t, lang, onToggleLang, onL
                     setError(false);
                   }}
                   placeholder={t.login.placeholder}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-4 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-all text-center tracking-widest text-lg uppercase font-mono"
+                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-4 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-all text-center tracking-widest text-lg uppercase font-mono"
                   autoFocus
                 />
               </div>
 
               {error && (
-                <div className="flex items-center justify-center space-x-2 text-red-400 text-sm bg-red-400/10 py-2 rounded-lg animate-fade-in">
+                <div className="flex items-center justify-center space-x-2 text-red-300 text-sm bg-red-500/10 py-2 rounded-lg animate-fade-in border border-red-500/20">
                   <AlertCircle size={14} />
                   <span>{t.login.error}</span>
                 </div>
@@ -102,11 +123,12 @@ export const LoginGate: React.FC<LoginGateProps> = ({ t, lang, onToggleLang, onL
               </button>
             </form>
 
-            <div className="text-white/30 text-xs">
+            <div className="text-white/20 text-xs">
               Powered by Kidrise Science
             </div>
           </div>
         </div>
+
       </div>
       
       <style>{`
