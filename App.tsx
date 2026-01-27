@@ -24,6 +24,10 @@ const App: React.FC = () => {
 
   const t = TEXTS[lang];
 
+  React.useEffect(() => {
+    document.title = t.title;
+  }, [t.title]);
+
   const toggleLang = () => {
     setLang(prev => prev === 'zh' ? 'en' : 'zh');
   };
