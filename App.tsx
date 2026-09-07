@@ -49,22 +49,32 @@ const App: React.FC = () => {
     }
   });
   const [achievements, setAchievements] = useState<AchievementId[]>(() => {
-    const valid: AchievementId[] = ['guide', 'observe', 'journal'];
+    const valid: AchievementId[] = ['onboarding', 'guide', 'planner', 'focus', 'journal', 'pdf', 'learn', 'quiz', 'gallery', 'ar'];
     try {
       const raw = localStorage.getItem('kr_microscope_achievements');
       if (raw) {
         const stored = JSON.parse(raw);
-        if (Array.isArray(stored)) return stored.filter((item): item is AchievementId => valid.includes(item));
+        if (Array.isArray(stored)) {
+          const isLegacyProgress = stored.every((item) => ['guide', 'observe', 'journal'].includes(item));
+          if (isLegacyProgress) {
+            const migratedLegacy: AchievementId[] = [];
+            if (localStorage.getItem('kr_microscope_onboarding_complete') === 'true') migratedLegacy.push('onboarding');
+            if (stored.includes('observe')) migratedLegacy.push('planner');
+            if (stored.includes('guide') && !migratedLegacy.includes('onboarding')) migratedLegacy.push('guide');
+            return migratedLegacy;
+          }
+          const migrated = stored.map((item) => item === 'observe' ? 'planner' : item);
+          return migrated.filter((item): item is AchievementId => valid.includes(item));
+        }
       }
     } catch {
       // Infer a small amount of progress for returning users below.
     }
     const inferred: AchievementId[] = [];
     try {
-      if (localStorage.getItem('kr_microscope_onboarding_complete') === 'true') inferred.push('guide');
+      if (localStorage.getItem('kr_microscope_onboarding_complete') === 'true') inferred.push('onboarding');
       const previous = localStorage.getItem('kr_microscope_last_view');
-      if (previous === 'planner') inferred.push('observe');
-      if (previous === 'journal') inferred.push('journal');
+      if (previous && valid.includes(previous as AchievementId)) inferred.push(previous as AchievementId);
     } catch {
       // Start with an empty in-memory progress list.
     }
@@ -104,9 +114,11 @@ const App: React.FC = () => {
 
   const navigate = (nextView: ViewState) => {
     setView(nextView);
-    if (nextView === 'usage') unlockAchievement('guide');
-    if (nextView === 'planner') unlockAchievement('observe');
-    if (nextView === 'journal') unlockAchievement('journal');
+    const pageAchievements: Partial<Record<ViewState, AchievementId>> = {
+      usage: 'guide', planner: 'planner', learn: 'learn', gallery: 'gallery', ar: 'ar',
+    };
+    const pageAchievement = pageAchievements[nextView];
+    if (pageAchievement) unlockAchievement(pageAchievement);
     if (nextView !== 'home') {
       setLastView(nextView);
       try {
@@ -128,7 +140,7 @@ const App: React.FC = () => {
 
   const completeFirstRunGuide = () => {
     setShowFirstRunGuide(false);
-    unlockAchievement('guide');
+    unlockAchievement('onboarding');
     try {
       localStorage.setItem('kr_microscope_onboarding_complete', 'true');
     } catch {
@@ -157,13 +169,13 @@ const App: React.FC = () => {
       case 'usage':
         return <UsageGuide t={t} />;
       case 'planner':
-        return <Planner t={t} />;
+        return <Planner t={t} onFocusAchieved={() => unlockAchievement('focus')} onJournalSaved={() => unlockAchievement('journal')} onPdfExported={() => unlockAchievement('pdf')} />;
       case 'learn':
         return <LearningCenter t={t} />;
       case 'gallery':
         return <Gallery t={t} />;
       case 'quiz':
-        return <QuizArena t={t} lang={lang} />;
+        return <QuizArena t={t} lang={lang} onComplete={() => unlockAchievement('quiz')} />;
       case 'ar':
         return <ARLab t={t} />;
       case 'journal':
@@ -174,6 +186,8 @@ const App: React.FC = () => {
             specimenName="Free Draw"
             t={t}
             onClose={() => navigate('home')}
+            onJournalSaved={() => unlockAchievement('journal')}
+            onPdfExported={() => unlockAchievement('pdf')}
           />
         );
       default:

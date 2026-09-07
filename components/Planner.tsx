@@ -7,9 +7,12 @@ import { Rocket, Target, ZoomIn, CheckCircle, RotateCcw } from 'lucide-react';
 
 interface PlannerProps {
   t: Translation;
+  onFocusAchieved?: () => void;
+  onJournalSaved?: () => void;
+  onPdfExported?: () => void;
 }
 
-export const Planner: React.FC<PlannerProps> = ({ t }) => {
+export const Planner: React.FC<PlannerProps> = ({ t, onFocusAchieved, onJournalSaved, onPdfExported }) => {
   const [specimenId, setSpecimenId] = useState<string | null>(null);
   const [lens, setLens] = useState<string | null>(null);
   const [status, setStatus] = useState<'planning' | 'scanning' | 'ready'>('planning');
@@ -50,6 +53,9 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                     onSuccess={handleFocusComplete} 
                     specimenName={selectedSpecimen.name}
                     t={t}
+                    onFocusAchieved={onFocusAchieved}
+                    onJournalSaved={onJournalSaved}
+                    onPdfExported={onPdfExported}
                 />
               ) : (
                 <div className="text-red-500">Error: No specimen selected</div>

@@ -10,6 +10,9 @@ interface FocusSimulatorProps {
   onSuccess: () => void;
   specimenName?: string; // Add specimen name prop
   t: Translation;
+  onFocusAchieved?: () => void;
+  onJournalSaved?: () => void;
+  onPdfExported?: () => void;
 }
 
 export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
@@ -18,6 +21,9 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
   onSuccess,
   specimenName = "Unknown Specimen",
   t,
+  onFocusAchieved,
+  onJournalSaved,
+  onPdfExported,
 }) => {
   // --- Difficulty Settings based on Lens ---
   // 100x: Easy. Coarse moves slow, wide tolerance.
@@ -81,9 +87,10 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
     if (isFocused && !showSuccess) {
       playSuccessSound();
       setShowSuccess(true);
+      onFocusAchieved?.();
       // setTimeout(onSuccess, 1500); // Wait for user to choose next action
     }
-  }, [isFocused, showSuccess, onSuccess]);
+  }, [isFocused, showSuccess, onFocusAchieved]);
 
   // Audio Helpers
   const playClickSound = useCallback((pitch: number = 1) => {
@@ -231,6 +238,8 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
                 specimenName={specimenName}
                 t={t}
                 onClose={() => setShowJournal(false)}
+                onJournalSaved={onJournalSaved}
+                onPdfExported={onPdfExported}
             />
         )}
       </div>

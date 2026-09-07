@@ -21,13 +21,16 @@ export const Hero: React.FC<HeroProps> = ({ t, lang, mode, lastView, achievement
     : t.home.tasks.resume.empty;
   const achievementCopy = lang === 'zh'
     ? {
-        title: '探索徽章', count: `${achievements.length}/3 已解鎖`, unlocked: '已解鎖', locked: '未解鎖',
-        items: { guide: '完成首次導覽', observe: '進入觀察實驗', journal: '開啟觀察日記' },
+        title: '小科學家任務', count: `${achievements.length}/10 已完成`, unlocked: '已完成', locked: '未完成', next: '下一個任務', complete: '全部任務完成！',
+        items: { onboarding: '完成首次導覽', guide: '閱讀使用指南', planner: '建立觀察任務', focus: '成功完成對焦', journal: '儲存觀察日記', pdf: '匯出 PDF 報告', learn: '探索學習中心', quiz: '完成知識測驗', gallery: '瀏覽標本圖鑑', ar: '開啟 AR 實驗室' },
       }
     : {
-        title: 'Explorer badges', count: `${achievements.length}/3 unlocked`, unlocked: 'Unlocked', locked: 'Locked',
-        items: { guide: 'Complete the first tour', observe: 'Enter an observation lab', journal: 'Open the observation journal' },
+        title: 'Junior scientist missions', count: `${achievements.length}/10 complete`, unlocked: 'Complete', locked: 'Not complete', next: 'Next mission', complete: 'All missions complete!',
+        items: { onboarding: 'Complete the first tour', guide: 'Read the usage guide', planner: 'Create an observation mission', focus: 'Focus successfully', journal: 'Save an observation journal', pdf: 'Export a PDF report', learn: 'Explore the learning centre', quiz: 'Complete the knowledge quiz', gallery: 'Browse the specimen gallery', ar: 'Open the AR lab' },
       };
+  const achievementIds = Object.keys(achievementCopy.items) as AchievementId[];
+  const nextAchievement = achievementIds.find((id) => !achievements.includes(id));
+  const progress = Math.round((achievements.length / achievementIds.length) * 100);
 
   const tasks = [
     {
@@ -126,8 +129,12 @@ export const Hero: React.FC<HeroProps> = ({ t, lang, mode, lastView, achievement
               <h2 id="microscope-achievements-title" className="flex items-center gap-2 text-sm font-black text-white"><Trophy className="text-amber-300" size={18} /> {achievementCopy.title}</h2>
               <span className="text-xs font-bold text-cyan-300">{achievementCopy.count}</span>
             </div>
-            <div className="mt-3 grid gap-2 sm:grid-cols-3">
-              {(Object.keys(achievementCopy.items) as AchievementId[]).map((id) => {
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
+              <div className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all" style={{ width: `${progress}%` }} />
+            </div>
+            <p className="mt-2 text-xs text-slate-300"><span className="font-bold text-amber-200">{nextAchievement ? `${achievementCopy.next}:` : ''}</span> {nextAchievement ? achievementCopy.items[nextAchievement] : achievementCopy.complete}</p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {achievementIds.map((id) => {
                 const unlocked = achievements.includes(id);
                 return (
                   <div key={id} className={`flex min-h-11 items-center gap-2 rounded-xl border px-3 py-2 text-xs font-bold ${unlocked ? 'border-emerald-400/25 bg-emerald-500/10 text-emerald-100' : 'border-white/5 bg-white/[0.03] text-slate-500'}`} title={unlocked ? achievementCopy.unlocked : achievementCopy.locked}>

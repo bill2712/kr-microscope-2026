@@ -9,11 +9,12 @@ import { Brain, Star, RefreshCw, Trophy, Download, Play, CheckCircle2 } from 'lu
 interface QuizArenaProps {
   t: Translation;
   lang: Language;
+  onComplete?: () => void;
 }
 
 type GameState = 'intro' | 'loading' | 'playing' | 'result';
 
-export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
+export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang, onComplete }) => {
   const [gameState, setGameState] = useState<GameState>('intro');
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQIndex, setCurrentQIndex] = useState(0);
@@ -82,6 +83,10 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
   const handleDownload = () => {
     window.print();
   };
+
+  useEffect(() => {
+    if (gameState === 'result') onComplete?.();
+  }, [gameState, onComplete]);
 
   // --- 1. Intro View ---
   if (gameState === 'intro') {
