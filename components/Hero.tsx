@@ -1,21 +1,33 @@
 import React from 'react';
-import { BookOpen, History, Microscope, PlayCircle, SlidersHorizontal, Sparkles } from 'lucide-react';
-import { ExperienceMode, Translation, ViewState } from '../types';
+import { BookOpen, CheckCircle2, History, LockKeyhole, Microscope, PlayCircle, SlidersHorizontal, Sparkles, Trophy } from 'lucide-react';
+import { AchievementId, ExperienceMode, Language, Translation, ViewState } from '../types';
+import { DeviceReadiness } from './DeviceReadiness';
 
 interface HeroProps {
   t: Translation;
+  lang: Language;
   mode: ExperienceMode;
   lastView: ViewState | null;
+  achievements: AchievementId[];
   onNavigate: (view: ViewState) => void;
   onModeChange: (mode: ExperienceMode) => void;
   onReplayGuide: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ t, mode, lastView, onNavigate, onModeChange, onReplayGuide }) => {
+export const Hero: React.FC<HeroProps> = ({ t, lang, mode, lastView, achievements, onNavigate, onModeChange, onReplayGuide }) => {
   const lastLabel = lastView ? t.nav[lastView as keyof Translation['nav']] : null;
   const resumeDescription = lastLabel
     ? t.home.tasks.resume.desc.replace('{page}', lastLabel)
     : t.home.tasks.resume.empty;
+  const achievementCopy = lang === 'zh'
+    ? {
+        title: '探索徽章', count: `${achievements.length}/3 已解鎖`, unlocked: '已解鎖', locked: '未解鎖',
+        items: { guide: '完成首次導覽', observe: '進入觀察實驗', journal: '開啟觀察日記' },
+      }
+    : {
+        title: 'Explorer badges', count: `${achievements.length}/3 unlocked`, unlocked: 'Unlocked', locked: 'Locked',
+        items: { guide: 'Complete the first tour', observe: 'Enter an observation lab', journal: 'Open the observation journal' },
+      };
 
   const tasks = [
     {
@@ -109,6 +121,24 @@ export const Hero: React.FC<HeroProps> = ({ t, mode, lastView, onNavigate, onMod
           <button type="button" onClick={onReplayGuide} className="mx-auto mt-5 flex min-h-11 items-center gap-2 rounded-xl px-4 text-sm font-bold text-slate-300 hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
             <SlidersHorizontal size={17} /> {t.home.replayGuide}
           </button>
+          <section className="mt-3 rounded-2xl border border-white/10 bg-slate-900/55 p-4 text-left" aria-labelledby="microscope-achievements-title">
+            <div className="flex items-center justify-between gap-3">
+              <h2 id="microscope-achievements-title" className="flex items-center gap-2 text-sm font-black text-white"><Trophy className="text-amber-300" size={18} /> {achievementCopy.title}</h2>
+              <span className="text-xs font-bold text-cyan-300">{achievementCopy.count}</span>
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+              {(Object.keys(achievementCopy.items) as AchievementId[]).map((id) => {
+                const unlocked = achievements.includes(id);
+                return (
+                  <div key={id} className={`flex min-h-11 items-center gap-2 rounded-xl border px-3 py-2 text-xs font-bold ${unlocked ? 'border-emerald-400/25 bg-emerald-500/10 text-emerald-100' : 'border-white/5 bg-white/[0.03] text-slate-500'}`} title={unlocked ? achievementCopy.unlocked : achievementCopy.locked}>
+                    {unlocked ? <CheckCircle2 size={16} /> : <LockKeyhole size={16} />}
+                    <span>{achievementCopy.items[id]}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+          <DeviceReadiness lang={lang} />
         </div>
       </div>
     </section>

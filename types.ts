@@ -1,5 +1,6 @@
 export type Language = 'zh' | 'en';
 export type ExperienceMode = 'beginner' | 'advanced';
+export type AchievementId = 'guide' | 'observe' | 'journal';
 
 export type ViewState = 'home' | 'usage' | 'planner' | 'learn' | 'quiz' | 'gallery' | 'ar' | 'journal';
 

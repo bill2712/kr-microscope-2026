@@ -1,11 +1,12 @@
 import React, { lazy, Suspense, useState } from 'react';
-import { ViewState, Language, ExperienceMode } from './types';
+import { ViewState, Language, ExperienceMode, AchievementId } from './types';
 import { TEXTS, IMAGES } from './constants';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Hero } from './components/Hero';
 import { LoginGate } from './components/LoginGate';
 import { FirstRunGuide } from './components/FirstRunGuide';
+import { InstallAppPrompt } from './components/InstallAppPrompt';
 
 const UsageGuide = lazy(() => import('./components/UsageGuide').then((module) => ({ default: module.UsageGuide })));
 const Planner = lazy(() => import('./components/Planner').then((module) => ({ default: module.Planner })));
@@ -47,6 +48,28 @@ const App: React.FC = () => {
       return true;
     }
   });
+  const [achievements, setAchievements] = useState<AchievementId[]>(() => {
+    const valid: AchievementId[] = ['guide', 'observe', 'journal'];
+    try {
+      const raw = localStorage.getItem('kr_microscope_achievements');
+      if (raw) {
+        const stored = JSON.parse(raw);
+        if (Array.isArray(stored)) return stored.filter((item): item is AchievementId => valid.includes(item));
+      }
+    } catch {
+      // Infer a small amount of progress for returning users below.
+    }
+    const inferred: AchievementId[] = [];
+    try {
+      if (localStorage.getItem('kr_microscope_onboarding_complete') === 'true') inferred.push('guide');
+      const previous = localStorage.getItem('kr_microscope_last_view');
+      if (previous === 'planner') inferred.push('observe');
+      if (previous === 'journal') inferred.push('journal');
+    } catch {
+      // Start with an empty in-memory progress list.
+    }
+    return inferred;
+  });
   // Check auth state from localStorage
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     try {
@@ -58,6 +81,19 @@ const App: React.FC = () => {
 
   const t = TEXTS[lang];
 
+  const unlockAchievement = (achievement: AchievementId) => {
+    setAchievements((current) => {
+      if (current.includes(achievement)) return current;
+      const next = [...current, achievement];
+      try {
+        localStorage.setItem('kr_microscope_achievements', JSON.stringify(next));
+      } catch {
+        // The achievement still lasts for this visit.
+      }
+      return next;
+    });
+  };
+
   React.useEffect(() => {
     document.title = t.title;
   }, [t.title]);
@@ -68,6 +104,9 @@ const App: React.FC = () => {
 
   const navigate = (nextView: ViewState) => {
     setView(nextView);
+    if (nextView === 'usage') unlockAchievement('guide');
+    if (nextView === 'planner') unlockAchievement('observe');
+    if (nextView === 'journal') unlockAchievement('journal');
     if (nextView !== 'home') {
       setLastView(nextView);
       try {
@@ -89,6 +128,7 @@ const App: React.FC = () => {
 
   const completeFirstRunGuide = () => {
     setShowFirstRunGuide(false);
+    unlockAchievement('guide');
     try {
       localStorage.setItem('kr_microscope_onboarding_complete', 'true');
     } catch {
@@ -98,19 +138,22 @@ const App: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <LoginGate 
-        t={t} 
-        lang={lang} 
-        onToggleLang={toggleLang} 
-        onLogin={() => setIsAuthenticated(true)} 
-      />
+      <>
+        <LoginGate
+          t={t}
+          lang={lang}
+          onToggleLang={toggleLang}
+          onLogin={() => setIsAuthenticated(true)}
+        />
+        <InstallAppPrompt lang={lang} visible={false} />
+      </>
     );
   }
 
   const renderContent = () => {
     switch (view) {
       case 'home':
-        return <Hero t={t} mode={mode} lastView={lastView} onNavigate={navigate} onModeChange={changeMode} onReplayGuide={() => setShowFirstRunGuide(true)} />;
+        return <Hero t={t} lang={lang} mode={mode} lastView={lastView} achievements={achievements} onNavigate={navigate} onModeChange={changeMode} onReplayGuide={() => setShowFirstRunGuide(true)} />;
       case 'usage':
         return <UsageGuide t={t} />;
       case 'planner':
@@ -134,11 +177,12 @@ const App: React.FC = () => {
           />
         );
       default:
-        return <Hero t={t} mode={mode} lastView={lastView} onNavigate={navigate} onModeChange={changeMode} onReplayGuide={() => setShowFirstRunGuide(true)} />;
+        return <Hero t={t} lang={lang} mode={mode} lastView={lastView} achievements={achievements} onNavigate={navigate} onModeChange={changeMode} onReplayGuide={() => setShowFirstRunGuide(true)} />;
     }
   };
 
   return (
+    <>
     <div className="min-h-screen flex flex-col font-sans selection:bg-secondary/30 selection:text-secondary">
       <Header 
         t={t} 
@@ -164,6 +208,8 @@ const App: React.FC = () => {
       <Footer t={t} lang={lang} />
       {showFirstRunGuide && <FirstRunGuide t={t} onComplete={completeFirstRunGuide} />}
     </div>
+    <InstallAppPrompt lang={lang} />
+    </>
   );
 };
 

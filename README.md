@@ -2,6 +2,8 @@
 
 Interactive bilingual learning site for the Kidrise microscope kit. It includes setup guidance, specimen planning, focus practice, a learning centre, quizzes, an observation journal, a gallery, and optional 3D/AR models.
 
+The task-first home screen includes beginner/advanced navigation, local achievement badges, a device-readiness check, and an installable PWA. The application shell is available offline after the first successful visit; specimen images are cached as they are viewed. Preferences and progress remain in the browser and are not sent to a server.
+
 ## Local development
 
 Requirements: Node.js 22 and npm.
@@ -33,4 +35,4 @@ The site is configured for `https://microscope.stemtoy.com.hk`. The `public/CNAM
 npm run deploy
 ```
 
-After deployment, verify the custom domain directly, sign in with a valid product code, open every main section, and check the browser console and network panel for errors or missing assets.
+After deployment, verify the custom domain directly, sign in with a valid product code, open every main section, install the PWA, reload once while offline, and check the browser console and network panel for errors or missing assets.

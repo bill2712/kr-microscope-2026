@@ -11,6 +11,12 @@ const collectStrings = (value: unknown): string[] => {
 };
 
 describe('microscope content integrity', () => {
+  it('includes installable app icons', () => {
+    for (const asset of ['images/pwa-192.png', 'images/pwa-512.png', 'images/apple-touch-icon.png']) {
+      expect(existsSync(join(process.cwd(), 'public', asset))).toBe(true);
+    }
+  });
+
   it('points every local image reference to an existing public asset', () => {
     const missing = collectStrings(IMAGES)
       .filter((value) => value.startsWith('/'))
