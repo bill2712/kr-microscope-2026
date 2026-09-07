@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { Translation, ViewState, Language } from '../types';
-import { Microscope, Globe, Menu, X } from 'lucide-react';
+import { Translation, ViewState, Language, ExperienceMode } from '../types';
+import { Globe, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   t: Translation;
@@ -9,9 +9,11 @@ interface HeaderProps {
   onNavigate: (view: ViewState) => void;
   lang: Language;
   onToggleLang: () => void;
+  mode: ExperienceMode;
+  onToggleMode: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang, onToggleLang }) => {
+export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang, onToggleLang, mode, onToggleMode }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const navItems: { id: ViewState; label: string }[] = [
@@ -23,6 +25,9 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
     { id: 'ar', label: t.nav.ar },
     { id: 'journal', label: t.nav.journal },
   ];
+  const visibleNavItems = mode === 'beginner'
+    ? navItems.filter((item) => ['usage', 'planner', 'gallery', 'journal'].includes(item.id))
+    : navItems;
 
   const handleNavigate = (id: ViewState) => {
     onNavigate(id);
@@ -34,18 +39,20 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 md:h-16 flex items-center justify-between">
         
         {/* Logo */}
-        <div 
-          className="flex items-center gap-2 cursor-pointer group z-50 relative" 
+        <button
+          type="button"
+          aria-label={t.title}
+          className="flex items-center gap-2 cursor-pointer group z-50 relative text-left"
           onClick={() => handleNavigate('home')}
         >
           <img src={`${import.meta.env.BASE_URL}images/kidrise-logo_new.png`} alt="Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain group-hover:rotate-12 transition-transform" />
           <span className="font-bold text-lg md:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:to-white transition-colors">
             {t.title}
           </span>
-        </div>
+        </button>
 
         <nav className="hidden md:flex gap-1 bg-black/20 backdrop-blur-sm p-1 rounded-full border border-white/5">
-          {navItems.map((item) => (
+          {visibleNavItems.map((item) => (
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
@@ -62,8 +69,18 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 z-50 relative">
+            <button
+              type="button"
+              onClick={onToggleMode}
+              className="hidden min-h-10 items-center rounded-xl border border-white/10 bg-white/5 px-3 text-xs font-bold text-slate-200 hover:bg-white/10 lg:inline-flex"
+              aria-label={mode === 'beginner' ? t.home.advanced : t.home.beginner}
+            >
+              {mode === 'beginner' ? t.home.beginner : t.home.advanced}
+            </button>
             {/* Language Toggle */}
             <button 
+            type="button"
+            aria-label={lang === 'zh' ? 'Switch to English' : '切換至繁體中文'}
             onClick={onToggleLang}
             className="flex items-center gap-2 px-3 py-1.5 md:py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors active:scale-95"
             >
@@ -73,6 +90,9 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
 
             {/* Mobile Menu Button */}
             <button 
+                type="button"
+                aria-label={isMenuOpen ? (lang === 'zh' ? '關閉選單' : 'Close menu') : (lang === 'zh' ? '開啟選單' : 'Open menu')}
+                aria-expanded={isMenuOpen}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="md:hidden p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 active:bg-white/10"
             >
@@ -85,7 +105,7 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
       {isMenuOpen && createPortal(
         <div className="fixed inset-0 top-[56px] z-[9999] bg-black opacity-100 border-t border-white/10 flex flex-col p-4 md:hidden" style={{ backgroundColor: '#020617' }}>
             <nav className="flex flex-col gap-2">
-                {navItems.map((item) => (
+                {visibleNavItems.map((item) => (
                     <button
                         key={item.id}
                         onClick={() => handleNavigate(item.id)}
@@ -100,6 +120,9 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
                     </button>
                 ))}
             </nav>
+            <button type="button" onClick={onToggleMode} className="mt-3 min-h-12 rounded-xl border border-cyan-400/30 bg-cyan-500/10 px-4 text-left font-bold text-cyan-200">
+              {mode === 'beginner' ? `${t.home.beginner} → ${t.home.advanced}` : `${t.home.advanced} → ${t.home.beginner}`}
+            </button>
             
             <div className="mt-auto pt-6 pb-8 text-center text-slate-500 text-sm">
                 KidRise Microscope Explorer

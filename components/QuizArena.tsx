@@ -9,11 +9,12 @@ import { Brain, Star, RefreshCw, Trophy, Download, Play, CheckCircle2 } from 'lu
 interface QuizArenaProps {
   t: Translation;
   lang: Language;
+  onComplete?: () => void;
 }
 
 type GameState = 'intro' | 'loading' | 'playing' | 'result';
 
-export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
+export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang, onComplete }) => {
   const [gameState, setGameState] = useState<GameState>('intro');
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQIndex, setCurrentQIndex] = useState(0);
@@ -24,10 +25,10 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [userName, setUserName] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const certificateRef = useRef<HTMLDivElement>(null);
+  const loadingTimerRef = useRef<number | null>(null);
 
-  const startQuiz = async () => {
+  const startQuiz = () => {
+    if (loadingTimerRef.current !== null) window.clearTimeout(loadingTimerRef.current);
     setGameState('loading');
     setCurrentQIndex(0);
     setScore(0);
@@ -36,18 +37,28 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
     setUserName("");
     
     // Simulate loading for effect
-    setTimeout(() => {
-        // Shuffle and pick 10 or 20? User said "Expand to 20", so let's use all 20 but shuffled.
-        const shuffled = [...QUIZ_QUESTIONS].sort(() => 0.5 - Math.random());
+    loadingTimerRef.current = window.setTimeout(() => {
+        const shuffled = [...QUIZ_QUESTIONS];
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+          const swapIndex = Math.floor(Math.random() * (index + 1));
+          [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+        }
         setQuestions(shuffled);
         setGameState('playing');
+        loadingTimerRef.current = null;
     }, 800);
   };
 
   useEffect(() => {
     // Reset to intro if lang changes
+    if (loadingTimerRef.current !== null) {
+      window.clearTimeout(loadingTimerRef.current);
+      loadingTimerRef.current = null;
+    }
     setGameState('intro');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => {
+      if (loadingTimerRef.current !== null) window.clearTimeout(loadingTimerRef.current);
+    };
   }, [lang]);
 
   const handleOptionClick = (index: number) => {
@@ -72,6 +83,10 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
   const handleDownload = () => {
     window.print();
   };
+
+  useEffect(() => {
+    if (gameState === 'result') onComplete?.();
+  }, [gameState, onComplete]);
 
   // --- 1. Intro View ---
   if (gameState === 'intro') {
@@ -162,7 +177,7 @@ export const QuizArena: React.FC<QuizArenaProps> = ({ t, lang }) => {
         {/* --- Hidden Certificate (Only visible in Print) --- */}
         <div className="certificate-container hidden print:flex print:visible fixed inset-0 z-[9999] bg-white text-black flex-col items-center justify-center p-0 m-0 w-[297mm] h-[210mm] overflow-hidden">
              {/* Certificate Border */}
-             <div className="w-[280mm] h-[190mm] border-[8px] border-double border-slate-800 relative p-12 flex flex-col items-center bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]">
+             <div className="w-[280mm] h-[190mm] border-[8px] border-double border-slate-800 relative p-12 flex flex-col items-center certificate-paper">
                  
                  {/* Corner Ornaments */}
                  <div className="absolute top-4 left-4 w-16 h-16 border-t-4 border-l-4 border-amber-600"></div>

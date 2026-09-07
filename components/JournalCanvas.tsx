@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
 import { PageHeader } from './PageHeader';
-import { X, Pencil, Eraser, Download, Trash2, Save, Type, Stamp, Circle, RotateCcw, HelpCircle, Hexagon, Star, MousePointer, Image as ImageIcon } from 'lucide-react';
+import { Pencil, Eraser, Download, Trash2, Save, Type, Stamp, Circle, RotateCcw, HelpCircle, Hexagon, Star, MousePointer, Image as ImageIcon } from 'lucide-react';
+import { exportCanvasAsPdf } from '../utils/exportPdf';
 
 interface JournalCanvasProps {
   image: string;
@@ -10,6 +11,8 @@ interface JournalCanvasProps {
   specimenName: string;
   t: Translation;
   onClose: () => void;
+  onJournalSaved?: () => void;
+  onPdfExported?: () => void;
 }
 
 type Tool = 'pen' | 'eraser' | 'text' | 'stamp';
@@ -32,8 +35,11 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
   lens,
   specimenName,
   t,
-  onClose
+  onClose,
+  onJournalSaved,
+  onPdfExported,
 }) => {
+  const isChinese = /[\u3400-\u9fff]/.test(t.journal.labReport.title);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [tool, setTool] = useState<Tool>('pen');
@@ -48,6 +54,9 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const [isMicroscopeView, setIsMicroscopeView] = useState(true); // Default to circular view
   const [showBgImage, setShowBgImage] = useState(true);
+  const [scientistName, setScientistName] = useState('');
+  const [observationNotes, setObservationNotes] = useState('');
+  const [isExporting, setIsExporting] = useState(false);
 
   // Initialize Canvas
   useEffect(() => {
@@ -328,19 +337,23 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
   };
 
   // --- Professional Lab Report Export ---
-  const handleSave = () => {
+  const handleSave = async () => {
       const canvas = canvasRef.current;
       if (!canvas) return;
+      setIsExporting(true);
       
       reDraw(); // Ensure current state is clean (no overlay for a moment?) 
       // Actually, we want to save WITHOUT the overlay "blackout", but WITH the circle border?
       // Let's create a dedicated Export Canvas.
 
       const expCanvas = document.createElement('canvas');
-      expCanvas.width = 800; // High res report
-      expCanvas.height = 1100; // A4ish ratio
+      expCanvas.width = 1240;
+      expCanvas.height = 1754;
       const eCtx = expCanvas.getContext('2d');
-      if (!eCtx) return;
+      if (!eCtx) {
+        setIsExporting(false);
+        return;
+      }
 
       // 1. Draw Lab Report Background (White paper + Grid)
       eCtx.fillStyle = "white";
@@ -356,52 +369,51 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
 
       // 2. Header
       eCtx.fillStyle = "#1e293b"; // Slate 800
-      eCtx.fillRect(0, 0, expCanvas.width, 100);
+      eCtx.fillRect(0, 0, expCanvas.width, 150);
       
       eCtx.fillStyle = "white";
-      eCtx.font = "bold 40px 'Fredoka', sans-serif";
+      eCtx.font = "bold 54px 'Noto Sans TC', 'Fredoka', sans-serif";
       eCtx.textBaseline = "middle";
-      eCtx.fillText(t.journal.labReport.title, 40, 50);
+      eCtx.fillText(t.journal.labReport.title, 60, 75);
       
       // 3. Metadata Section
       eCtx.fillStyle = "#0f172a";
-      eCtx.font = "bold 20px Arial";
+      eCtx.font = "bold 27px 'Noto Sans TC', Arial";
       eCtx.textAlign = "left";
       
-      const metaY = 140;
-      const col1 = 40;
-      const col2 = 400;
+      const metaY = 215;
+      const col1 = 60;
+      const col2 = 650;
       
       eCtx.fillText(`${t.journal.labReport.date}: ${new Date().toLocaleDateString()}`, col1, metaY);
-      eCtx.fillText(`${t.journal.labReport.scientist}: ________________`, col2, metaY);
+      eCtx.fillText(`${t.journal.labReport.scientist}: ${scientistName.trim() || '—'}`, col2, metaY);
       
-      eCtx.fillText(`${t.journal.labReport.specimen}: ${specimenName}`, col1, metaY + 40);
-      eCtx.fillText(`${t.journal.labReport.magnification}: ${lens}`, col2, metaY + 40);
+      eCtx.fillText(`${t.journal.labReport.specimen}: ${specimenName}`, col1, metaY + 55);
+      eCtx.fillText(`${t.journal.labReport.magnification}: ${lens}`, col2, metaY + 55);
 
       // 4. Draw The Observation (Circle)
       // Center the circle in the page
       const circleCX = expCanvas.width / 2;
-      const circleCY = metaY + 350;
-      const circleR = 250;
+      const circleCY = metaY + 510;
+      const circleR = 390;
       
       // Draw Specimen BG Image (if enabled)
       if (showBgImage) {
           const img = new Image();
           img.crossOrigin = "anonymous";
-          img.src = image;
-          
-          if(img.complete) {
-               drawExportResult(expCanvas, eCtx, img, canvas, circleCX, circleCY, circleR);
-          } else {
-              img.onload = () => drawExportResult(expCanvas, eCtx, img, canvas, circleCX, circleCY, circleR);
-              img.onerror = () => drawExportResult(expCanvas, eCtx, null, canvas, circleCX, circleCY, circleR);
-          }
+          const loadedImage = await new Promise<HTMLImageElement | null>((resolve) => {
+              img.onload = () => resolve(img);
+              img.onerror = () => resolve(null);
+              img.src = image;
+              if (img.complete && img.naturalWidth > 0) resolve(img);
+          });
+          await drawExportResult(expCanvas, eCtx, loadedImage, canvas, circleCX, circleCY, circleR);
       } else {
-          drawExportResult(expCanvas, eCtx, null, canvas, circleCX, circleCY, circleR);
+          await drawExportResult(expCanvas, eCtx, null, canvas, circleCX, circleCY, circleR);
       }
   };
   
-  const drawExportResult = (
+  const drawExportResult = async (
       expCanvas: HTMLCanvasElement, 
       eCtx: CanvasRenderingContext2D, 
       img: HTMLImageElement | null, 
@@ -439,33 +451,52 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
        // 5. Notes Section
        const notesY = cy + r + 60;
        eCtx.fillStyle = "#f1f5f9"; // Light bg
-       eCtx.fillRect(40, notesY, 720, 200);
+       eCtx.fillRect(60, notesY, 1120, 300);
        eCtx.strokeStyle = "#cbd5e1";
-       eCtx.strokeRect(40, notesY, 720, 200);
+       eCtx.strokeRect(60, notesY, 1120, 300);
        
        eCtx.fillStyle = "#94a3b8";
-       eCtx.font = "italic 20px Arial";
-       eCtx.fillText("Notes / Observation:", 60, notesY + 40);
+       eCtx.font = "bold 26px 'Noto Sans TC', Arial";
+       eCtx.fillText(t.journal.drawHint, 90, notesY + 48);
+       eCtx.fillStyle = "#334155";
+       eCtx.font = "24px 'Noto Sans TC', Arial";
+       const words = Array.from(observationNotes.trim() || '—');
+       let line = '';
+       let y = notesY + 98;
+       for (const word of words) {
+           const test = line + word;
+           if (eCtx.measureText(test).width > 1040 && line) {
+               eCtx.fillText(line, 90, y);
+               line = word;
+               y += 40;
+           } else line = test;
+           if (y > notesY + 255) break;
+       }
+       if (line && y <= notesY + 275) eCtx.fillText(line, 90, y);
        
        // Footer
        eCtx.fillStyle = "#64748b";
        eCtx.font = "16px Arial";
        eCtx.textAlign = "center";
-       eCtx.fillText("Powered by Kidrise Science", expCanvas.width / 2, expCanvas.height - 30);
+       eCtx.fillText("KidRise Science · STEM Observation Journal", expCanvas.width / 2, expCanvas.height - 34);
 
        // Download
        try {
-          const link = document.createElement('a');
-          link.download = `Kidrise-LabReport-${Date.now()}.png`;
-          link.href = expCanvas.toDataURL('image/png');
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+          await exportCanvasAsPdf(expCanvas, `KidRise-Microscope-Journal-${Date.now()}.pdf`, t.journal.labReport.title);
+          const record = { id: Date.now(), specimenName, lens, scientistName: scientistName.trim(), observationNotes: observationNotes.trim() };
+          try {
+            const existing = JSON.parse(localStorage.getItem('kr_microscope_journal_records') || '[]');
+            localStorage.setItem('kr_microscope_journal_records', JSON.stringify([record, ...(Array.isArray(existing) ? existing : [])].slice(0, 20)));
+          } catch { /* The PDF still exports when private storage is unavailable. */ }
           setShowSaveSuccess(true);
+          onJournalSaved?.();
+          onPdfExported?.();
           setTimeout(() => setShowSaveSuccess(false), 2000);
        } catch (err) {
            console.error(err);
-           alert("Save failed");
+           alert(t.journal.saveSuccess === 'Saved!' ? 'PDF export failed. Please try again.' : 'PDF 匯出失敗，請再試一次。');
+       } finally {
+           setIsExporting(false);
        }
   };
 
@@ -569,6 +600,30 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
             <div className="w-full md:w-80 bg-slate-900 border-l border-slate-800 flex flex-col z-20 shadow-xl h-[40vh] md:h-auto shrink-0">
                 
                 <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+                    <div className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+                            {t.journal.labReport.scientist}
+                            <input
+                                type="text"
+                                value={scientistName}
+                                onChange={(event) => setScientistName(event.target.value)}
+                                maxLength={40}
+                                placeholder={isChinese ? '輸入小科學家姓名（可選）' : 'Scientist name (optional)'}
+                                className="mt-2 min-h-11 w-full rounded-xl border border-white/10 bg-slate-950 px-3 text-sm font-normal normal-case tracking-normal text-white outline-none focus:border-cyan-400"
+                            />
+                        </label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+                            {isChinese ? '觀察筆記' : 'Observation notes'}
+                            <textarea
+                                value={observationNotes}
+                                onChange={(event) => setObservationNotes(event.target.value)}
+                                maxLength={260}
+                                rows={3}
+                                placeholder={isChinese ? '記低形狀、顏色及你的發現…' : 'Record shapes, colours and what you discovered…'}
+                                className="mt-2 w-full resize-none rounded-xl border border-white/10 bg-slate-950 p-3 text-sm font-normal normal-case tracking-normal text-white outline-none focus:border-cyan-400"
+                            />
+                        </label>
+                    </div>
                     
                     {/* Tools Grid */}
                     <div className="space-y-3">
@@ -659,10 +714,11 @@ export const JournalCanvas: React.FC<JournalCanvasProps> = ({
                     <Button 
                         fullWidth
                         onClick={handleSave} 
+                        disabled={isExporting}
                         variant="accent"
                         className="shadow-lg shadow-indigo-900/20 py-4 text-lg"
                     >
-                        {showSaveSuccess ? <span className="flex items-center justify-center"><Save className="mr-2"/> {t.journal.saveSuccess}</span> : <span className="flex items-center justify-center"><Download className="mr-2"/> {t.journal.tools.save}</span>}
+                        {showSaveSuccess ? <span className="flex items-center justify-center"><Save className="mr-2"/> {t.journal.saveSuccess}</span> : <span className="flex items-center justify-center"><Download className="mr-2"/> {isExporting ? (isChinese ? '正在製作 PDF…' : 'Creating PDF…') : (isChinese ? '匯出 PDF 日記' : 'Export PDF journal')}</span>}
                     </Button>
                     <div className="grid grid-cols-2 gap-3">
                          <Button variant="outline" onClick={handleClear} className="w-full border-red-900/30 text-red-400 hover:bg-red-900/10">

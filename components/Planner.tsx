@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
 import { FocusSimulator } from './FocusSimulator';
@@ -7,9 +7,12 @@ import { Rocket, Target, ZoomIn, CheckCircle, RotateCcw } from 'lucide-react';
 
 interface PlannerProps {
   t: Translation;
+  onFocusAchieved?: () => void;
+  onJournalSaved?: () => void;
+  onPdfExported?: () => void;
 }
 
-export const Planner: React.FC<PlannerProps> = ({ t }) => {
+export const Planner: React.FC<PlannerProps> = ({ t, onFocusAchieved, onJournalSaved, onPdfExported }) => {
   const [specimenId, setSpecimenId] = useState<string | null>(null);
   const [lens, setLens] = useState<string | null>(null);
   const [status, setStatus] = useState<'planning' | 'scanning' | 'ready'>('planning');
@@ -48,7 +51,11 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                     } 
                     lens={lens || '400x'} 
                     onSuccess={handleFocusComplete} 
+                    specimenName={selectedSpecimen.name}
                     t={t}
+                    onFocusAchieved={onFocusAchieved}
+                    onJournalSaved={onJournalSaved}
+                    onPdfExported={onPdfExported}
                 />
               ) : (
                 <div className="text-red-500">Error: No specimen selected</div>
@@ -89,14 +96,14 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
              <div className="text-left space-y-4 md:space-y-6">
                 <div className="bg-white/5 p-4 md:p-6 rounded-2xl border border-white/10">
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-secondary">{t.planner.compare}</h3>
-                    <p className="text-sm md:text-base text-slate-300">
-                        1. Put the <strong>{selectedSpecimen?.name}</strong> slide on. <br/>
-                        2. Switch to <strong>{lens}</strong>. <br/>
-                        3. Focus until it looks sharp like the picture!
-                    </p>
+                    <ol className="space-y-2 text-sm text-slate-300 md:text-base">
+                      <li>1. {t.planner.resultInstructions.place} <strong>{selectedSpecimen?.name}</strong></li>
+                      <li>2. {t.planner.resultInstructions.switch} <strong>{lens}</strong></li>
+                      <li>3. {t.planner.resultInstructions.focus}</li>
+                    </ol>
                 </div>
                 <Button onClick={reset} variant="primary" size="lg" fullWidth>
-                    <RotateCcw size={20} className="mr-2" /> Start New Mission
+                    <RotateCcw size={20} className="mr-2" /> {t.planner.newMission}
                 </Button>
              </div>
           </div>
@@ -109,6 +116,22 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6 md:space-y-8">
       <PageHeader title={t.planner.title} />
+
+      <ol className="grid grid-cols-3 gap-2" aria-label={t.planner.title}>
+        {[
+          { label: t.planner.progress.specimen, complete: Boolean(specimenId) },
+          { label: t.planner.progress.lens, complete: Boolean(lens) },
+          { label: t.planner.progress.focus, complete: false },
+        ].map((step, index) => {
+          const activeIndex = specimenId ? (lens ? 2 : 1) : 0;
+          return (
+            <li key={step.label} className={`rounded-xl border px-2 py-3 text-center text-xs font-bold sm:text-sm ${step.complete ? 'border-emerald-400/40 bg-emerald-500/15 text-emerald-200' : index === activeIndex ? 'border-cyan-400/50 bg-cyan-500/15 text-cyan-100' : 'border-white/10 bg-white/5 text-slate-500'}`}>
+              <span className="mr-1" aria-hidden="true">{step.complete ? '✓' : index + 1}.</span>{step.label}
+            </li>
+          );
+        })}
+      </ol>
+      <p className="text-center text-sm text-slate-400">{t.planner.selectPrompt}</p>
 
       <div className="flex flex-col-reverse lg:flex-row gap-6 md:gap-8">
         
@@ -203,17 +226,17 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                         {selectedSpecimen ? (
                             <span>{selectedSpecimen.name} <span className="text-secondary">@ {lens || '?'}</span></span>
                         ) : (
-                            <span className="text-slate-500 italic">Select a specimen...</span>
+                            <span className="text-slate-500 italic">{t.planner.selectSpecimen}</span>
                         )}
                     </div>
 
                     <Button 
-                        size={window.innerWidth < 768 ? "sm" : "lg"}
+                        size="lg"
                         variant="accent" 
                         fullWidth
                         disabled={!specimenId || !lens}
                         onClick={handleLaunch}
-                        className={(!specimenId || !lens) ? 'opacity-50 grayscale' : 'animate-bounce shadow-[0_0_20px_rgba(244,63,94,0.4)]'}
+                        className={(!specimenId || !lens) ? 'opacity-50 grayscale' : 'shadow-[0_0_20px_rgba(244,63,94,0.4)] hover:-translate-y-0.5'}
                     >
                         <Rocket className="mr-2 w-4 h-4 md:w-5 md:h-5" />
                         {t.planner.start}

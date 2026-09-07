@@ -135,7 +135,7 @@ export const LearningCenter: React.FC<LearningCenterProps> = ({ t }) => {
                     {/* Desktop Visual */}
                     <div className="hidden lg:block sticky top-24">
                         <div className="glass-panel rounded-3xl p-8 flex flex-col items-center justify-center min-h-[500px] text-center relative overflow-hidden">
-                            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+                            <div className="absolute inset-0 noise-overlay opacity-10"></div>
                             
                             {activePart !== null ? (
                                 <div className="animate-in fade-in zoom-in duration-500 space-y-6 relative z-10 w-full">
@@ -381,7 +381,7 @@ export const LearningCenter: React.FC<LearningCenterProps> = ({ t }) => {
                         `}
                     >
                         <span className="md:hidden">
-                            {React.cloneElement(menuIcons[key] as React.ReactElement, { size: 18 })}
+                            {React.cloneElement(menuIcons[key] as React.ReactElement<{ size?: number }>, { size: 18 })}
                         </span>
                         <span className="hidden md:block">
                             {menuIcons[key]}

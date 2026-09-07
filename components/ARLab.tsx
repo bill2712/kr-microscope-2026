@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Translation } from '../types';
 import { Upload, Camera, Box } from 'lucide-react';
 import '@google/model-viewer';
@@ -27,7 +27,7 @@ interface ARLabProps {
 }
 
 export const ARLab: React.FC<ARLabProps> = ({ t }) => {
-  const [modelType, setModelType] = useState<'neil' | 'astro' | 'duck' | 'avocado' | 'cell' | 'detailedCell' | 'bacteria' | 'virus' | 'yeast' | 'custom'>('neil');
+  const [modelType, setModelType] = useState<'neil' | 'astro' | 'cell' | 'detailedCell' | 'bacteria' | 'virus' | 'yeast' | 'custom'>('neil');
   const [customSrc, setCustomSrc] = useState<string | null>(null);
 
   // Local trustworthy models
@@ -39,14 +39,6 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
     astro: {
       src: "/models/Astronaut.glb",
       iosSrc: "/models/Astronaut.usdz"
-    },
-    duck: {
-      src: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb",
-      iosSrc: "" 
-    },
-    avocado: {
-      src: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF-Binary/Avocado.glb",
-      iosSrc: "" 
     },
     cell: {
       src: "/models/cell-model.glb",
@@ -70,7 +62,7 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
     }
   };
 
-  const getCurrentModel = () => {
+  const currentModel = useMemo(() => {
     if (modelType === 'custom') {
       return {
         src: customSrc || MODELS.neil.src,
@@ -78,7 +70,11 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
       };
     }
     return MODELS[modelType];
-  };
+  }, [customSrc, modelType]);
+
+  useEffect(() => () => {
+    if (customSrc) URL.revokeObjectURL(customSrc);
+  }, [customSrc]);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -95,9 +91,8 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
       {/* 3D Viewport - Absolute Fill */}
       <div className="absolute inset-0 z-0">
          <model-viewer
-            src={getCurrentModel().src}
-            ios-src={getCurrentModel().iosSrc}
-            poster="https://modelviewer.dev/assets/poster-astronaut.png"
+            src={currentModel.src}
+            ios-src={currentModel.iosSrc || undefined}
             alt="A 3D model for AR"
             shadow-intensity="1"
             camera-controls
@@ -161,30 +156,6 @@ export const ARLab: React.FC<ARLabProps> = ({ t }) => {
            >
              <Box size={18} />
              Suit
-           </button>
-
-           <button 
-             onClick={() => setModelType('duck')}
-             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
-               modelType === 'duck' 
-               ? 'bg-yellow-600 text-white shadow-lg shadow-yellow-500/30' 
-               : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
-             }`}
-           >
-             <Box size={18} />
-             Duck
-           </button>
-
-           <button 
-             onClick={() => setModelType('avocado')}
-             className={`flex-none py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 ${
-               modelType === 'avocado' 
-               ? 'bg-green-600 text-white shadow-lg shadow-green-500/30' 
-               : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
-             }`}
-           >
-             <Box size={18} />
-             Avocado
            </button>
 
            <button 
