@@ -36,4 +36,17 @@ describe('microscope content integrity', () => {
       expect(question.correctAnswerIndex).toBeLessThan(question.options.zh.length);
     }
   });
+
+  it('keeps the first-run experience complete in both languages', () => {
+    for (const language of ['zh', 'en'] as const) {
+      const copy = TEXTS[language];
+      expect(copy.onboarding.steps.length).toBeGreaterThanOrEqual(3);
+      expect(collectStrings(copy.onboarding).every((value) => value.trim() !== '')).toBe(true);
+      expect(collectStrings(copy.home.tasks).every((value) => value.trim() !== '')).toBe(true);
+      expect(collectStrings(copy.planner.progress).every((value) => value.trim() !== '')).toBe(true);
+      expect(collectStrings(copy.planner.resultInstructions).every((value) => value.trim() !== '')).toBe(true);
+    }
+
+    expect(Object.keys(TEXTS.en.home.tasks)).toEqual(Object.keys(TEXTS.zh.home.tasks));
+  });
 });

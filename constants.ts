@@ -164,6 +164,17 @@ export const TEXTS: Record<Language, Translation> = {
     home: {
       welcome: "歡迎來到微觀世界",
       cta: "開始探險",
+      prompt: "今日想做甚麼？揀一個任務，我哋會一步一步帶你完成。",
+      beginner: "初階模式",
+      advanced: "進階模式",
+      beginnerDesc: "只顯示最常用功能，適合第一次使用。",
+      advancedDesc: "顯示完整學習、測驗及 AR 工具。",
+      replayGuide: "重播首次教學",
+      tasks: {
+        observe: { title: "立即觀察樣本", desc: "選擇樣本及倍率，再練習調焦。", action: "開始觀察" },
+        learn: { title: "第一次使用", desc: "跟住四個步驟安全設定顯微鏡。", action: "查看教學" },
+        resume: { title: "繼續上次探索", desc: "返回你最近使用的「{page}」。", empty: "完成第一個任務後，可以由這裡快速返回。", action: "繼續" },
+      },
       features: {
         usage: "一步步學會操作",
         planner: "規劃觀察任務",
@@ -266,6 +277,10 @@ export const TEXTS: Record<Language, Translation> = {
       coarseKnob: "粗調節輪 (Coarse)",
       fineKnob: "細調節輪 (Fine)",
       focusInstruction: "先轉動粗調節輪找到大概影像，再用細調節輪讓畫面變清楚！",
+      progress: { specimen: "揀樣本", lens: "揀倍率", focus: "調清影像" },
+      selectPrompt: "先完成樣本及倍率兩個選擇，之後就可以啟動調焦練習。",
+      newMission: "開始新任務",
+      resultInstructions: { place: "將玻片放到載物台：", switch: "轉到物鏡：", focus: "慢慢調焦，直至影像像左邊示範一樣清楚。" },
     },
     journal: {
       title: "觀察日記 (Observation Journal)",
@@ -567,6 +582,18 @@ export const TEXTS: Record<Language, Translation> = {
       },
       upload: "上傳模型 (.glb)"
     },
+    onboarding: {
+      skip: "跳過",
+      next: "下一步",
+      back: "上一步",
+      finish: "揀選第一個任務",
+      stepLabel: "快速導覽",
+      steps: [
+        { icon: "🎯", title: "先揀今日任務", desc: "首頁會用任務帶你開始。第一次使用建議先看教學，準備好後再進入實驗室。" },
+        { icon: "🔬", title: "由低倍鏡開始", desc: "先用最低倍率找到樣本，再逐步放大；每個實驗畫面都會顯示下一步。" },
+        { icon: "📝", title: "保存你的發現", desc: "完成調焦後可以畫下觀察結果；任何時候按左上角標誌都可返回首頁。" },
+      ],
+    },
     chat: {
       placeholder: "Send a message...",
       thinking: "Thinking...",
@@ -588,6 +615,17 @@ export const TEXTS: Record<Language, Translation> = {
     home: {
       welcome: "Welcome to the Micro World",
       cta: "Start Adventure",
+      prompt: "What would you like to do today? Pick a mission and we will guide you step by step.",
+      beginner: "Beginner",
+      advanced: "Advanced",
+      beginnerDesc: "Shows the essential tools for first-time users.",
+      advancedDesc: "Shows the full learning, quiz and AR toolkit.",
+      replayGuide: "Replay first-time guide",
+      tasks: {
+        observe: { title: "Observe a Specimen", desc: "Choose a specimen and lens, then practise focusing.", action: "Start observing" },
+        learn: { title: "First Time Here", desc: "Follow four safe setup steps for your microscope.", action: "Open guide" },
+        resume: { title: "Continue Exploring", desc: "Return to your most recent page: {page}.", empty: "Complete one mission and you can quickly return here.", action: "Continue" },
+      },
       features: {
         usage: "Step-by-step Guide",
         planner: "Mission Planner",
@@ -689,7 +727,11 @@ export const TEXTS: Record<Language, Translation> = {
       focusTitle: "Adjust Focus",
       coarseKnob: "Coarse Knob",
       fineKnob: "Fine Knob",
-        focusInstruction: "Turn Coarse first to find the image, then Fine to make it sharp!",
+      focusInstruction: "Turn Coarse first to find the image, then Fine to make it sharp!",
+      progress: { specimen: "Pick specimen", lens: "Pick lens", focus: "Focus image" },
+      selectPrompt: "Complete the specimen and lens choices, then start the focusing practice.",
+      newMission: "Start New Mission",
+      resultInstructions: { place: "Place this slide on the stage:", switch: "Switch to this objective:", focus: "Adjust slowly until the image is as sharp as the example." },
     },
     journal: {
       title: "Observation Journal",
@@ -1021,6 +1063,18 @@ export const TEXTS: Record<Language, Translation> = {
       },
       upload: "Upload Model (.glb)"
     },
+    onboarding: {
+      skip: "Skip",
+      next: "Next",
+      back: "Back",
+      finish: "Choose my first mission",
+      stepLabel: "Quick tour",
+      steps: [
+        { icon: "🎯", title: "Start with a mission", desc: "The home page helps you choose what to do. New users should open the guide before entering the lab." },
+        { icon: "🔬", title: "Always begin on low power", desc: "Find the specimen at the lowest magnification before zooming in. Each lab screen shows the next step." },
+        { icon: "📝", title: "Save what you discover", desc: "After focusing, draw your observation. Select the logo at any time to return home." },
+      ],
+    },
     chat: {
         placeholder: "Send a message...",
         thinking: "Thinking...",
@@ -1151,5 +1205,4 @@ export const QUIZ_QUESTIONS = [
     explanation: { zh: "放大倍率是相乘的：10 x 40 = 400。", en: "Magnification multiplies: 10 times 40 equals 400." }
   }
 ];
-
 

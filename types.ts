@@ -1,4 +1,5 @@
 export type Language = 'zh' | 'en';
+export type ExperienceMode = 'beginner' | 'advanced';
 
 export type ViewState = 'home' | 'usage' | 'planner' | 'learn' | 'quiz' | 'gallery' | 'ar' | 'journal';
 
@@ -16,6 +17,17 @@ export interface NavTranslation {
 export interface HomeTranslation {
   welcome: string;
   cta: string;
+  prompt: string;
+  beginner: string;
+  advanced: string;
+  beginnerDesc: string;
+  advancedDesc: string;
+  replayGuide: string;
+  tasks: {
+    observe: { title: string; desc: string; action: string };
+    learn: { title: string; desc: string; action: string };
+    resume: { title: string; desc: string; empty: string; action: string };
+  };
   features: {
     usage: string;
     planner: string;
@@ -46,6 +58,10 @@ export interface PlannerTranslation {
   coarseKnob: string;
   fineKnob: string;
   focusInstruction: string;
+  progress: { specimen: string; lens: string; focus: string };
+  selectPrompt: string;
+  newMission: string;
+  resultInstructions: { place: string; switch: string; focus: string };
 }
 
 export interface JournalTranslation {
@@ -219,6 +235,14 @@ export interface Translation {
     error: string;
   };
   chat: ChatTranslation;
+  onboarding: {
+    skip: string;
+    next: string;
+    back: string;
+    finish: string;
+    stepLabel: string;
+    steps: Array<{ title: string; desc: string; icon: string }>;
+  };
 }
 
 export interface QuizQuestion {

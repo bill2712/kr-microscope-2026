@@ -1,10 +1,11 @@
 import React, { lazy, Suspense, useState } from 'react';
-import { ViewState, Language } from './types';
+import { ViewState, Language, ExperienceMode } from './types';
 import { TEXTS, IMAGES } from './constants';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Hero } from './components/Hero';
 import { LoginGate } from './components/LoginGate';
+import { FirstRunGuide } from './components/FirstRunGuide';
 
 const UsageGuide = lazy(() => import('./components/UsageGuide').then((module) => ({ default: module.UsageGuide })));
 const Planner = lazy(() => import('./components/Planner').then((module) => ({ default: module.Planner })));
@@ -24,6 +25,28 @@ const LoadingView = () => (
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>('zh'); // Default to Chinese
   const [view, setView] = useState<ViewState>('home');
+  const [mode, setMode] = useState<ExperienceMode>(() => {
+    try {
+      return localStorage.getItem('kr_microscope_mode') === 'advanced' ? 'advanced' : 'beginner';
+    } catch {
+      return 'beginner';
+    }
+  });
+  const [lastView, setLastView] = useState<ViewState | null>(() => {
+    try {
+      const stored = localStorage.getItem('kr_microscope_last_view') as ViewState | null;
+      return stored && stored !== 'home' ? stored : null;
+    } catch {
+      return null;
+    }
+  });
+  const [showFirstRunGuide, setShowFirstRunGuide] = useState(() => {
+    try {
+      return localStorage.getItem('kr_microscope_onboarding_complete') !== 'true';
+    } catch {
+      return true;
+    }
+  });
   // Check auth state from localStorage
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     try {
@@ -43,6 +66,36 @@ const App: React.FC = () => {
     setLang(prev => prev === 'zh' ? 'en' : 'zh');
   };
 
+  const navigate = (nextView: ViewState) => {
+    setView(nextView);
+    if (nextView !== 'home') {
+      setLastView(nextView);
+      try {
+        localStorage.setItem('kr_microscope_last_view', nextView);
+      } catch {
+        // Storage can be unavailable in privacy-restricted browsers.
+      }
+    }
+  };
+
+  const changeMode = (nextMode: ExperienceMode) => {
+    setMode(nextMode);
+    try {
+      localStorage.setItem('kr_microscope_mode', nextMode);
+    } catch {
+      // Keep the in-memory preference for this visit.
+    }
+  };
+
+  const completeFirstRunGuide = () => {
+    setShowFirstRunGuide(false);
+    try {
+      localStorage.setItem('kr_microscope_onboarding_complete', 'true');
+    } catch {
+      // The guide still closes even when persistence is unavailable.
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <LoginGate 
@@ -57,7 +110,7 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (view) {
       case 'home':
-        return <Hero t={t} onStart={() => setView('usage')} />;
+        return <Hero t={t} mode={mode} lastView={lastView} onNavigate={navigate} onModeChange={changeMode} onReplayGuide={() => setShowFirstRunGuide(true)} />;
       case 'usage':
         return <UsageGuide t={t} />;
       case 'planner':
@@ -77,11 +130,11 @@ const App: React.FC = () => {
             lens="400x"
             specimenName="Free Draw"
             t={t}
-            onClose={() => setView('home')}
+            onClose={() => navigate('home')}
           />
         );
       default:
-        return <Hero t={t} onStart={() => setView('usage')} />;
+        return <Hero t={t} mode={mode} lastView={lastView} onNavigate={navigate} onModeChange={changeMode} onReplayGuide={() => setShowFirstRunGuide(true)} />;
     }
   };
 
@@ -90,9 +143,11 @@ const App: React.FC = () => {
       <Header 
         t={t} 
         currentView={view} 
-        onNavigate={setView} 
+        onNavigate={navigate}
         lang={lang} 
-        onToggleLang={toggleLang} 
+        onToggleLang={toggleLang}
+        mode={mode}
+        onToggleMode={() => changeMode(mode === 'beginner' ? 'advanced' : 'beginner')}
       />
       
       <main className="flex-grow flex flex-col relative">
@@ -107,6 +162,7 @@ const App: React.FC = () => {
       </main>
 
       <Footer t={t} lang={lang} />
+      {showFirstRunGuide && <FirstRunGuide t={t} onComplete={completeFirstRunGuide} />}
     </div>
   );
 };
