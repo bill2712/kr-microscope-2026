@@ -22,8 +22,11 @@ export const LoginGate: React.FC<LoginGateProps> = ({ t, lang, onToggleLang, onL
     const cleanCode = code.trim().toUpperCase();
     
     if (VALID_CODES.includes(cleanCode)) {
-      // Save auth state
-      localStorage.setItem('kr_microscope_auth', 'true');
+      try {
+        localStorage.setItem('kr_microscope_auth', 'true');
+      } catch {
+        // Storage can be unavailable in privacy-restricted browsers; login still works for this session.
+      }
       onLogin();
     } else {
       setError(true);

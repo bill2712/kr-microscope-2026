@@ -1,14 +1,12 @@
 import React from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
-import { Microscope, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 interface HeroProps {
   t: Translation;
   onStart: () => void;
 }
-
-import { IMAGES } from '../constants';
 
 export const Hero: React.FC<HeroProps> = ({ t, onStart }) => {
   return (

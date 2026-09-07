@@ -1,20 +1,36 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Kidrise Microscope Explorer
 
-# Run and deploy your AI Studio app
+Interactive bilingual learning site for the Kidrise microscope kit. It includes setup guidance, specimen planning, focus practice, a learning centre, quizzes, an observation journal, a gallery, and optional 3D/AR models.
 
-This contains everything you need to run your app locally.
+## Local development
 
-View your app in AI Studio: https://ai.studio/apps/drive/1jgSmuTDgRjpiHN-fmoKPraqQK5IyvdO6
+Requirements: Node.js 22 and npm.
 
-## Run Locally
+```bash
+npm ci
+npm run dev
+```
 
-**Prerequisites:**  Node.js
+Open the local URL printed by Vite. No API key is required.
 
+The access-code screen is a client-side product-onboarding gate. It is not an authentication or security boundary; any content that must be private needs a server-side access system.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Verification
+
+Run the complete local quality gate before merging or deploying:
+
+```bash
+npm run check
+```
+
+This runs strict TypeScript checking, content/asset regression tests, and a production build. GitHub Actions runs the same checks for pull requests and changes to `main`.
+
+## Production
+
+The site is configured for `https://microscope.stemtoy.com.hk`. The `public/CNAME` file is included in the production build.
+
+```bash
+npm run deploy
+```
+
+After deployment, verify the custom domain directly, sign in with a valid product code, open every main section, and check the browser console and network panel for errors or missing assets.

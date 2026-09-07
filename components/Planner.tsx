@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
 import { FocusSimulator } from './FocusSimulator';
@@ -48,6 +48,7 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                     } 
                     lens={lens || '400x'} 
                     onSuccess={handleFocusComplete} 
+                    specimenName={selectedSpecimen.name}
                     t={t}
                 />
               ) : (
@@ -213,7 +214,7 @@ export const Planner: React.FC<PlannerProps> = ({ t }) => {
                         fullWidth
                         disabled={!specimenId || !lens}
                         onClick={handleLaunch}
-                        className={(!specimenId || !lens) ? 'opacity-50 grayscale' : 'animate-bounce shadow-[0_0_20px_rgba(244,63,94,0.4)]'}
+                        className={(!specimenId || !lens) ? 'opacity-50 grayscale' : 'shadow-[0_0_20px_rgba(244,63,94,0.4)] hover:-translate-y-0.5'}
                     >
                         <Rocket className="mr-2 w-4 h-4 md:w-5 md:h-5" />
                         {t.planner.start}

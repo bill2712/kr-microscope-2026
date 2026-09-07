@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Translation } from '../types';
 import { Button } from './Button';
 import { PageHeader } from './PageHeader';
-import { X, Pencil, Eraser, Download, Trash2, Save, Type, Stamp, Circle, RotateCcw, HelpCircle, Hexagon, Star, MousePointer, Image as ImageIcon } from 'lucide-react';
+import { Pencil, Eraser, Download, Trash2, Save, Type, Stamp, Circle, RotateCcw, HelpCircle, Hexagon, Star, MousePointer, Image as ImageIcon } from 'lucide-react';
 
 interface JournalCanvasProps {
   image: string;

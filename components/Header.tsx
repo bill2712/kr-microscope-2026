@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { Translation, ViewState, Language } from '../types';
-import { Microscope, Globe, Menu, X } from 'lucide-react';
+import { Globe, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   t: Translation;
@@ -34,15 +34,17 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 md:h-16 flex items-center justify-between">
         
         {/* Logo */}
-        <div 
-          className="flex items-center gap-2 cursor-pointer group z-50 relative" 
+        <button
+          type="button"
+          aria-label={t.title}
+          className="flex items-center gap-2 cursor-pointer group z-50 relative text-left"
           onClick={() => handleNavigate('home')}
         >
           <img src={`${import.meta.env.BASE_URL}images/kidrise-logo_new.png`} alt="Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain group-hover:rotate-12 transition-transform" />
           <span className="font-bold text-lg md:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:to-white transition-colors">
             {t.title}
           </span>
-        </div>
+        </button>
 
         <nav className="hidden md:flex gap-1 bg-black/20 backdrop-blur-sm p-1 rounded-full border border-white/5">
           {navItems.map((item) => (
@@ -64,6 +66,8 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
         <div className="flex items-center gap-2 z-50 relative">
             {/* Language Toggle */}
             <button 
+            type="button"
+            aria-label={lang === 'zh' ? 'Switch to English' : '切換至繁體中文'}
             onClick={onToggleLang}
             className="flex items-center gap-2 px-3 py-1.5 md:py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors active:scale-95"
             >
@@ -73,6 +77,9 @@ export const Header: React.FC<HeaderProps> = ({ t, currentView, onNavigate, lang
 
             {/* Mobile Menu Button */}
             <button 
+                type="button"
+                aria-label={isMenuOpen ? (lang === 'zh' ? '關閉選單' : 'Close menu') : (lang === 'zh' ? '開啟選單' : 'Open menu')}
+                aria-expanded={isMenuOpen}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="md:hidden p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 active:bg-white/10"
             >

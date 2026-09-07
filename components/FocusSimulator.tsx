@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "./Button";
 import { CheckCircle, RotateCw, Pencil } from "lucide-react";
 import { JournalCanvas } from "./JournalCanvas";
+import { Translation } from "../types";
 
 interface FocusSimulatorProps {
   image: string;
   lens: string; // "100x ...", "400x ...", "1200x ..."
   onSuccess: () => void;
   specimenName?: string; // Add specimen name prop
-  t: any;
+  t: Translation;
 }
 
 export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
@@ -53,12 +54,12 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
     setCoarseValue(randomTarget < 50 ? 80 : 20);
     setFineValue(0);
 
-    // Init Audio Context on first interaction usually, but let's try to init
-    if (!audioCtx.current) {
-      audioCtx.current = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
-    }
   }, [lens]); // Reset on lens change
+
+  useEffect(() => () => {
+    void audioCtx.current?.close();
+    audioCtx.current = null;
+  }, []);
 
   // Calculate current focus state
   const totalValue = coarseValue + fineValue;
@@ -86,7 +87,11 @@ export const FocusSimulator: React.FC<FocusSimulatorProps> = ({
 
   // Audio Helpers
   const playClickSound = useCallback((pitch: number = 1) => {
-    if (!audioCtx.current) return;
+    if (!audioCtx.current) {
+      const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!AudioContextClass) return;
+      audioCtx.current = new AudioContextClass();
+    }
     if (audioCtx.current.state === "suspended") audioCtx.current.resume();
 
     const osc = audioCtx.current.createOscillator();
